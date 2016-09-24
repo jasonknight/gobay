@@ -2,6 +2,7 @@ package gobay
 
 import (
     "fmt"
+    "net/http"
 )
 
 type ShipToLocation string
@@ -33,16 +34,25 @@ type EbayCall struct {
     PaypalEmailAddress string
     Headers map[string]string
     TheProduct Product
+    TheRequest http.Request
 }
 
-func NewEbayCall(compatLevel, devID, appID, certID, siteID, callName string) EbayCall {
+func NewEbayCall(endPoint, compatLevel, devID, appID, certID, siteID, callName string, p Product) *EbayCall {
     var e EbayCall
-    e.Headers = {
-      fmt.Sprintf('X-EBAY-API-COMPATIBILITY-LEVEL:%s',compatLevel),
-      fmt.Sprintf('X-EBAY-API-DEV-NAME:%s' , devID,
-      fmt.Sprintf('X-EBAY-API-APP-NAME:%s', appID,
-      fmt.Sprintf('X-EBAY-API-CERT-NAME:%s', certID,
-      fmt.Sprintf('X-EBAY-API-CALL-NAME:%s', callName, 
-      fmt.Sprintf('X-EBAY-API-SITEID:%s',siteID,
-    }
+    m := make(map[string]string)
+    m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s",compatLevel)
+    m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s",devID)
+    m["X-EBAY-API-APP-NAME"] = fmt.Sprintf("%s", appID)
+    m["X-EBAY-API-CERT-NAME"] = fmt.Sprintf("%s", certID)
+    m["X-EBAY-API-CALL-NAME"] = fmt.Sprintf("%s", callName)
+    m["X-EBAY-API-SITEID"] = fmt.Sprintf("%s",siteID)
+    e.Headers = m
+    e.DevID = devID
+    e.AppID = appID
+    e.CertID = certID
+    e.SiteID = siteID
+    e.TheProduct = p
+    // need to decide body from io.reader...so we need to compile the template
+    e.TheRequest = NewRequest("POST",endPoint)
+    return &e
 }
