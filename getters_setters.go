@@ -1,5 +1,9 @@
 package gobay
 import "fmt"
+type ShipToLocationFilter func (o ShipToLocation)
+type PictureDetailFilter func (o PictureDetail)
+type PaymentMethodFilter func (o PaymentMethod)
+type ProductFilter func (o Product)
 func NewPictureDetail () *PictureDetail {
 	return &PictureDetail{}
 }
@@ -147,6 +151,16 @@ func (o *Product) GetListingType () string {
 	return o.ListingType
 }
 
+func (o *Product) FilterShipToLocations(f ShipToLocationFilter) []ShipToLocation {
+	tmp := o.ShipToLocations[:0])
+	for _, x := range o.ShipToLocations {
+		if f(x) {
+			tmp = append(tmp, x)
+		}
+	}
+	return tmp
+}
+
 func (o *Product) AddShipToLocation(v ShipToLocation) {
 	o.ShipToLocations = append(o.ShipToLocations,v)
 }
@@ -173,6 +187,16 @@ func (o *Product) GetShipToLocations () []ShipToLocation {
 	return o.ShipToLocations
 }
 
+func (o *Product) FilterPictureDetails(f PictureDetailFilter) []PictureDetail {
+	tmp := o.PictureDetails[:0])
+	for _, x := range o.PictureDetails {
+		if f(x) {
+			tmp = append(tmp, x)
+		}
+	}
+	return tmp
+}
+
 func (o *Product) AddPictureDetail(v PictureDetail) {
 	o.PictureDetails = append(o.PictureDetails,v)
 }
@@ -197,6 +221,16 @@ func (o *Product) SetPictureDetails (v []PictureDetail) {
 
 func (o *Product) GetPictureDetails () []PictureDetail {
 	return o.PictureDetails
+}
+
+func (o *Product) FilterPaymentMethods(f PaymentMethodFilter) []PaymentMethod {
+	tmp := o.PaymentMethods[:0])
+	for _, x := range o.PaymentMethods {
+		if f(x) {
+			tmp = append(tmp, x)
+		}
+	}
+	return tmp
 }
 
 func (o *Product) AddPaymentMethod(v PaymentMethod) {
@@ -332,6 +366,16 @@ func (o *EbayCall) SetHeaders (v map[string]string) {
 
 func (o *EbayCall) GetHeaders () map[string]string {
 	return o.Headers
+}
+
+func (o *EbayCall) FilterProducts(f ProductFilter) []Product {
+	tmp := o.Products[:0])
+	for _, x := range o.Products {
+		if f(x) {
+			tmp = append(tmp, x)
+		}
+	}
+	return tmp
 }
 
 func (o *EbayCall) AddProduct(v Product) {

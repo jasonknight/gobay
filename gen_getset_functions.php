@@ -8,6 +8,7 @@ $in_struct = false;
 $cobject = "";
 $pkg = "gobay";
 $tconversions = array();
+$filter_ftypes = array();
 foreach ( $lines as $line ) {
     preg_match($pattern, $line, $m);
     if ( ! empty( $m ) ) {
@@ -71,6 +72,19 @@ foreach ( $debugs as $struct => $val ) {
         preg_match($apat, $t,$m);
         if ( ! empty( $m ) ) {
             $ft = $m['ctype'];
+            // we need to add a filter function type
+            $filter_ftypes[] = "type {$ft}Filter func (o $ft)";
+            $func = "func (o *$struct) Filter{$attr}(f {$ft}Filter) []$ft {\n";
+            $func .= "\ttmp := o.{$attr}[:0])\n";
+            $func .= "\tfor _, x := range o.$attr {\n";
+            $func .= "\t\tif f(x) {\n";
+            $func .= "\t\t\ttmp = append(tmp, x)\n";
+            $func .= "\t\t}\n";
+            $func .= "\t}\n";
+            $func .= "\treturn tmp\n";
+            $func .= "}\n";
+            $the_funcs[] = $func;
+
             // this is an array, so it needs add and remove
             $func = "func (o *$struct) Add$ft(v $ft) {\n";
             $func .= "\to.$attr = append(o.$attr,v)\n";
@@ -104,46 +118,8 @@ foreach ( $debugs as $struct => $val ) {
         $the_funcs[] = $func;
     } 
 
-
-
-    // $func = "func ($name *{$struct}) Debug() string {\n\tvar txt string\n";
-    // $attrs = $val['attrs'];
-    // foreach ($attrs as $attr => $t ) {
-    //     if ( $t == 'string' ) {
-    //         $func .= "\ttxt = fmt.Sprintf(\"%s$struct.$attr: %s\\n\",txt, $name.$attr)\n";
-    //     }
-    //     // now let's see if it's a custom type
-    //     $apat = "/^\\[\\](?P<ctype>[A-Za-z_0-9]+)/";
-    //     preg_match($apat, $t,$m);
-    //     if ( ! empty( $m ) ) {
-    //         $ft = $m['ctype'];
-    //         $func .= "\tfor _,v := range $name.$attr {\n";
-    //         if ( isset($debugs[$ft]) ) {
-    //             $func .= "\t\ttxt = fmt.Sprintf(\"%s%s\\n\",txt, v.Debug())\n";
-    //         } else if ( $ft == 'string' ) {
-    //             $func .= "\t\ttxt = fmt.Sprintf(\"%s%s\\n\",txt, v)\n";
-    //         }
-
-    //         $func .= "\t}\n";
-    //     }
-    //     // now a map
-    //     $apat = "/^map\\[(?P<ktype>[A-Za-z_0-9]+)\\](?P<vtype>[A-Za-z_0-9]+)/";
-    //     preg_match($apat, $t,$m);
-    //     if ( ! empty($m) ) {
-    //         $kt = $m['ktype'];
-    //         $vt = $m['vtype'];
-    //         if ( $kt == 'string' ) {
-    //             $kt = "%s";
-    //         }
-    //         if ( $vt == 'string' ) {
-    //             $vt = "%s";
-    //         }
-    //         $func .= "\tfor k,v := range $name.$attr {\n";
-    //         $func .= "\t\ttxt = fmt.Sprintf(\"%s$struct.$attr [$kt]: $vt\\n\",txt,k,v)\n";
-    //         $func .= "\t}\n";
-    //     }
-    // } 
-    // $func .= "\treturn txt\n}\n";
 }
 echo "package $pkg\nimport \"fmt\"\n";
+echo join("\n",$filter_ftypes);
+echo "\n";
 echo join("\n",$the_funcs);
