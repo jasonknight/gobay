@@ -1,7 +1,7 @@
 package gobay
 
 import (
-	//"fmt"
+	"fmt"
 	"net/http"
     "gopkg.in/yaml.v2"
 )
@@ -47,7 +47,7 @@ type EbayCall struct {
 	TheRequest         http.Request
 }
 
-func NewEbayCall(conf []byte) *EbayCall {
+func NewEbayCallEx(conf []byte) *EbayCall {
 	var e EbayCall
 	m := make(map[string]string)
     ApplyConfiguration(conf,&e);
@@ -55,7 +55,7 @@ func NewEbayCall(conf []byte) *EbayCall {
 	m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
 	m["X-EBAY-API-APP-NAME"] = fmt.Sprintf("%s", e.AppID)
 	m["X-EBAY-API-CERT-NAME"] = fmt.Sprintf("%s", e.CertID)
-	m["X-EBAY-API-CALL-NAME"] = fmt.Sprintf("%s", e.CallName)
+	//m["X-EBAY-API-CALL-NAME"] = fmt.Sprintf("%s", e.CallName)
 	m["X-EBAY-API-SITEID"] = fmt.Sprintf("%s", e.SiteID)
     e.Headers = m
 

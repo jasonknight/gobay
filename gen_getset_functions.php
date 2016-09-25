@@ -73,9 +73,9 @@ foreach ( $debugs as $struct => $val ) {
         if ( ! empty( $m ) ) {
             $ft = $m['ctype'];
             // we need to add a filter function type
-            $filter_ftypes[] = "type {$ft}Filter func (o $ft)";
+            $filter_ftypes[] = "type {$ft}Filter func (o $ft) bool";
             $func = "func (o *$struct) Filter{$attr}(f {$ft}Filter) []$ft {\n";
-            $func .= "\ttmp := o.{$attr}[:0])\n";
+            $func .= "\ttmp := o.{$attr}[:0]\n";
             $func .= "\tfor _, x := range o.$attr {\n";
             $func .= "\t\tif f(x) {\n";
             $func .= "\t\t\ttmp = append(tmp, x)\n";
@@ -93,7 +93,7 @@ foreach ( $debugs as $struct => $val ) {
 
             $func = "func (o *$struct) Remove$ft(i int) {\n";
             $func .= "\tif i > len(o.$attr) {\n";
-            $func .= "\t\tpanic(fmt.Sprintf(\"i:%d is out of bounds for %s.%s(%d)!\\n\"),\"$struct\",\"$attr\",len(o.$attr))\n";
+            $func .= "\t\tpanic(fmt.Sprintf(\"i:%d is out of bounds for %s.%s(%d)!\\n\",\"$struct\",\"$attr\",len(o.$attr)))\n";
             $func .= "\t}\n";
             $func .= "\to.$attr = o.{$attr}[:i+copy(o.{$attr}[i:], o.{$attr}[i+1:])]\n";
             $func .= "}\n";
@@ -101,7 +101,7 @@ foreach ( $debugs as $struct => $val ) {
 
             $func = "func (o *$struct) Get$ft(i int) $ft {\n";
             $func .= "\tif i > len(o.$attr) {\n";
-            $func .= "\t\tpanic(fmt.Sprintf(\"i:%d is out of bounds for %s.%s(%d)!\\n\"),\"$struct\",\"$attr\",len(o.$attr))\n";
+            $func .= "\t\tpanic(fmt.Sprintf(\"i:%d is out of bounds for %s.%s(%d)!\\n\",\"$struct\",\"$attr\",len(o.$attr)))\n";
             $func .= "\t}\n";
             $func .= "\treturn o.{$attr}[i]\n";
             $func .= "}\n";

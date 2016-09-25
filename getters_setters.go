@@ -1,9 +1,9 @@
 package gobay
 import "fmt"
-type ShipToLocationFilter func (o ShipToLocation)
-type PictureDetailFilter func (o PictureDetail)
-type PaymentMethodFilter func (o PaymentMethod)
-type ProductFilter func (o Product)
+type ShipToLocationFilter func (o ShipToLocation) bool
+type PictureDetailFilter func (o PictureDetail) bool
+type PaymentMethodFilter func (o PaymentMethod) bool
+type ProductFilter func (o Product) bool
 func NewPictureDetail () *PictureDetail {
 	return &PictureDetail{}
 }
@@ -152,7 +152,7 @@ func (o *Product) GetListingType () string {
 }
 
 func (o *Product) FilterShipToLocations(f ShipToLocationFilter) []ShipToLocation {
-	tmp := o.ShipToLocations[:0])
+	tmp := o.ShipToLocations[:0]
 	for _, x := range o.ShipToLocations {
 		if f(x) {
 			tmp = append(tmp, x)
@@ -167,14 +167,14 @@ func (o *Product) AddShipToLocation(v ShipToLocation) {
 
 func (o *Product) RemoveShipToLocation(i int) {
 	if i > len(o.ShipToLocations) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"Product","ShipToLocations",len(o.ShipToLocations))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","Product","ShipToLocations",len(o.ShipToLocations)))
 	}
 	o.ShipToLocations = o.ShipToLocations[:i+copy(o.ShipToLocations[i:], o.ShipToLocations[i+1:])]
 }
 
 func (o *Product) GetShipToLocation(i int) ShipToLocation {
 	if i > len(o.ShipToLocations) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"Product","ShipToLocations",len(o.ShipToLocations))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","Product","ShipToLocations",len(o.ShipToLocations)))
 	}
 	return o.ShipToLocations[i]
 }
@@ -188,7 +188,7 @@ func (o *Product) GetShipToLocations () []ShipToLocation {
 }
 
 func (o *Product) FilterPictureDetails(f PictureDetailFilter) []PictureDetail {
-	tmp := o.PictureDetails[:0])
+	tmp := o.PictureDetails[:0]
 	for _, x := range o.PictureDetails {
 		if f(x) {
 			tmp = append(tmp, x)
@@ -203,14 +203,14 @@ func (o *Product) AddPictureDetail(v PictureDetail) {
 
 func (o *Product) RemovePictureDetail(i int) {
 	if i > len(o.PictureDetails) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"Product","PictureDetails",len(o.PictureDetails))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","Product","PictureDetails",len(o.PictureDetails)))
 	}
 	o.PictureDetails = o.PictureDetails[:i+copy(o.PictureDetails[i:], o.PictureDetails[i+1:])]
 }
 
 func (o *Product) GetPictureDetail(i int) PictureDetail {
 	if i > len(o.PictureDetails) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"Product","PictureDetails",len(o.PictureDetails))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","Product","PictureDetails",len(o.PictureDetails)))
 	}
 	return o.PictureDetails[i]
 }
@@ -224,7 +224,7 @@ func (o *Product) GetPictureDetails () []PictureDetail {
 }
 
 func (o *Product) FilterPaymentMethods(f PaymentMethodFilter) []PaymentMethod {
-	tmp := o.PaymentMethods[:0])
+	tmp := o.PaymentMethods[:0]
 	for _, x := range o.PaymentMethods {
 		if f(x) {
 			tmp = append(tmp, x)
@@ -239,14 +239,14 @@ func (o *Product) AddPaymentMethod(v PaymentMethod) {
 
 func (o *Product) RemovePaymentMethod(i int) {
 	if i > len(o.PaymentMethods) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"Product","PaymentMethods",len(o.PaymentMethods))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","Product","PaymentMethods",len(o.PaymentMethods)))
 	}
 	o.PaymentMethods = o.PaymentMethods[:i+copy(o.PaymentMethods[i:], o.PaymentMethods[i+1:])]
 }
 
 func (o *Product) GetPaymentMethod(i int) PaymentMethod {
 	if i > len(o.PaymentMethods) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"Product","PaymentMethods",len(o.PaymentMethods))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","Product","PaymentMethods",len(o.PaymentMethods)))
 	}
 	return o.PaymentMethods[i]
 }
@@ -259,9 +259,6 @@ func (o *Product) GetPaymentMethods () []PaymentMethod {
 	return o.PaymentMethods
 }
 
-func NewEbayCall () *EbayCall {
-	return &EbayCall{}
-}
 
 func (o *EbayCall) Clone () *EbayCall {
 	var no EbayCall
@@ -369,7 +366,7 @@ func (o *EbayCall) GetHeaders () map[string]string {
 }
 
 func (o *EbayCall) FilterProducts(f ProductFilter) []Product {
-	tmp := o.Products[:0])
+	tmp := o.Products[:0]
 	for _, x := range o.Products {
 		if f(x) {
 			tmp = append(tmp, x)
@@ -384,14 +381,14 @@ func (o *EbayCall) AddProduct(v Product) {
 
 func (o *EbayCall) RemoveProduct(i int) {
 	if i > len(o.Products) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"EbayCall","Products",len(o.Products))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","EbayCall","Products",len(o.Products)))
 	}
 	o.Products = o.Products[:i+copy(o.Products[i:], o.Products[i+1:])]
 }
 
 func (o *EbayCall) GetProduct(i int) Product {
 	if i > len(o.Products) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n"),"EbayCall","Products",len(o.Products))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","EbayCall","Products",len(o.Products)))
 	}
 	return o.Products[i]
 }
