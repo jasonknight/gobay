@@ -1,6 +1,7 @@
 package gobay
 
 import "encoding/xml"
+
 type ErrorParameter struct {
 	Value string
 }
@@ -37,6 +38,6 @@ func NewResult(data []byte) *Result {
 func NewFakeResult(msg string) *Result {
 	var o Result
 	o.Ack = "InternalFailure"
-	o.Errors = append(o.Errors,ErrorMessage{ShortMessage: msg})
+	o.Errors = append(o.Errors, ErrorMessage{ShortMessage: msg})
 	return &o
 }

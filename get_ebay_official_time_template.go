@@ -1,7 +1,8 @@
 package gobay
+
 //GeteBayOfficialTimeRequest
 func GeteBayOfficialTimeTemplate() string {
-    return `
+	return `
 <ErrorLanguage> {{ .Language }}</ErrorLanguage>
 <MessageID> {{ .MessageID }} </MessageID>
 <Version> {{ .CompatLevel }} </Version>
