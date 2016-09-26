@@ -1,11 +1,10 @@
 package gobay
 //GeteBayOfficialTimeRequest
-func GetEbayOfficialTimeTemplate() string {
+func GeteBayOfficialTimeTemplate() string {
     return `
-  <ErrorLanguage> string </ErrorLanguage>
-  <MessageID> string </MessageID>
-  <Version> string </Version>
-  <WarningLevel> WarningLevelCodeType </WarningLevel>
-
-    `
+<ErrorLanguage> {{ .Language }}</ErrorLanguage>
+<MessageID> {{ .MessageID }} </MessageID>
+<Version> {{ .CompatLevel }} </Version>
+<WarningLevel> WarningLevelCodeType </WarningLevel>
+`
 }

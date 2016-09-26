@@ -2,7 +2,7 @@ package gobay
 
 import "testing"
 
-//import "fmt"
+import "fmt"
 func TestNewEbayCallEx(t *testing.T) {
 	cnf, err := fileGetContents("test_data/test.yml")
 	if err != nil {
@@ -31,4 +31,21 @@ func TestLoadConfiguration(t *testing.T) {
 	if m["DevID"] != "1234567" {
 		t.Errorf("TestLoadConfiguration DevID is not properly set!\n")
 	}
+}
+
+func TestGetTime(t *testing.T) {
+    // This test only runs if you've filled out
+    // a yaml file with actual sandbox data
+    if fileExists("../secret.yml") == false {
+        return
+    }
+    fmt.Printf("Running sandbox test\n")
+    cnf, err := fileGetContents("../secret.yml")
+    if err != nil {
+        t.Errorf("Failed to load test.yml %v\n", err)
+    }
+    call, err := NewEbayCallEx(cnf)
+
+    call.SetCallname("GeteBayOfficialTime")
+
 }

@@ -1,7 +1,17 @@
 package gobay
 
 import "encoding/xml"
-
+type ErrorParameter struct {
+	Value string
+}
+type ErrorMessage struct {
+	ShortMessage        string
+	LongMessage         string
+	ErrorCode           int64
+	SeverityCode        string
+	ErrorClassification string
+	ErrorParameters     []ErrorParameter
+}
 type Result struct {
 	Timestamp string
 	Ack       string
@@ -11,16 +21,7 @@ type Result struct {
 	SKU       string
 	StartTime string
 	EndTime   string
-	Errors    []struct {
-		ShortMessage        string
-		LongMessage         string
-		ErrorCode           int64
-		SeverityCode        string
-		ErrorClassification string
-		ErrorParameters     []struct {
-			Value string
-		}
-	}
+	Errors    []ErrorMessage
 
 	Fees []struct {
 		Name   string
@@ -31,5 +32,11 @@ type Result struct {
 func NewResult(data []byte) *Result {
 	var o Result
 	xml.Unmarshal(data, &o)
+	return &o
+}
+func NewFakeResult(msg string) *Result {
+	var o Result
+	o.Ack = "InternalFailure"
+	o.Errors = append(o.Errors,ErrorMessage{ShortMessage: msg})
 	return &o
 }

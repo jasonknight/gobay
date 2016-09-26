@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"net/http"
+    "bytes"
+    "errors"
+    "io/ioutil"
 )
 
 type PaymentMethod string
@@ -56,11 +59,15 @@ type EbayCall struct {
 	EbayAuthToken      string
 	Country            string
 	Currency           string
+    Language           string
+    MessageID          string
+    WarningLevel       string
 	PayPalEmailAddress string
     Callname        string
+    XMLData         string
 	Headers            map[string]string
 	Products           []Product
-	TheRequest         http.Request
+	TheClient         *http.Client
 }
 
 func NewEbayCallEx(conf []byte) (*EbayCall, error) {
@@ -83,6 +90,8 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	e.Country = c["Country"].(string)
 	e.Currency = c["Currency"].(string)
 	e.PayPalEmailAddress = c["PayPalEmailAddress"].(string)
+    e.Language = c["Language"].(string)
+    e.WarningLevel = c["WarningLevel"].(string)
 
 	m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s", e.CompatLevel)
 	m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
@@ -118,6 +127,51 @@ func (o *EbayCall) SetCallname(v string) {
 func (o *EbayCall) GetCallname() string {
 	return o.Headers["X-EBAY-API-CALL-NAME"]
 }
+func (o *EbayCall) Execute(r *[]Result) (error) {
+    cl := o.GetCallname()
+    if cl == "GeteBayOfficialTime" {
+        return o.GeteBayOfficialTime(r)
+    }
+    return nil
+}
+func (o *EbayCall) GeteBayOfficialTime(r *[]Result) (error) {
+    body,err := compileGoString("Time", GeteBayOfficialTimeTemplate(), o, nil)
+    if err != nil {
+        return err
+    }
+    final_xml := WrapCall(o.EbayAuthToken,"GeteBayOfficialTime","",body,"")
+    o.XMLData = final_xml
+    err = o.Send(r)
+    return err
+}
+func (o *EbayCall) Send(r *[]Result) (error) {
+    o.TheClient = new(http.Client)
+    fmt.Printf("About to send [[%s]]\n\n",o.XMLData)
+
+    if o.XMLData == "" {
+        err := errors.New("XMLData was empty!")
+        e := NewFakeResult(fmt.Sprintf("%s",err))
+        *r = append(*r,*e)
+        return err
+    }
+    resp, err := o.TheClient.Post(o.EndPoint, "text/xml; charset=utf-8", bytes.NewBufferString(o.XMLData)) 
+    if err != nil {
+        e := NewFakeResult(fmt.Sprintf("%s",err))
+        *r = append(*r,*e)
+        return err
+    }
+    fmt.Printf("%+v\n",resp)
+    b, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        e := NewFakeResult(fmt.Sprintf("%s",err))
+        *r = append(*r,*e)
+        return err
+    }
+    res := NewResult(b)
+    *r = append(*r,*res)
+    return nil
+}
+
 func WrapCall(authToken string, name string, pre string, text string, post string) string {
     s := `<?xml version="1.0" encoding="utf-8"?>
 <%sRequest xmlns="urn:ebay:apis:eBLBaseComponents">
