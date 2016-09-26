@@ -1,7 +1,7 @@
 package gobay
 
 func GetItemTemplate() string {
-    return `
+	return `
   <Item> 
     <CategoryMappingAllowed>true</CategoryMappingAllowed> 
     <Country>{{ .Country }}</Country> 

@@ -8,7 +8,7 @@ func TestNewEbayCallEx(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to load test.yml %v\n", err)
 	}
-	call := NewEbayCallEx(cnf)
+	call, err := NewEbayCallEx(cnf)
 
 	if call.DevID != "1234567" {
 		t.Errorf("TestNewEbayCallEx DevID is not properly set!\n")

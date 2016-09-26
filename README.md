@@ -11,12 +11,15 @@ cnf, err := fileGetContents("blahblah.yml") //you need to define this function
 if err != nil {
     t.Errorf("Failed to load test.yml %v\n", err)
 }
-call := gobay.NewEbayCallEx(cnf)
+call,err := gobay.NewEbayCallEx(cnf)
+if err != nil {
+    panic(err)
+}
 p := call.NewProduct()
 
 p.Title = "My Fancy Product"
 
-call.AddProcut(p)
+call.AddProduct(p)
 
 res,err := call.Execute()
 

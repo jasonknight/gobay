@@ -79,6 +79,7 @@ func TestResult(t *testing.T) {
 		t.Errorf("Result.Fees[0] has not been filled out %+v!!\n", o.Fees)
 	}
 }
+
 /* We need to test it with more results, to make sure they're all parsable. */
 func TestResultTwo(t *testing.T) {
 	data := `<?xml version="1.0" encoding="UTF-8"?>

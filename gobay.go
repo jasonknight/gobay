@@ -20,31 +20,31 @@ type ShippingServiceOption struct {
 	Service  string
 	Cost     string
 	Priority string
-    Location ShipToLocation
+	Location ShipToLocation
 }
 type Product struct {
-	EbayID      int64
-	SKU         string
-	Title       string
-    Description string
-	StartPrice       float32
-	Quantity    string
-	ListingType string
-    Country            string
-    Currency           string
-    Location string
-    PayPalEmailAddress string
-    PrimaryCategory string
-    Site string
-    StoreCategoryID int64
-    DispatchTimeMax string
-    ListingDuration string
+	EbayID             int64
+	SKU                string
+	Title              string
+	Description        string
+	StartPrice         float32
+	Quantity           string
+	ListingType        string
+	Country            string
+	Currency           string
+	Location           string
+	PayPalEmailAddress string
+	PrimaryCategory    string
+	Site               string
+	StoreCategoryID    int64
+	DispatchTimeMax    string
+	ListingDuration    string
 
-	ShipToLocations []ShipToLocation
-	PictureDetails  []PictureDetail
-	PaymentMethods  []PaymentMethod
-    ShippingServiceOptions []ShippingServiceOption
-    InternationalShippingServiceOptions []ShippingServiceOption
+	ShipToLocations                     []ShipToLocation
+	PictureDetails                      []PictureDetail
+	PaymentMethods                      []PaymentMethod
+	ShippingServiceOptions              []ShippingServiceOption
+	InternationalShippingServiceOptions []ShippingServiceOption
 }
 type EbayCall struct {
 	DevID              string
@@ -62,11 +62,15 @@ type EbayCall struct {
 	TheRequest         http.Request
 }
 
-func NewEbayCallEx(conf []byte) *EbayCall {
+func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	var e EbayCall
 	m := make(map[string]string)
 	c := make(map[interface{}]interface{})
-	LoadConfiguration(conf, &c)
+	err := LoadConfiguration(conf, &c)
+
+	if err != nil {
+		return nil, err
+	}
 
 	e.DevID = c["DevID"].(string)
 	e.AppID = c["AppID"].(string)
@@ -87,14 +91,14 @@ func NewEbayCallEx(conf []byte) *EbayCall {
 	m["X-EBAY-API-SITEID"] = fmt.Sprintf("%s", e.SiteID)
 	e.Headers = m
 
-	return &e
+	return &e, nil
 }
 func (o *EbayCall) NewProduct() *Product {
-    p := NewProduct();
-    p.Country = o.Country
-    p.Site = o.SiteID
-    p.Currency = o.Currency
-    return p
+	p := NewProduct()
+	p.Country = o.Country
+	p.Site = o.SiteID
+	p.Currency = o.Currency
+	return p
 }
 func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
 	return yaml.Unmarshal(y, e)
@@ -107,8 +111,8 @@ func (o *EbayCall) GetHeader(k string) string {
 	return o.Headers[k]
 }
 func (o *EbayCall) SetCallname(v string) {
-    o.Headers["X-EBAY-API-CALL-NAME"] = v;
+	o.Headers["X-EBAY-API-CALL-NAME"] = v
 }
 func (o *EbayCall) GetCallname() string {
-    return o.Headers["X-EBAY-API-CALL-NAME"];
+	return o.Headers["X-EBAY-API-CALL-NAME"]
 }
