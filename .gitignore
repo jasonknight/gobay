@@ -23,3 +23,11 @@ _testmain.go
 *.test
 *.prof
 *.yml$
+openresty/client_body_temp
+openresty/fastcgi_temp  
+openresty/logs/*  
+openresty/proxy_temp
+openresty/run  
+openresty/scgi_temp  
+openresty/uwsgi_temp
+

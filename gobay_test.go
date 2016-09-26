@@ -47,6 +47,9 @@ func TestGetTime(t *testing.T) {
 	}
 	call, err := NewEbayCallEx(cnf)
 
+    var results []Result
 	call.SetCallname("GeteBayOfficialTime")
+    call.Execute(&results)
+    fmt.Printf("RESULTS: %+v",results)
 
 }
