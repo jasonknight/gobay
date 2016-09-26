@@ -7,11 +7,11 @@ The planned API in your go code will be:
 ```go
 import "gobay"
 
-cnf, err := fileGetContents("test_data/test.yml")
+cnf, err := fileGetContents("blahblah.yml") //you need to define this function
 if err != nil {
     t.Errorf("Failed to load test.yml %v\n", err)
 }
-call := NewEbayCallEx(cnf)
+call := gobay.NewEbayCallEx(cnf)
 p := call.NewProduct()
 
 p.Title = "My Fancy Product"
