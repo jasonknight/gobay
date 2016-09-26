@@ -277,7 +277,7 @@ func (o *EbayCall) Clone() *EbayCall {
 	no.EbayAuthToken = o.EbayAuthToken
 	no.Country = o.Country
 	no.Currency = o.Currency
-	no.PaypalEmailAddress = o.PaypalEmailAddress
+	no.PayPalEmailAddress = o.PayPalEmailAddress
 	no.Headers = o.Headers
 	no.Products = o.Products
 	return &no
@@ -355,12 +355,12 @@ func (o *EbayCall) GetCurrency() string {
 	return o.Currency
 }
 
-func (o *EbayCall) SetPaypalEmailAddress(v string) {
-	o.PaypalEmailAddress = v
+func (o *EbayCall) SetPayPalEmailAddress(v string) {
+	o.PayPalEmailAddress = v
 }
 
-func (o *EbayCall) GetPaypalEmailAddress() string {
-	return o.PaypalEmailAddress
+func (o *EbayCall) GetPayPalEmailAddress() string {
+	return o.PayPalEmailAddress
 }
 
 func (o *EbayCall) SetHeaders(v map[string]string) {

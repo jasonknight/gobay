@@ -49,7 +49,7 @@ func (o_EbayCall *EbayCall) Debug() string {
 	txt = fmt.Sprintf("%sEbayCall.EbayAuthToken: %s\n", txt, o_EbayCall.EbayAuthToken)
 	txt = fmt.Sprintf("%sEbayCall.Country: %s\n", txt, o_EbayCall.Country)
 	txt = fmt.Sprintf("%sEbayCall.Currency: %s\n", txt, o_EbayCall.Currency)
-	txt = fmt.Sprintf("%sEbayCall.PaypalEmailAddress: %s\n", txt, o_EbayCall.PaypalEmailAddress)
+	txt = fmt.Sprintf("%sEbayCall.PayPalEmailAddress: %s\n", txt, o_EbayCall.PayPalEmailAddress)
 	for k, v := range o_EbayCall.Headers {
 		txt = fmt.Sprintf("%sEbayCall.Headers [%s]: %s\n", txt, k, v)
 	}

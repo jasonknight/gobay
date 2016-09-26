@@ -56,7 +56,8 @@ type EbayCall struct {
 	EbayAuthToken      string
 	Country            string
 	Currency           string
-	PaypalEmailAddress string
+	PayPalEmailAddress string
+    Callname        string
 	Headers            map[string]string
 	Products           []Product
 	TheRequest         http.Request
@@ -81,7 +82,7 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	e.EbayAuthToken = c["EbayAuthToken"].(string)
 	e.Country = c["Country"].(string)
 	e.Currency = c["Currency"].(string)
-	e.PaypalEmailAddress = c["PaypalEmailAddress"].(string)
+	e.PayPalEmailAddress = c["PayPalEmailAddress"].(string)
 
 	m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s", e.CompatLevel)
 	m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
@@ -98,6 +99,7 @@ func (o *EbayCall) NewProduct() *Product {
 	p.Country = o.Country
 	p.Site = o.SiteID
 	p.Currency = o.Currency
+    p.PayPalEmailAddress = o.PayPalEmailAddress
 	return p
 }
 func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
@@ -116,3 +118,18 @@ func (o *EbayCall) SetCallname(v string) {
 func (o *EbayCall) GetCallname() string {
 	return o.Headers["X-EBAY-API-CALL-NAME"]
 }
+func WrapCall(authToken string, name string, pre string, text string, post string) string {
+    s := `<?xml version="1.0" encoding="utf-8"?>
+<%sRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+ <RequesterCredentials> 
+    <eBayAuthToken>%s</eBayAuthToken> 
+  </RequesterCredentials> 
+  <WarningLevel>High</WarningLevel> 
+%s
+%s
+%s
+</%sRequest>
+`
+    return fmt.Sprintf(s,name,authToken,pre,text,post,name);
+}
+
