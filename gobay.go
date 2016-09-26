@@ -81,8 +81,8 @@ func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
 }
 
 func (o *EbayCall) SetHeader(k string, v string) {
-    o.Headers[k] = v
+	o.Headers[k] = v
 }
 func (o *EbayCall) GetHeader(k string) string {
-    return o.Headers[k]
+	return o.Headers[k]
 }
