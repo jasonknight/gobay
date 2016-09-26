@@ -109,7 +109,7 @@ func (o *Product) Clone() *Product {
 	var no Product
 	no.SKU = o.SKU
 	no.Title = o.Title
-	no.Price = o.Price
+	no.StartPrice = o.StartPrice
 	no.Quantity = o.Quantity
 	no.ListingType = o.ListingType
 	no.ShipToLocations = o.ShipToLocations
@@ -134,12 +134,12 @@ func (o *Product) GetTitle() string {
 	return o.Title
 }
 
-func (o *Product) SetPrice(v string) {
-	o.Price = v
+func (o *Product) SetPrice(v float32) {
+	o.StartPrice = v
 }
 
-func (o *Product) GetPrice() string {
-	return o.Price
+func (o *Product) GetPrice() float32 {
+	return o.StartPrice
 }
 
 func (o *Product) SetQuantity(v string) {

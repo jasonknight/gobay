@@ -20,18 +20,31 @@ type ShippingServiceOption struct {
 	Service  string
 	Cost     string
 	Priority string
+    Location ShipToLocation
 }
 type Product struct {
-	EbayID      string
+	EbayID      int64
 	SKU         string
 	Title       string
-	Price       string
+    Description string
+	StartPrice       float32
 	Quantity    string
 	ListingType string
+    Country            string
+    Currency           string
+    Location string
+    PayPalEmailAddress string
+    PrimaryCategory string
+    Site string
+    StoreCategoryID int64
+    DispatchTimeMax string
+    ListingDuration string
 
 	ShipToLocations []ShipToLocation
 	PictureDetails  []PictureDetail
 	PaymentMethods  []PaymentMethod
+    ShippingServiceOptions []ShippingServiceOption
+    InternationalShippingServiceOptions []ShippingServiceOption
 }
 type EbayCall struct {
 	DevID              string
@@ -75,6 +88,13 @@ func NewEbayCallEx(conf []byte) *EbayCall {
 	e.Headers = m
 
 	return &e
+}
+func (o *EbayCall) NewProduct() *Product {
+    p := NewProduct();
+    p.Country = o.Country
+    p.Site = o.SiteID
+    p.Currency = o.Currency
+    return p
 }
 func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
 	return yaml.Unmarshal(y, e)

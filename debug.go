@@ -24,7 +24,7 @@ func (o_Product *Product) Debug() string {
 	var txt string
 	txt = fmt.Sprintf("%sProduct.SKU: %s\n", txt, o_Product.SKU)
 	txt = fmt.Sprintf("%sProduct.Title: %s\n", txt, o_Product.Title)
-	txt = fmt.Sprintf("%sProduct.Price: %s\n", txt, o_Product.Price)
+	txt = fmt.Sprintf("%sProduct.StartPrice: %s\n", txt, o_Product.StartPrice)
 	txt = fmt.Sprintf("%sProduct.ListingType: %s\n", txt, o_Product.ListingType)
 	for _, v := range o_Product.ShipToLocations {
 		txt = fmt.Sprintf("%s%s\n", txt, v)
