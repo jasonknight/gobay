@@ -15,16 +15,21 @@ call,err := gobay.NewEbayCallEx(cnf)
 if err != nil {
     panic(err)
 }
+call.SetCallname("AddItems")
 p := call.NewProduct()
 
 p.Title = "My Fancy Product"
 
 call.AddProduct(p)
 
-res,err := call.Execute()
+results,err := call.Execute()
 
-if res.Success() {
-    fmt.Printf("Sent %s\n",p.Title)
+for _,res := range results {
+    if res.Success() {
+        fmt.Printf("Sent %+v\n",p)
+    } else {
+        fmt.Printf("Oops, failed\n%+v\n",res)
+    }
 }
 
 ```
