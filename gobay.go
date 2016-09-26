@@ -86,3 +86,9 @@ func (o *EbayCall) SetHeader(k string, v string) {
 func (o *EbayCall) GetHeader(k string) string {
 	return o.Headers[k]
 }
+func (o *EbayCall) SetCallname(v string) {
+    o.Headers["X-EBAY-API-CALL-NAME"] = v;
+}
+func (o *EbayCall) GetCallname() string {
+    return o.Headers["X-EBAY-API-CALL-NAME"];
+}

@@ -6,6 +6,9 @@ import "strings"
 import "io"
 import "io/ioutil"
 import "bufio"
+import "bytes"
+import "text/template"
+
 
 func version() string {
 	return "v1.0"
@@ -62,4 +65,16 @@ func filePutContents(p string, txt string) error {
 }
 func fileGetContents(p string) ([]byte, error) {
 	return ioutil.ReadFile(p)
+}
+func compileGoString(name string, text string, obj interface{}, fmap template.FuncMap) (string, error) {
+    tmpl, err := template.New(name).Funcs(fmap).Parse(text)
+    if err != nil {
+        return "", err
+    }
+    var can bytes.Buffer
+    err = tmpl.Execute(&can, obj)
+    if err != nil {
+        return "", err
+    }
+    return can.String(), nil
 }

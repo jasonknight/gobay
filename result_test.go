@@ -79,3 +79,15 @@ func TestResult(t *testing.T) {
 		t.Errorf("Result.Fees[0] has not been filled out %+v!!\n", o.Fees)
 	}
 }
+/* We need to test it with more results, to make sure they're all parsable. */
+func TestResultTwo(t *testing.T) {
+	data := `<?xml version="1.0" encoding="UTF-8"?>
+<EndItemResponse xmlns="urn:ebay:apis:eBLBaseComponents"><Timestamp>2016-09-26T06:44:59.344Z</Timestamp><Ack>Failure</Ack><Errors><ShortMessage>The auction has been closed.</ShortMessage><LongMessage>The auction has already been closed.</LongMessage><ErrorCode>1047</ErrorCode><SeverityCode>Error</SeverityCode><ErrorClassification>RequestError</ErrorClassification></Errors><Version>987</Version><Build>E987_UNI_API5_18120651_R1</Build></EndItemResponse>`
+	o := NewResult([]byte(data))
+	if o.Ack != "Failure" {
+		t.Errorf("Result has not been filled out %+v!!\n", o.Ack)
+	}
+	if o.Errors[0].ShortMessage != "The auction has been closed." {
+		t.Errorf("o.Errors[0].ShortMessage has not been filled out!! %+v\n", o.Errors[0])
+	}
+}
