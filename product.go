@@ -6,6 +6,7 @@ import (
 	"fmt"
 	// "io/ioutil"
 	// "net/http"
+	"gopkg.in/yaml.v2"
 )
 
 type ShipToLocationFilter func(o ShipToLocation) bool

@@ -78,6 +78,7 @@ func SiteIDToCode(id string) string {
 	if id == "3" {
 		return "UK"
 	}
+	return "UNKNOWN"
 }
 func (o *EbayCall) NewProduct() *Product {
 	p := NewProduct()
