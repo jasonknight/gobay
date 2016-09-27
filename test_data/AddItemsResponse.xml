@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AddItemsResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+  <!-- Call-specific Output Fields -->
+  <AddItemResponseContainer>
+    <Category2ID> string </Category2ID>
+    <CategoryID> string </CategoryID>
+    <CorrelationID> string </CorrelationID>
+    <DiscountReason> DiscountReasonCodeType </DiscountReason>
+    <!-- ... more DiscountReason values allowed here ... -->
+    <EndTime> dateTime </EndTime>
+    <Errors> 
+      <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
+       <ErrorCode>666</ErrorCode>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
+      <!-- ... more ErrorParameters nodes allowed here ... -->
+      <LongMessage> string </LongMessage>
+      <SeverityCode> SeverityCodeType </SeverityCode>
+      <ShortMessage> string </ShortMessage>
+      <UserDisplayHint> boolean </UserDisplayHint>
+    </Errors>
+    <!-- ... more Errors nodes allowed here ... -->
+    <Fees>
+      <Fee>
+        <Fee currencyID="CurrencyCodeType"> AmountType (double) </Fee>
+        <Name> string </Name>
+        <PromotionalDiscount currencyID="CurrencyCodeType"> AmountType (double) </PromotionalDiscount>
+      </Fee>
+      <!-- ... more Fee nodes allowed here ... -->
+    </Fees>
+    <ItemID>FIRSTITEMID</ItemID>
+    <ListingRecommendations> 
+      <Recommendation> 
+        <Code> string </Code>
+        <FieldName> string </FieldName>
+        <Group> string </Group>
+        <Message> string </Message>
+        <Metadata>
+          <Name> string </Name>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <!-- ... more Metadata nodes allowed here ... -->
+        <Type> string </Type>
+        <Value> string </Value>
+        <!-- ... more Value values allowed here ... -->
+      </Recommendation>
+      <!-- ... more Recommendation nodes allowed here ... -->
+    </ListingRecommendations>
+    <Message> string </Message>
+    <StartTime> dateTime </StartTime>
+  </AddItemResponseContainer>
+
+  <AddItemResponseContainer>
+    <Category2ID> string </Category2ID>
+    <CategoryID> string </CategoryID>
+    <CorrelationID> string </CorrelationID>
+    <DiscountReason> DiscountReasonCodeType </DiscountReason>
+    <!-- ... more DiscountReason values allowed here ... -->
+    <EndTime> dateTime </EndTime>
+    <Errors> 
+      <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
+       <ErrorCode>666</ErrorCode>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
+      <!-- ... more ErrorParameters nodes allowed here ... -->
+      <LongMessage> string </LongMessage>
+      <SeverityCode> SeverityCodeType </SeverityCode>
+      <ShortMessage> string </ShortMessage>
+      <UserDisplayHint> boolean </UserDisplayHint>
+    </Errors>
+    <!-- ... more Errors nodes allowed here ... -->
+    <Fees>
+      <Fee>
+        <Fee currencyID="CurrencyCodeType"> AmountType (double) </Fee>
+        <Name> string </Name>
+        <PromotionalDiscount currencyID="CurrencyCodeType"> AmountType (double) </PromotionalDiscount>
+      </Fee>
+      <!-- ... more Fee nodes allowed here ... -->
+    </Fees>
+    <ItemID>SECONDITEMID</ItemID>
+    <ListingRecommendations> 
+      <Recommendation> 
+        <Code> string </Code>
+        <FieldName> string </FieldName>
+        <Group> string </Group>
+        <Message> string </Message>
+        <Metadata> 
+          <Name> string </Name>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <!-- ... more Metadata nodes allowed here ... -->
+        <Type> string </Type>
+        <Value> string </Value>
+        <!-- ... more Value values allowed here ... -->
+      </Recommendation>
+      <!-- ... more Recommendation nodes allowed here ... -->
+    </ListingRecommendations>
+    <Message> string </Message>
+    <StartTime> dateTime </StartTime>
+  </AddItemResponseContainer>
+  <!-- ... more AddItemResponseContainer nodes allowed here ... -->
+  <!-- Standard Output Fields -->
+  <Ack> AckCodeType </Ack>
+  <Build> string </Build>
+  <CorrelationID> string </CorrelationID>
+  <DuplicateInvocationDetails>
+    <DuplicateInvocationID> UUIDType (string) </DuplicateInvocationID>
+    <InvocationTrackingID> string </InvocationTrackingID>
+    <Status> InvocationStatusType </Status>
+  </DuplicateInvocationDetails>
+  <Errors> 
+    <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
+     <ErrorCode>666</ErrorCode>
+    <ErrorParameters ParamID="string">
+      <Value> string </Value>
+    </ErrorParameters>
+    <!-- ... more ErrorParameters nodes allowed here ... -->
+    <LongMessage> string </LongMessage>
+    <SeverityCode> SeverityCodeType </SeverityCode>
+    <ShortMessage> string </ShortMessage>
+    <UserDisplayHint> boolean </UserDisplayHint>
+  </Errors>
+  <!-- ... more Errors nodes allowed here ... -->
+  <HardExpirationWarning> string </HardExpirationWarning>
+  <Message> string </Message>
+  <Timestamp> dateTime </Timestamp>
+  <Version>999</Version>
+</AddItemsResponse>

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"net/http"
 )
@@ -70,16 +69,16 @@ type EbayCall struct {
 	TheClient          *http.Client
 }
 
-func init () {
+func init() {
 	globalDebugLevel = DBG_NONE
-	globalDebugFunction = func (lvl int,s string) {
+	globalDebugFunction = func(lvl int, s string) {
 		if globalDebugLevel == DBG_NONE {
 			return
 		}
-		if (! (globalDebugLevel >= lvl)) {
+		if !(globalDebugLevel >= lvl) {
 			return
-		} 
-		fmt.Printf("[Gobay] %s\n",s)
+		}
+		fmt.Printf("[Gobay] %s\n", s)
 	}
 }
 func NewEbayCallEx(conf []byte) (*EbayCall, error) {
@@ -139,25 +138,18 @@ func (o *EbayCall) GetCallname() string {
 func (o *EbayCall) Execute(r *[]Result) error {
 	cl := o.GetCallname()
 	if cl == "GeteBayOfficialTime" {
-		return o.GeteBayOfficialTime(r)
+		err := o.GeteBayOfficialTime(r)
+		if err != nil {
+			return err
+		}
+		return o.Send(r)
 	}
 	return nil
-}
-func (o *EbayCall) GeteBayOfficialTime(r *[]Result) error {
-    o.MessageID,_ = pseudoUUID()
-	body, err := compileGoString("Time", GeteBayOfficialTimeTemplate(), o, nil)
-	if err != nil {
-		return err
-	}
-	final_xml := WrapCall(o.EbayAuthToken, "GeteBayOfficialTime", "", body, "")
-	o.XMLData = final_xml
-	err = o.Send(r)
-	return err
 }
 func (o *EbayCall) Send(r *[]Result) error {
 	o.TheClient = new(http.Client)
 
-	globalDebugFunction(DBG_DEBUG,fmt.Sprintf("About to send [[%s]]\n\n", o.XMLData))
+	globalDebugFunction(DBG_DEBUG, fmt.Sprintf("About to send [[%s]]\n\n", o.XMLData))
 
 	if o.XMLData == "" {
 		err := errors.New("XMLData was empty!")
@@ -165,19 +157,19 @@ func (o *EbayCall) Send(r *[]Result) error {
 		*r = append(*r, *e)
 		return err
 	}
-    req,err := http.NewRequest("POST",o.EndPoint,bytes.NewBufferString(o.XMLData))
-    if err != nil {
-        e := NewFakeResult(fmt.Sprintf("%s", err))
-        *r = append(*r, *e)
-        return err
-    }
-    //req.URL.Host = "148.251.124.116:9090"
-    for k,v := range o.Headers {
-        req.Header.Set(k,v)
-    }
-    
+	req, err := http.NewRequest("POST", o.EndPoint, bytes.NewBufferString(o.XMLData))
+	if err != nil {
+		e := NewFakeResult(fmt.Sprintf("%s", err))
+		*r = append(*r, *e)
+		return err
+	}
+	//req.URL.Host = "148.251.124.116:9090"
+	for k, v := range o.Headers {
+		req.Header.Set(k, v)
+	}
+
 	resp, err := o.TheClient.Do(req)
-    //Post(o.EndPoint, "text/xml; charset=utf-8", )
+	//Post(o.EndPoint, "text/xml; charset=utf-8", )
 	if err != nil {
 		e := NewFakeResult(fmt.Sprintf("%s", err))
 		*r = append(*r, *e)
@@ -185,16 +177,30 @@ func (o *EbayCall) Send(r *[]Result) error {
 	}
 	//fmt.Printf("%+v\n", resp)
 	b, err := ioutil.ReadAll(resp.Body)
-    defer resp.Body.Close()
-    globalDebugFunction(DBG_DEBUG,fmt.Sprintf("[[BODY: %s]]",string(b)))
+	defer resp.Body.Close()
+	globalDebugFunction(DBG_DEBUG, fmt.Sprintf("[[BODY: %s]]", string(b)))
 	if err != nil {
 		e := NewFakeResult(fmt.Sprintf("%s", err))
 		*r = append(*r, *e)
 		return err
 	}
-	res := NewResult(b)
+	res,err := NewResult(b)
+	if ( err != nil ) {
+		res = NewFakeResult(fmt.Sprintf("%s", err))
+	}
 	*r = append(*r, *res)
 	return nil
 }
-
-
+func (o *EbayCall) GeteBayOfficialTime(r *[]Result) error {
+	o.MessageID, _ = pseudoUUID()
+	body, err := compileGoString("Time", GeteBayOfficialTimeTemplate(), o, nil)
+	if err != nil {
+		return err
+	}
+	final_xml, err := compileGoString("FinalTime", WrapCall("GeteBayOfficialTime", "", body, ""), o, nil)
+	if err != nil {
+		return err
+	}
+	o.XMLData = final_xml
+	return nil
+}

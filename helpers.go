@@ -9,6 +9,7 @@ import "bufio"
 import "bytes"
 import "text/template"
 import "crypto/rand"
+import "gopkg.in/yaml.v2"
 
 func version() string {
 	return "v1.0"
@@ -78,33 +79,33 @@ func compileGoString(name string, text string, obj interface{}, fmap template.Fu
 	}
 	return can.String(), nil
 }
-func pseudoUUID() (string,error) {
+func pseudoUUID() (string, error) {
 
-    b := make([]byte, 16)
-    _, err := rand.Read(b)
-    if err != nil {
+	b := make([]byte, 16)
+	_, err := rand.Read(b)
+	if err != nil {
 
-        return "",err
-    }
+		return "", err
+	}
 
-    uuid := fmt.Sprintf("%X-%X-%X-%X-%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
+	uuid := fmt.Sprintf("%X-%X-%X-%X-%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
 
-    return uuid,nil
+	return uuid, nil
 }
 
-func WrapCall(authToken string, name string, pre string, text string, post string) string {
+func WrapCall(name string, pre string, text string, post string) string {
 	s := `<?xml version="1.0" encoding="utf-8"?>
 <%sRequest xmlns="urn:ebay:apis:eBLBaseComponents">
  <RequesterCredentials> 
-    <eBayAuthToken>%s</eBayAuthToken> 
+    <eBayAuthToken>{{ .EbayAuthToken }}</eBayAuthToken> 
   </RequesterCredentials> 
-  <WarningLevel>High</WarningLevel> 
+  <WarningLevel>{{ .WarningLevel }}</WarningLevel> 
 %s
 %s
 %s
 </%sRequest>
 `
-	return fmt.Sprintf(s, name, authToken, pre, text, post, name)
+	return fmt.Sprintf(s, name, pre, text, post, name)
 }
 
 func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
