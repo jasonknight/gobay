@@ -80,6 +80,7 @@ func SiteIDToCode(id string) string {
 	}
 	return "UNKNOWN"
 }
+
 func (o *EbayCall) NewProduct() *Product {
 	p := NewProduct()
 	p.Country = o.Country
