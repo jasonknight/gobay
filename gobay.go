@@ -8,46 +8,6 @@ import (
 	"net/http"
 )
 
-type PaymentMethod string
-type ShipToLocation string
-type PictureDetail struct {
-	GalleryDuration string
-	GalleryType     string
-	GalleryURL      string
-	PhotoDisplay    string
-	PictureURL      string
-}
-
-type ShippingServiceOption struct {
-	Service  string
-	Cost     string
-	Priority string
-	Location ShipToLocation
-}
-type Product struct {
-	EbayID             int64
-	SKU                string
-	Title              string
-	Description        string
-	StartPrice         float32
-	Quantity           string
-	ListingType        string
-	Country            string
-	Currency           string
-	Location           string
-	PayPalEmailAddress string
-	PrimaryCategory    string
-	Site               string
-	StoreCategoryID    int64
-	DispatchTimeMax    string
-	ListingDuration    string
-
-	ShipToLocations                     []ShipToLocation
-	PictureDetails                      []PictureDetail
-	PaymentMethods                      []PaymentMethod
-	ShippingServiceOptions              []ShippingServiceOption
-	InternationalShippingServiceOptions []ShippingServiceOption
-}
 type EbayCall struct {
 	DevID              string
 	AppID              string
@@ -184,8 +144,8 @@ func (o *EbayCall) Send(r *[]Result) error {
 		*r = append(*r, *e)
 		return err
 	}
-	res,err := NewResult(b)
-	if ( err != nil ) {
+	res, err := NewResult(b)
+	if err != nil {
 		res = NewFakeResult(fmt.Sprintf("%s", err))
 	}
 	*r = append(*r, *res)
