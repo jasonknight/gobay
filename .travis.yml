@@ -9,7 +9,7 @@ before_install:
 
 script:
   - ls -alsh
-  - bash go.test.sh
+  - bash go_test.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
