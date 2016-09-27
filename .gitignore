@@ -23,6 +23,7 @@ _testmain.go
 *.test
 *.prof
 *.yml$
+*.txt
 openresty/client_body_temp
 openresty/fastcgi_temp  
 openresty/logs/*  
