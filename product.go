@@ -231,3 +231,6 @@ func (o *Product) SetPaymentMethods(v []PaymentMethod) {
 func (o *Product) GetPaymentMethods() []PaymentMethod {
 	return o.PaymentMethods
 }
+func (o *Product) FromYAML(data []byte) error {
+	return yaml.Unmarshal(data, o)
+}

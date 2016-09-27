@@ -6,6 +6,22 @@ type ErrorParameter struct {
 	Value   string
 	ParamID string `xml:"ParamID,attr"`
 }
+type Category struct {
+	AutoPayEnabled    string
+	B2BVATEnabled     string
+	BestOfferEnabled  string
+	CategoryID        string
+	CategoryLevel     string
+	CategoryName      string
+	CategoryParentIDs []string `xml:"CategoryParentID"`
+
+	Expired      string
+	LeafCategory string
+	LSD          string
+	ORPA         string
+	ORRA         string
+	Virtual      string
+}
 type ErrorMessage struct {
 	ShortMessage        string
 	LongMessage         string
@@ -52,8 +68,15 @@ type Result struct {
 	CorrelationID         string
 	HardExpirationWarning string
 	Message               string
+	CategoryCount         string
+	CategoryVersion       string
+	MinimumReservePrice   string
+	ReduceReserveAllowed  string
+	ReservePriceAllowed   string
+	UpdateTime            string
 
-	Items []Result `xml:"AddItemResponseContainer"`
+	Items      []Result   `xml:"AddItemResponseContainer"`
+	Categories []Category `xml:"CategoryArray>Category"`
 
 	DiscountReasons            []string `xml:"DiscountReason"`
 	Errors                     []ErrorMessage

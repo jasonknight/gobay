@@ -74,10 +74,15 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 
 	return &e, nil
 }
+func SiteIDToCode(id string) string {
+	if id == "3" {
+		return "UK"
+	}
+}
 func (o *EbayCall) NewProduct() *Product {
 	p := NewProduct()
 	p.Country = o.Country
-	p.Site = o.SiteID
+	p.Site = SiteIDToCode(o.SiteID)
 	p.Currency = o.Currency
 	p.PayPalEmailAddress = o.PayPalEmailAddress
 	return p

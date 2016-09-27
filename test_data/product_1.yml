@@ -1,0 +1,43 @@
+SKU:"SKU"
+Title:"Title"
+Description:"Description"
+StartPrice:"StartPrice"
+Quantity:"Quantity"
+# ListingType can be: Auction, Chinese, FixedPriceItem, PersonalOffer
+ListingType:"Chinese"
+# See http://developer.ebay.com/devzone/xml/docs/Reference/eBay/types/SiteCodeType.html
+# Site: "UK"
+Location:"-- not given --"
+PrimaryCategory:"PrimaryCategory"
+StoreCategoryID:"StoreCategoryID"
+DispatchTimeMax:"3"
+ListingDuration:"Days_10"
+
+ShipToLocations:
+  - "GB"
+  - "World"
+  - "Europe"
+PictureDetails:
+  - GalleryDuration: "" 
+    GalleryType: ""
+    GalleryURL: ""
+    PhotoDisplay: ""
+    PictureURL:""
+  - GalleryDuration: "" 
+    GalleryType: ""
+    GalleryURL: ""
+    PhotoDisplay: ""
+    PictureURL:""
+PaymentMethods:
+  - "Paypal"
+  - "Check"
+ShippingServiceOptions:
+  - Service: ""
+    Cost: ""
+    Priority: ""
+    Location: ""
+InternationalShippingServiceOptions:
+  - Service: ""
+    Cost: ""
+    Priority: ""
+    Location: ""
