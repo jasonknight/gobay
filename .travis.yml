@@ -8,7 +8,8 @@ before_install:
   - go get -t -v ./...
 
 script:
-  - ./go.test.sh
+  - ls -alsh
+  - bash go.test.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
