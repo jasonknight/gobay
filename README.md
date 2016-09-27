@@ -1,4 +1,5 @@
 # gobay
+[![Build Status](https://travis-ci.org/jasonknight/gobay.svg?branch=master)](https://travis-ci.org/jasonknight/gobay)
 
 A simple and direct eBay Trading API SDK in Golang. 
 
