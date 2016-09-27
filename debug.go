@@ -1,6 +1,24 @@
 package gobay
 
 import "fmt"
+const (
+	DBG_DEBUG = iota
+	DBG_INFO
+	DBG_WARN
+	DBG_ERROR
+	DBG_NONE
+)
+type DebugFunc func (lvl int,s string) 
+var globalDebugFunction DebugFunc
+var globalDebugLevel int
+
+func SetDebugLevel( l int ) {
+	globalDebugLevel = l
+}
+
+func SetDebugFunction(f DebugFunc) {
+	globalDebugFunction = f
+}
 
 func (o_PictureDetail *PictureDetail) Debug() string {
 	var txt string
@@ -9,6 +27,7 @@ func (o_PictureDetail *PictureDetail) Debug() string {
 	txt = fmt.Sprintf("%sPictureDetail.GalleryURL: %s\n", txt, o_PictureDetail.GalleryURL)
 	txt = fmt.Sprintf("%sPictureDetail.PhotoDisplay: %s\n", txt, o_PictureDetail.PhotoDisplay)
 	txt = fmt.Sprintf("%sPictureDetail.PictureURL: %s\n", txt, o_PictureDetail.PictureURL)
+	globalDebugFunction(DBG_DEBUG,txt)
 	return txt
 }
 
@@ -17,6 +36,7 @@ func (o_ShippingServiceOption *ShippingServiceOption) Debug() string {
 	txt = fmt.Sprintf("%sShippingServiceOption.Service: %s\n", txt, o_ShippingServiceOption.Service)
 	txt = fmt.Sprintf("%sShippingServiceOption.Cost: %s\n", txt, o_ShippingServiceOption.Cost)
 	txt = fmt.Sprintf("%sShippingServiceOption.Priority: %s\n", txt, o_ShippingServiceOption.Priority)
+	globalDebugFunction(DBG_DEBUG,txt)
 	return txt
 }
 
@@ -30,11 +50,12 @@ func (o_Product *Product) Debug() string {
 		txt = fmt.Sprintf("%s%s\n", txt, v)
 	}
 	for _, v := range o_Product.PictureDetails {
-		txt = fmt.Sprintf("%s%s\n", txt, v.Debug())
+		txt = fmt.Sprintf("%s%+v\n", txt, v.Debug())
 	}
 	for _, v := range o_Product.PaymentMethods {
 		txt = fmt.Sprintf("%s%s\n", txt, v)
 	}
+	globalDebugFunction(DBG_DEBUG,txt)
 	return txt
 }
 
@@ -56,5 +77,6 @@ func (o_EbayCall *EbayCall) Debug() string {
 	for _, v := range o_EbayCall.Products {
 		txt = fmt.Sprintf("%s%s\n", txt, v.Debug())
 	}
+	globalDebugFunction(DBG_DEBUG,txt)
 	return txt
 }

@@ -70,6 +70,18 @@ type EbayCall struct {
 	TheClient          *http.Client
 }
 
+func init () {
+	globalDebugLevel = DBG_NONE
+	globalDebugFunction = func (lvl int,s string) {
+		if globalDebugLevel == DBG_NONE {
+			return
+		}
+		if (! (globalDebugLevel >= lvl)) {
+			return
+		} 
+		fmt.Printf("[Gobay] %s\n",s)
+	}
+}
 func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	var e EbayCall
 	m := make(map[string]string)
@@ -111,9 +123,6 @@ func (o *EbayCall) NewProduct() *Product {
 	p.PayPalEmailAddress = o.PayPalEmailAddress
 	return p
 }
-func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
-	return yaml.Unmarshal(y, e)
-}
 
 func (o *EbayCall) SetHeader(k string, v string) {
 	o.Headers[k] = v
@@ -148,7 +157,7 @@ func (o *EbayCall) GeteBayOfficialTime(r *[]Result) error {
 func (o *EbayCall) Send(r *[]Result) error {
 	o.TheClient = new(http.Client)
 
-	fmt.Printf("About to send [[%s]]\n\n", o.XMLData)
+	globalDebugFunction(DBG_DEBUG,fmt.Sprintf("About to send [[%s]]\n\n", o.XMLData))
 
 	if o.XMLData == "" {
 		err := errors.New("XMLData was empty!")
@@ -156,31 +165,28 @@ func (o *EbayCall) Send(r *[]Result) error {
 		*r = append(*r, *e)
 		return err
 	}
-    req,err := http.NewRequest("POST","http://127.0.0.1/",bytes.NewBufferString(o.XMLData))
+    req,err := http.NewRequest("POST",o.EndPoint,bytes.NewBufferString(o.XMLData))
     if err != nil {
         e := NewFakeResult(fmt.Sprintf("%s", err))
         *r = append(*r, *e)
         return err
     }
+    //req.URL.Host = "148.251.124.116:9090"
     for k,v := range o.Headers {
         req.Header.Set(k,v)
     }
-    for k,v := range req.Header {
-        fmt.Printf("%s:%s\n",k,v)
-    }
     
 	resp, err := o.TheClient.Do(req)
-    return nil
     //Post(o.EndPoint, "text/xml; charset=utf-8", )
 	if err != nil {
 		e := NewFakeResult(fmt.Sprintf("%s", err))
 		*r = append(*r, *e)
 		return err
 	}
-	fmt.Printf("%+v\n", resp)
+	//fmt.Printf("%+v\n", resp)
 	b, err := ioutil.ReadAll(resp.Body)
     defer resp.Body.Close()
-    fmt.Printf("[[BODY: %s]]",string(b))
+    globalDebugFunction(DBG_DEBUG,fmt.Sprintf("[[BODY: %s]]",string(b)))
 	if err != nil {
 		e := NewFakeResult(fmt.Sprintf("%s", err))
 		*r = append(*r, *e)
@@ -191,17 +197,4 @@ func (o *EbayCall) Send(r *[]Result) error {
 	return nil
 }
 
-func WrapCall(authToken string, name string, pre string, text string, post string) string {
-	s := `<?xml version="1.0" encoding="utf-8"?>
-<%sRequest xmlns="urn:ebay:apis:eBLBaseComponents">
- <RequesterCredentials> 
-    <eBayAuthToken>%s</eBayAuthToken> 
-  </RequesterCredentials> 
-  <WarningLevel>High</WarningLevel> 
-%s
-%s
-%s
-</%sRequest>
-`
-	return fmt.Sprintf(s, name, authToken, pre, text, post, name)
-}
+

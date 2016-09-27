@@ -91,3 +91,22 @@ func pseudoUUID() (string,error) {
 
     return uuid,nil
 }
+
+func WrapCall(authToken string, name string, pre string, text string, post string) string {
+	s := `<?xml version="1.0" encoding="utf-8"?>
+<%sRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+ <RequesterCredentials> 
+    <eBayAuthToken>%s</eBayAuthToken> 
+  </RequesterCredentials> 
+  <WarningLevel>High</WarningLevel> 
+%s
+%s
+%s
+</%sRequest>
+`
+	return fmt.Sprintf(s, name, authToken, pre, text, post, name)
+}
+
+func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
+	return yaml.Unmarshal(y, e)
+}

@@ -4,6 +4,22 @@ import "testing"
 
 import "fmt"
 
+var runSandboxTests bool
+
+
+func shouldRunSandbox() bool {
+	runSandboxTests = false // turn this to true if you have
+	// setup your sandbox account
+	if fileExists("../secret.yml") == false {
+		fmt.Printf("Not Running sandbox tests because no secret\n")
+		return false
+	}
+	if runSandboxTests == false {
+		fmt.Printf("Not Running sandbox tests because of settings\n")
+	}
+	return runSandboxTests
+}
+
 func TestNewEbayCallEx(t *testing.T) {
 	cnf, err := fileGetContents("test_data/test.yml")
 	if err != nil {
@@ -35,21 +51,31 @@ func TestLoadConfiguration(t *testing.T) {
 }
 
 func TestGetTime(t *testing.T) {
-	// This test only runs if you've filled out
-	// a yaml file with actual sandbox data
-	if fileExists("../secret.yml") == false {
+	if shouldRunSandbox() == false {
 		return
 	}
-	fmt.Printf("Running sandbox test\n")
+	var results []Result
+	
 	cnf, err := fileGetContents("../secret.yml")
+	
 	if err != nil {
 		t.Errorf("Failed to load test.yml %v\n", err)
 	}
+	
 	call, err := NewEbayCallEx(cnf)
 
-    var results []Result
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+    
 	call.SetCallname("GeteBayOfficialTime")
     call.Execute(&results)
-    fmt.Printf("RESULTS: %+v",results)
+
+    for _,r := range results {
+    	if r.Ack != "Success" {
+    		t.Errorf("GeteBayOfficialTime call failed %+v\n", r)
+    	}
+    }
 
 }
