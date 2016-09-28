@@ -10,3 +10,4 @@ Currency: GBP
 PayPalEmailAddress: fake@faker.com
 Language: en_GB
 WarningLevel: High
+Cache: ".cache"

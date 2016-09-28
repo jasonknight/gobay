@@ -26,6 +26,7 @@ type EbayCall struct {
     PayPalEmailAddress string
     Callname           string
     XMLData            string
+    Cache              string
     Headers            map[string]string
     Items           []Item
     TheClient          *http.Client
@@ -54,6 +55,7 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
     e.PayPalEmailAddress = c["PayPalEmailAddress"].(string)
     e.Language = c["Language"].(string)
     e.WarningLevel = c["WarningLevel"].(string)
+    e.Cache = c["Cache"].(string)
 
     m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s", e.CompatLevel)
     m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
@@ -62,6 +64,10 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
     //m["X-EBAY-API-CALL-NAME"] = fmt.Sprintf("%s", e.Callname)
     m["X-EBAY-API-SITEID"] = fmt.Sprintf("%s", e.SiteID)
     e.Headers = m
+
+    if e.Cache == "" {
+        return nil, errors.New("You MUST specify a cache location in the yml file!")
+    }
 
     return &e, nil
 }
@@ -144,19 +150,19 @@ func (o *EbayCall) Send(r *[]Result) error {
         *r = append(*r, *e)
         return err
     }
-    if !fileExists(".cache") {
-        err = os.Mkdir(".cache", 0777)
+    if !fileExists(o.Cache) {
+        err = os.Mkdir(o.Cache, 0777)
         if err != nil {
             globalDebugFunction(DBG_WARN, "Could not create .cache")
         } 
     }
-    if fileExists(".cache") {
+    if fileExists(o.Cache) {
         if o.Callname == "GetAllCategories" {
             // GetAllCategories is a semi-special case, because we really want
             // to cache this result, and rarely if ever update it
-            filePutContents(fmt.Sprintf(".cache/%s.xml", o.Callname), string(b))
+            filePutContents(fmt.Sprintf("%s/%s.xml",o.Cache, o.Callname), string(b))
         } else {
-            filePutContents(fmt.Sprintf(".cache/%s-%s.xml", o.GetCallname(), o.MessageID), string(b))  
+            filePutContents(fmt.Sprintf("%s/%s-%s.xml",o.Cache, o.GetCallname(), o.MessageID), string(b))  
         }
     }
     res, err := NewResult(b)
