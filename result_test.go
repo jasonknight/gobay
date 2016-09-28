@@ -129,3 +129,24 @@ func TestAddItemsResponseParsing(t *testing.T) {
 	}
 
 }
+
+func TestGetAllCategoriesResponseParsing(t *testing.T) {
+	data, err := fileGetContents("test_data/GetAllCategoriesResponse.xml")
+	if err != nil {
+		t.Errorf("fileGetContents returned error %+v!!\n", err)
+		return
+	}
+	o, err := NewResult(data)
+	if err != nil {
+		t.Errorf("NewResult returned error %+v!!\n", err)
+		return
+	}
+	if len(o.Categories) < 1 {
+		t.Errorf("There should be two items!!\n")
+		return
+	}
+	if o.Categories[0].CategoryID != "66840" {
+		t.Errorf("The first category in this result should be: %s not %s!!\n","66840",o.Categories[0].CategoryID )
+		return
+	}
+}

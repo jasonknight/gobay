@@ -95,3 +95,50 @@ func TestAddItemsXML(t *testing.T) {
 	}
 	ebay.SetCallname("AddItems")
 }
+
+func TestGetAllCategories(t *testing.T) {
+	are_you_sure := "NO"
+	if are_you_sure != "YES" {
+		return
+	}
+	fmt.Printf("Going ahead with GetAllCategories test!\n")
+	var results []Result
+
+	cnf, err := fileGetContents("../secret.yml")
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay, err := NewEbayCallEx(cnf)
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay.SetCallname("GetAllCategories")
+
+	ebay.CategoryCallInfo.LevelLimit = "5"
+	ebay.CategoryCallInfo.ViewAllNodes = "false" 
+	ebay.CategoryCallInfo.DetailLevels = append(ebay.CategoryCallInfo.DetailLevels, "ReturnAll")
+	outputs := [...]string{
+		"CategoryID",
+		"CategoryLevel",
+		"CategoryName",
+		"CategoryParentID",
+	}
+	for _,v := range outputs {
+		ebay.CategoryCallInfo.OutputSelectors = append(ebay.CategoryCallInfo.OutputSelectors, v)
+	}
+	err = ebay.Execute(&results)
+	if err != nil {
+		t.Errorf("Failed to Execute %v\n", err)
+	}
+
+	for _, r := range results {
+		if r.Ack != "Success" {
+			t.Errorf("GetAllCategories failed %+v\n", r)
+		}
+	}
+
+}

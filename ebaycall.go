@@ -29,7 +29,7 @@ type EbayCall struct {
 	Headers            map[string]string
 	Items              []Item
 	TheClient          *http.Client
-	CategoryCallInfo   GetCategoriesStruct
+	CategoryCallInfo   *GetCategoriesStruct
 }
 
 func NewEbayCallEx(conf []byte) (*EbayCall, error) {
@@ -120,6 +120,7 @@ func (o *EbayCall) Send(r *[]Result) error {
 		*r = append(*r, *e)
 		return err
 	}
+	filePutContents(fmt.Sprintf("%s/last-sent.xml", o.Cache,), o.XMLData)
 	req, err := http.NewRequest("POST", o.EndPoint, bytes.NewBufferString(o.XMLData))
 	if err != nil {
 		e := NewFakeResult(fmt.Sprintf("%s", err))
@@ -171,6 +172,9 @@ func (o *EbayCall) Send(r *[]Result) error {
 	*r = append(*r, *res)
 	return nil
 }
+
+// Ebay Calls
+
 func (o *EbayCall) GeteBayOfficialTime(r *[]Result) error {
 	o.MessageID, _ = pseudoUUID()
 	body, err := compileGoString("Time", GeteBayOfficialTimeTemplate(), o, nil)
@@ -350,7 +354,7 @@ func (o *EbayCall) SetCallname(v string) {
 	o.Headers["X-EBAY-API-CALL-NAME"] = v
 }
 func (o *EbayCall) GetCallname() string {
-	return o.Callname
+	return o.Headers["X-EBAY-API-CALL-NAME"]
 }
 func (o *EbayCall) GetXMLData() string {
 	return o.XMLData
@@ -400,11 +404,11 @@ func (o *EbayCall) GetItems() []Item {
 	return o.Items
 }
 
-func (o *EbayCall) SetCategoryCallInfo(v GetCategoriesStruct) {
+func (o *EbayCall) SetCategoryCallInfo(v *GetCategoriesStruct) {
 	o.CategoryCallInfo = v
 }
 
-func (o *EbayCall) GetCategoryCallInfo() GetCategoriesStruct {
+func (o *EbayCall) GetCategoryCallInfo() *GetCategoriesStruct {
 	return o.CategoryCallInfo
 }
 
