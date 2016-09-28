@@ -120,7 +120,7 @@ func (o *EbayCall) Send(r *[]Result) error {
 		*r = append(*r, *e)
 		return err
 	}
-	filePutContents(fmt.Sprintf("%s/last-sent.xml", o.Cache,), o.XMLData)
+	filePutContents(fmt.Sprintf("%s/last-sent.xml", o.Cache), o.XMLData)
 	req, err := http.NewRequest("POST", o.EndPoint, bytes.NewBufferString(o.XMLData))
 	if err != nil {
 		e := NewFakeResult(fmt.Sprintf("%s", err))

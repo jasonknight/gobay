@@ -146,7 +146,7 @@ func TestGetAllCategoriesResponseParsing(t *testing.T) {
 		return
 	}
 	if o.Categories[0].CategoryID != "66840" {
-		t.Errorf("The first category in this result should be: %s not %s!!\n","66840",o.Categories[0].CategoryID )
+		t.Errorf("The first category in this result should be: %s not %s!!\n", "66840", o.Categories[0].CategoryID)
 		return
 	}
 }

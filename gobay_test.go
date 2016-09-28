@@ -118,18 +118,8 @@ func TestGetAllCategories(t *testing.T) {
 
 	ebay.SetCallname("GetAllCategories")
 
-	ebay.CategoryCallInfo.LevelLimit = "5"
-	ebay.CategoryCallInfo.ViewAllNodes = "false" 
-	ebay.CategoryCallInfo.DetailLevels = append(ebay.CategoryCallInfo.DetailLevels, "ReturnAll")
-	outputs := [...]string{
-		"CategoryID",
-		"CategoryLevel",
-		"CategoryName",
-		"CategoryParentID",
-	}
-	for _,v := range outputs {
-		ebay.CategoryCallInfo.OutputSelectors = append(ebay.CategoryCallInfo.OutputSelectors, v)
-	}
+	ebay.CategoryCallInfo = NewGetCategoriesStruct()
+
 	err = ebay.Execute(&results)
 	if err != nil {
 		t.Errorf("Failed to Execute %v\n", err)
