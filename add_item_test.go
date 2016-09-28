@@ -4,8 +4,8 @@ import "testing"
 import "encoding/xml"
 import "fmt"
 
-func TestGetItemTemplate(t *testing.T) {
-	data := GetItemTemplate()
+func TestItemTemplate(t *testing.T) {
+	data := ItemTemplate()
 	cnf, err := fileGetContents("test_data/test.yml")
 	if err != nil {
 		t.Errorf("Failed to load test.yml %v\n", err)

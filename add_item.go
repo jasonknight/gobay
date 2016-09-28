@@ -1,6 +1,6 @@
 package gobay
 
-func GetItemTemplate() string {
+func ItemTemplate() string {
 	return `
   <Item> 
     <CategoryMappingAllowed>true</CategoryMappingAllowed> 
