@@ -59,7 +59,7 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
     m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
     m["X-EBAY-API-APP-NAME"] = fmt.Sprintf("%s", e.AppID)
     m["X-EBAY-API-CERT-NAME"] = fmt.Sprintf("%s", e.CertID)
-    //m["X-EBAY-API-CALL-NAME"] = fmt.Sprintf("%s", e.CallName)
+    //m["X-EBAY-API-CALL-NAME"] = fmt.Sprintf("%s", e.Callname)
     m["X-EBAY-API-SITEID"] = fmt.Sprintf("%s", e.SiteID)
     e.Headers = m
 
@@ -94,6 +94,7 @@ func (o *EbayCall) Execute(r *[]Result) error {
 
     if cl == "GetAllCategories" {
         o.SetCallname("GetCategories")
+        o.Callname = "GetAllCategories"
         err := o.GetAllCategories(r)
         if err != nil {
             return err
@@ -147,8 +148,15 @@ func (o *EbayCall) Send(r *[]Result) error {
         err = os.Mkdir(".cache", 0777)
         if err != nil {
             globalDebugFunction(DBG_WARN, "Could not create .cache")
+        } 
+    }
+    if fileExists(".cache") {
+        if o.Callname == "GetAllCategories" {
+            // GetAllCategories is a semi-special case, because we really want
+            // to cache this result, and rarely if ever update it
+            filePutContents(fmt.Sprintf(".cache/%s.xml", o.Callname), string(b))
         } else {
-            filePutContents(fmt.Sprintf(".cache/%s-%s.xml", o.GetCallname(), o.MessageID), string(b))
+            filePutContents(fmt.Sprintf(".cache/%s-%s.xml", o.GetCallname(), o.MessageID), string(b))  
         }
     }
     res, err := NewResult(b)
