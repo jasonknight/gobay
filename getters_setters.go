@@ -91,4 +91,3 @@ func (o *ShippingServiceOption) SetPriority(v string) {
 func (o *ShippingServiceOption) GetPriority() string {
 	return o.Priority
 }
-

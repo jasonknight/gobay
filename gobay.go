@@ -1,12 +1,8 @@
 package gobay
 
 import (
-
 	"fmt"
-
 )
-
-
 
 func init() {
 	globalDebugLevel = DBG_NONE
@@ -29,4 +25,3 @@ func SiteIDToCode(id string) string {
 	}
 	return "UNKNOWN"
 }
-

@@ -240,55 +240,54 @@ func (o *Item) FromYAML(data []byte) error {
 
 func (o_PictureDetail *PictureDetail) Debug() string {
 	var txt string
-	txt = fmt.Sprintf("%sPictureDetail.GalleryDuration: %s\n",txt, o_PictureDetail.GalleryDuration)
-	txt = fmt.Sprintf("%sPictureDetail.GalleryType: %s\n",txt, o_PictureDetail.GalleryType)
-	txt = fmt.Sprintf("%sPictureDetail.GalleryURL: %s\n",txt, o_PictureDetail.GalleryURL)
-	txt = fmt.Sprintf("%sPictureDetail.PhotoDisplay: %s\n",txt, o_PictureDetail.PhotoDisplay)
-	txt = fmt.Sprintf("%sPictureDetail.PictureURL: %s\n",txt, o_PictureDetail.PictureURL)
+	txt = fmt.Sprintf("%sPictureDetail.GalleryDuration: %s\n", txt, o_PictureDetail.GalleryDuration)
+	txt = fmt.Sprintf("%sPictureDetail.GalleryType: %s\n", txt, o_PictureDetail.GalleryType)
+	txt = fmt.Sprintf("%sPictureDetail.GalleryURL: %s\n", txt, o_PictureDetail.GalleryURL)
+	txt = fmt.Sprintf("%sPictureDetail.PhotoDisplay: %s\n", txt, o_PictureDetail.PhotoDisplay)
+	txt = fmt.Sprintf("%sPictureDetail.PictureURL: %s\n", txt, o_PictureDetail.PictureURL)
 	globalDebugFunction(DBG_DEBUG, txt)
 	return txt
 }
 
 func (o_ShippingServiceOption *ShippingServiceOption) Debug() string {
 	var txt string
-	txt = fmt.Sprintf("%sShippingServiceOption.Service: %s\n",txt, o_ShippingServiceOption.Service)
-	txt = fmt.Sprintf("%sShippingServiceOption.Cost: %s\n",txt, o_ShippingServiceOption.Cost)
-	txt = fmt.Sprintf("%sShippingServiceOption.Priority: %s\n",txt, o_ShippingServiceOption.Priority)
+	txt = fmt.Sprintf("%sShippingServiceOption.Service: %s\n", txt, o_ShippingServiceOption.Service)
+	txt = fmt.Sprintf("%sShippingServiceOption.Cost: %s\n", txt, o_ShippingServiceOption.Cost)
+	txt = fmt.Sprintf("%sShippingServiceOption.Priority: %s\n", txt, o_ShippingServiceOption.Priority)
 	globalDebugFunction(DBG_DEBUG, txt)
 	return txt
 }
 
 func (o_Item *Item) Debug() string {
 	var txt string
-	txt = fmt.Sprintf("%sItem.SKU: %s\n",txt, o_Item.SKU)
-	txt = fmt.Sprintf("%sItem.Title: %s\n",txt, o_Item.Title)
-	txt = fmt.Sprintf("%sItem.Description: %s\n",txt, o_Item.Description)
-	txt = fmt.Sprintf("%sItem.Quantity: %s\n",txt, o_Item.Quantity)
-	txt = fmt.Sprintf("%sItem.ListingType: %s\n",txt, o_Item.ListingType)
-	txt = fmt.Sprintf("%sItem.Country: %s\n",txt, o_Item.Country)
-	txt = fmt.Sprintf("%sItem.Currency: %s\n",txt, o_Item.Currency)
-	txt = fmt.Sprintf("%sItem.Location: %s\n",txt, o_Item.Location)
-	txt = fmt.Sprintf("%sItem.PayPalEmailAddress: %s\n",txt, o_Item.PayPalEmailAddress)
-	txt = fmt.Sprintf("%sItem.PrimaryCategory: %s\n",txt, o_Item.PrimaryCategory)
-	txt = fmt.Sprintf("%sItem.Site: %s\n",txt, o_Item.Site)
-	txt = fmt.Sprintf("%sItem.DispatchTimeMax: %s\n",txt, o_Item.DispatchTimeMax)
-	txt = fmt.Sprintf("%sItem.ListingDuration: %s\n",txt, o_Item.ListingDuration)
-	for _,v := range o_Item.ShipToLocations {
-		txt = fmt.Sprintf("%s%s\n",txt, v)
+	txt = fmt.Sprintf("%sItem.SKU: %s\n", txt, o_Item.SKU)
+	txt = fmt.Sprintf("%sItem.Title: %s\n", txt, o_Item.Title)
+	txt = fmt.Sprintf("%sItem.Description: %s\n", txt, o_Item.Description)
+	txt = fmt.Sprintf("%sItem.Quantity: %s\n", txt, o_Item.Quantity)
+	txt = fmt.Sprintf("%sItem.ListingType: %s\n", txt, o_Item.ListingType)
+	txt = fmt.Sprintf("%sItem.Country: %s\n", txt, o_Item.Country)
+	txt = fmt.Sprintf("%sItem.Currency: %s\n", txt, o_Item.Currency)
+	txt = fmt.Sprintf("%sItem.Location: %s\n", txt, o_Item.Location)
+	txt = fmt.Sprintf("%sItem.PayPalEmailAddress: %s\n", txt, o_Item.PayPalEmailAddress)
+	txt = fmt.Sprintf("%sItem.PrimaryCategory: %s\n", txt, o_Item.PrimaryCategory)
+	txt = fmt.Sprintf("%sItem.Site: %s\n", txt, o_Item.Site)
+	txt = fmt.Sprintf("%sItem.DispatchTimeMax: %s\n", txt, o_Item.DispatchTimeMax)
+	txt = fmt.Sprintf("%sItem.ListingDuration: %s\n", txt, o_Item.ListingDuration)
+	for _, v := range o_Item.ShipToLocations {
+		txt = fmt.Sprintf("%s%s\n", txt, v)
 	}
-	for _,v := range o_Item.PictureDetails {
-		txt = fmt.Sprintf("%s%s\n",txt, v.Debug())
+	for _, v := range o_Item.PictureDetails {
+		txt = fmt.Sprintf("%s%s\n", txt, v.Debug())
 	}
-	for _,v := range o_Item.PaymentMethods {
-		txt = fmt.Sprintf("%s%s\n",txt, v)
+	for _, v := range o_Item.PaymentMethods {
+		txt = fmt.Sprintf("%s%s\n", txt, v)
 	}
-	for _,v := range o_Item.ShippingServiceOptions {
-		txt = fmt.Sprintf("%s%s\n",txt, v.Debug())
+	for _, v := range o_Item.ShippingServiceOptions {
+		txt = fmt.Sprintf("%s%s\n", txt, v.Debug())
 	}
-	for _,v := range o_Item.InternationalShippingServiceOptions {
-		txt = fmt.Sprintf("%s%s\n",txt, v.Debug())
+	for _, v := range o_Item.InternationalShippingServiceOptions {
+		txt = fmt.Sprintf("%s%s\n", txt, v.Debug())
 	}
 	globalDebugFunction(DBG_DEBUG, txt)
 	return txt
 }
-

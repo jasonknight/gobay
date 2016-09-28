@@ -20,4 +20,3 @@ func SetDebugLevel(l int) {
 func SetDebugFunction(f DebugFunc) {
 	globalDebugFunction = f
 }
-
