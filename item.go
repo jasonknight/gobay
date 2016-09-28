@@ -29,7 +29,7 @@ type ShippingServiceOption struct {
 	Priority string
 	Location ShipToLocation
 }
-type Product struct {
+type Item struct {
 	EbayID             int64
 	SKU                string
 	Title              string
@@ -54,12 +54,12 @@ type Product struct {
 	InternationalShippingServiceOptions []ShippingServiceOption
 }
 
-func NewProduct() *Product {
-	return &Product{}
+func NewItem() *Item {
+	return &Item{}
 }
 
-func (o *Product) Clone() *Product {
-	var no Product
+func (o *Item) Clone() *Item {
+	var no Item
 	no.EbayID = o.EbayID
 	no.SKU = o.SKU
 	no.Title = o.Title
@@ -85,47 +85,47 @@ func (o *Product) Clone() *Product {
 	return &no
 }
 
-func (o *Product) SetSKU(v string) {
+func (o *Item) SetSKU(v string) {
 	o.SKU = v
 }
 
-func (o *Product) GetSKU() string {
+func (o *Item) GetSKU() string {
 	return o.SKU
 }
 
-func (o *Product) SetTitle(v string) {
+func (o *Item) SetTitle(v string) {
 	o.Title = v
 }
 
-func (o *Product) GetTitle() string {
+func (o *Item) GetTitle() string {
 	return o.Title
 }
 
-func (o *Product) SetPrice(v float32) {
+func (o *Item) SetPrice(v float32) {
 	o.StartPrice = v
 }
 
-func (o *Product) GetPrice() float32 {
+func (o *Item) GetPrice() float32 {
 	return o.StartPrice
 }
 
-func (o *Product) SetQuantity(v string) {
+func (o *Item) SetQuantity(v string) {
 	o.Quantity = v
 }
 
-func (o *Product) GetQuantity() string {
+func (o *Item) GetQuantity() string {
 	return o.Quantity
 }
 
-func (o *Product) SetListingType(v string) {
+func (o *Item) SetListingType(v string) {
 	o.ListingType = v
 }
 
-func (o *Product) GetListingType() string {
+func (o *Item) GetListingType() string {
 	return o.ListingType
 }
 
-func (o *Product) FilterShipToLocations(f ShipToLocationFilter) []ShipToLocation {
+func (o *Item) FilterShipToLocations(f ShipToLocationFilter) []ShipToLocation {
 	tmp := o.ShipToLocations[:0]
 	for _, x := range o.ShipToLocations {
 		if f(x) {
@@ -135,33 +135,33 @@ func (o *Product) FilterShipToLocations(f ShipToLocationFilter) []ShipToLocation
 	return tmp
 }
 
-func (o *Product) AddShipToLocation(v ShipToLocation) {
+func (o *Item) AddShipToLocation(v ShipToLocation) {
 	o.ShipToLocations = append(o.ShipToLocations, v)
 }
 
-func (o *Product) RemoveShipToLocation(i int) {
+func (o *Item) RemoveShipToLocation(i int) {
 	if i > len(o.ShipToLocations) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Product", "ShipToLocations", len(o.ShipToLocations)))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Item", "ShipToLocations", len(o.ShipToLocations)))
 	}
 	o.ShipToLocations = o.ShipToLocations[:i+copy(o.ShipToLocations[i:], o.ShipToLocations[i+1:])]
 }
 
-func (o *Product) GetShipToLocation(i int) ShipToLocation {
+func (o *Item) GetShipToLocation(i int) ShipToLocation {
 	if i > len(o.ShipToLocations) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Product", "ShipToLocations", len(o.ShipToLocations)))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Item", "ShipToLocations", len(o.ShipToLocations)))
 	}
 	return o.ShipToLocations[i]
 }
 
-func (o *Product) SetShipToLocations(v []ShipToLocation) {
+func (o *Item) SetShipToLocations(v []ShipToLocation) {
 	o.ShipToLocations = v
 }
 
-func (o *Product) GetShipToLocations() []ShipToLocation {
+func (o *Item) GetShipToLocations() []ShipToLocation {
 	return o.ShipToLocations
 }
 
-func (o *Product) FilterPictureDetails(f PictureDetailFilter) []PictureDetail {
+func (o *Item) FilterPictureDetails(f PictureDetailFilter) []PictureDetail {
 	tmp := o.PictureDetails[:0]
 	for _, x := range o.PictureDetails {
 		if f(x) {
@@ -171,33 +171,33 @@ func (o *Product) FilterPictureDetails(f PictureDetailFilter) []PictureDetail {
 	return tmp
 }
 
-func (o *Product) AddPictureDetail(v PictureDetail) {
+func (o *Item) AddPictureDetail(v PictureDetail) {
 	o.PictureDetails = append(o.PictureDetails, v)
 }
 
-func (o *Product) RemovePictureDetail(i int) {
+func (o *Item) RemovePictureDetail(i int) {
 	if i > len(o.PictureDetails) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Product", "PictureDetails", len(o.PictureDetails)))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Item", "PictureDetails", len(o.PictureDetails)))
 	}
 	o.PictureDetails = o.PictureDetails[:i+copy(o.PictureDetails[i:], o.PictureDetails[i+1:])]
 }
 
-func (o *Product) GetPictureDetail(i int) PictureDetail {
+func (o *Item) GetPictureDetail(i int) PictureDetail {
 	if i > len(o.PictureDetails) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Product", "PictureDetails", len(o.PictureDetails)))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Item", "PictureDetails", len(o.PictureDetails)))
 	}
 	return o.PictureDetails[i]
 }
 
-func (o *Product) SetPictureDetails(v []PictureDetail) {
+func (o *Item) SetPictureDetails(v []PictureDetail) {
 	o.PictureDetails = v
 }
 
-func (o *Product) GetPictureDetails() []PictureDetail {
+func (o *Item) GetPictureDetails() []PictureDetail {
 	return o.PictureDetails
 }
 
-func (o *Product) FilterPaymentMethods(f PaymentMethodFilter) []PaymentMethod {
+func (o *Item) FilterPaymentMethods(f PaymentMethodFilter) []PaymentMethod {
 	tmp := o.PaymentMethods[:0]
 	for _, x := range o.PaymentMethods {
 		if f(x) {
@@ -207,31 +207,31 @@ func (o *Product) FilterPaymentMethods(f PaymentMethodFilter) []PaymentMethod {
 	return tmp
 }
 
-func (o *Product) AddPaymentMethod(v PaymentMethod) {
+func (o *Item) AddPaymentMethod(v PaymentMethod) {
 	o.PaymentMethods = append(o.PaymentMethods, v)
 }
 
-func (o *Product) RemovePaymentMethod(i int) {
+func (o *Item) RemovePaymentMethod(i int) {
 	if i > len(o.PaymentMethods) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Product", "PaymentMethods", len(o.PaymentMethods)))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Item", "PaymentMethods", len(o.PaymentMethods)))
 	}
 	o.PaymentMethods = o.PaymentMethods[:i+copy(o.PaymentMethods[i:], o.PaymentMethods[i+1:])]
 }
 
-func (o *Product) GetPaymentMethod(i int) PaymentMethod {
+func (o *Item) GetPaymentMethod(i int) PaymentMethod {
 	if i > len(o.PaymentMethods) {
-		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Product", "PaymentMethods", len(o.PaymentMethods)))
+		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "Item", "PaymentMethods", len(o.PaymentMethods)))
 	}
 	return o.PaymentMethods[i]
 }
 
-func (o *Product) SetPaymentMethods(v []PaymentMethod) {
+func (o *Item) SetPaymentMethods(v []PaymentMethod) {
 	o.PaymentMethods = v
 }
 
-func (o *Product) GetPaymentMethods() []PaymentMethod {
+func (o *Item) GetPaymentMethods() []PaymentMethod {
 	return o.PaymentMethods
 }
-func (o *Product) FromYAML(data []byte) error {
+func (o *Item) FromYAML(data []byte) error {
 	return yaml.Unmarshal(data, o)
 }

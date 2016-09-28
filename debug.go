@@ -43,7 +43,7 @@ func (o_ShippingServiceOption *ShippingServiceOption) Debug() string {
 	return txt
 }
 
-func (o_Product *Product) Debug() string {
+func (o_Product *Item) Debug() string {
 	var txt string
 	txt = fmt.Sprintf("%sProduct.SKU: %s\n", txt, o_Product.SKU)
 	txt = fmt.Sprintf("%sProduct.Title: %s\n", txt, o_Product.Title)

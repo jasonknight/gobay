@@ -2,7 +2,7 @@ package gobay
 
 import "fmt"
 
-type ProductFilter func(o Product) bool
+type ProductFilter func(o Item) bool
 
 func NewPictureDetail() *PictureDetail {
 	return &PictureDetail{}
@@ -203,7 +203,7 @@ func (o *EbayCall) GetHeaders() map[string]string {
 	return o.Headers
 }
 
-func (o *EbayCall) FilterProducts(f ProductFilter) []Product {
+func (o *EbayCall) FilterProducts(f ProductFilter) []Item {
 	tmp := o.Products[:0]
 	for _, x := range o.Products {
 		if f(x) {
@@ -213,7 +213,7 @@ func (o *EbayCall) FilterProducts(f ProductFilter) []Product {
 	return tmp
 }
 
-func (o *EbayCall) AddProduct(v Product) {
+func (o *EbayCall) AddProduct(v Item) {
 	o.Products = append(o.Products, v)
 }
 
@@ -224,17 +224,17 @@ func (o *EbayCall) RemoveProduct(i int) {
 	o.Products = o.Products[:i+copy(o.Products[i:], o.Products[i+1:])]
 }
 
-func (o *EbayCall) GetProduct(i int) Product {
+func (o *EbayCall) GetProduct(i int) Item {
 	if i > len(o.Products) {
 		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "EbayCall", "Products", len(o.Products)))
 	}
 	return o.Products[i]
 }
 
-func (o *EbayCall) SetProducts(v []Product) {
+func (o *EbayCall) SetProducts(v []Item) {
 	o.Products = v
 }
 
-func (o *EbayCall) GetProducts() []Product {
+func (o *EbayCall) GetProducts() []Item {
 	return o.Products
 }

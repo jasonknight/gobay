@@ -26,7 +26,7 @@ type EbayCall struct {
 	Callname           string
 	XMLData            string
 	Headers            map[string]string
-	Products           []Product
+	Products           []Item
 	TheClient          *http.Client
 	CategoryCallInfo   GetCategoriesStruct
 }
@@ -85,8 +85,8 @@ func SiteIDToCode(id string) string {
 	return "UNKNOWN"
 }
 
-func (o *EbayCall) NewProduct() *Product {
-	p := NewProduct()
+func (o *EbayCall) NewItem() *Item {
+	p := NewItem()
 	p.Country = o.Country
 	p.Site = SiteIDToCode(o.SiteID)
 	p.Currency = o.Currency
