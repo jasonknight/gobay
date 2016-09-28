@@ -21,6 +21,7 @@ func fileExists(p string) bool {
 	}
 	return true
 }
+
 func banner() {
 	fmt.Println("*******************************************************")
 	fmt.Printf("*                       Gobay %s                     *\n", version())

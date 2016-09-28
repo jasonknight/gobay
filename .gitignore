@@ -31,4 +31,4 @@ openresty/proxy_temp
 openresty/run  
 openresty/scgi_temp  
 openresty/uwsgi_temp
-
+.cache

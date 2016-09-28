@@ -1,24 +1,24 @@
 package gobay
 
 type GetCategoriesStruct struct {
-	CategoryParent     []string
-	SiteID             string
-	CategoryLevelLimit string
-	ViewAllNodes       string
-	DetailLevels       []string
-	OutputSelectors    []string
+	CategoryParent  []string
+	SiteID          string
+	LevelLimit      string
+	ViewAllNodes    string
+	DetailLevels    []string `xml:"DetailLevel"`
+	OutputSelectors []string `xml:"OutputSelector"`
 }
 
 func GetAllCategoriesTemplate() string {
 	return `
 <CategorySiteID>{{ .SiteID }}</CategorySiteID>
-<LevelLimit>{{ .CategoryLevelLimit }}</LevelLimit>
+<LevelLimit>{{ .LevelLimit }}</LevelLimit>
 <ViewAllNodes>{{ .ViewAllNodes }}</ViewAllNodes>
 {{ range $k,$v := .DetailLevels }}
-    <DetailLevel>$v</DetailLevel>
+    <DetailLevel>{{$v}}</DetailLevel>
 {{ end }}
 {{ range $k,$v := .OutputSelectors }}
-    <OutputSelector>$v</OutputSelector>
+    <OutputSelector>{{$v}}</OutputSelector>
 {{ end }}
 `
 }
@@ -28,13 +28,13 @@ func GetChildCategoriesTemplate() string {
 <CategoryParent>$v</CategoryParent>
 {{ end }}
 <CategorySiteID>{{ .SiteID }}</CategorySiteID>
-<LevelLimit>{{ .CategoryLevelLimit }}</LevelLimit>
+<LevelLimit>{{ .LevelLimit }}</LevelLimit>
 <ViewAllNodes>{{ .ViewAllNodes }}</ViewAllNodes>
 {{ range $k,$v := .DetailLevels }}
-    <DetailLevel>$v</DetailLevel>
+    <DetailLevel>{{$v}}</DetailLevel>
 {{ end }}
 {{ range $k,$v := .OutputSelectors }}
-    <OutputSelector>$v</OutputSelector>
+    <OutputSelector>{{$v}}</OutputSelector>
 {{ end }}
 `
 }

@@ -19,7 +19,7 @@ func TestGetItemTemplate(t *testing.T) {
 		t.Errorf("Failed to compile template %v\n", err)
 	}
 	data = `<?xml version="1.0" encoding="UTF-8"?>`
-	data = fmt.Sprintf("%s%s", s)
+	data = fmt.Sprintf("%s%s", data, s)
 	np := NewProduct()
 	xml.Unmarshal([]byte(data), &np)
 	if np.Title != p.Title && np.StartPrice == p.StartPrice {

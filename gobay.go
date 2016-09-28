@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 type EbayCall struct {
@@ -27,6 +28,7 @@ type EbayCall struct {
 	Headers            map[string]string
 	Products           []Product
 	TheClient          *http.Client
+	CategoryCallInfo   GetCategoriesStruct
 }
 
 func init() {
@@ -75,8 +77,10 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	return &e, nil
 }
 func SiteIDToCode(id string) string {
-	if id == "3" {
-		return "UK"
+	for _, m := range SiteIDMap {
+		if m.SiteID == id {
+			return m.TerritoryID
+		}
 	}
 	return "UNKNOWN"
 }
@@ -111,6 +115,16 @@ func (o *EbayCall) Execute(r *[]Result) error {
 		}
 		return o.Send(r)
 	}
+
+	if cl == "GetAllCategories" {
+		o.SetCallname("GetCategories")
+		err := o.GetAllCategories(r)
+		if err != nil {
+			return err
+		}
+		return o.Send(r)
+	}
+
 	return nil
 }
 func (o *EbayCall) Send(r *[]Result) error {
@@ -145,11 +159,21 @@ func (o *EbayCall) Send(r *[]Result) error {
 	//fmt.Printf("%+v\n", resp)
 	b, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
+	// We should cache the results of certain calls
+
 	globalDebugFunction(DBG_DEBUG, fmt.Sprintf("[[BODY: %s]]", string(b)))
 	if err != nil {
 		e := NewFakeResult(fmt.Sprintf("%s", err))
 		*r = append(*r, *e)
 		return err
+	}
+	if !fileExists(".cache") {
+		err = os.Mkdir(".cache", 0777)
+		if err != nil {
+			globalDebugFunction(DBG_WARN, "Could not create .cache")
+		} else {
+			filePutContents(fmt.Sprintf(".cache/%s-%s.xml", o.GetCallname(), o.MessageID), string(b))
+		}
 	}
 	res, err := NewResult(b)
 	if err != nil {
@@ -165,6 +189,28 @@ func (o *EbayCall) GeteBayOfficialTime(r *[]Result) error {
 		return err
 	}
 	final_xml, err := compileGoString("FinalTime", WrapCall("GeteBayOfficialTime", "", body, ""), o, nil)
+	if err != nil {
+		return err
+	}
+	o.XMLData = final_xml
+	return nil
+}
+
+func (o *EbayCall) GetAllCategories(r *[]Result) error {
+	o.MessageID, _ = pseudoUUID()
+	o.CategoryCallInfo.SiteID = o.SiteID
+	if o.CategoryCallInfo.LevelLimit == "" {
+		o.CategoryCallInfo.LevelLimit = "3"
+	}
+	if o.CategoryCallInfo.ViewAllNodes != "true" {
+		o.CategoryCallInfo.ViewAllNodes = "false"
+	}
+
+	body, err := compileGoString("Time", GetAllCategoriesTemplate(), o.CategoryCallInfo, nil)
+	if err != nil {
+		return err
+	}
+	final_xml, err := compileGoString("FinalGetAllCategories", WrapCall("GetCategories", "", body, ""), o, nil)
 	if err != nil {
 		return err
 	}
