@@ -1,12 +1,12 @@
 <?php
-
-$lines = file("gobay.go");
+$fname = $_SERVER['argv'][2];
+$lines = file($fname);
 $pattern = '/^type (?P<obj>[A-Za-z_0-9]+) struct \\{$/';
 $conpat = '/^type (?P<name>[A-Za-z_0-9]+)\s+(?P<type>[A-Za-z_0-9]+)\s*$/';
 $debugs = array();
 $in_struct = false;
 $cobject = "";
-$pkg = "gobay";
+$pkg = $_SERVER['argv'][1];
 $tconversions = array();
 foreach ( $lines as $line ) {
     preg_match($pattern, $line, $m);
@@ -84,6 +84,7 @@ foreach ( $debugs as $struct => $val ) {
             $func .= "\t}\n";
         }
     } 
+    $func .= "\tglobalDebugFunction(DBG_DEBUG, txt)\n";
     $func .= "\treturn txt\n}\n";
     $the_funcs[] = $func;
 }
