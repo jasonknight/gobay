@@ -27,7 +27,7 @@ type EbayCall struct {
     Callname           string
     XMLData            string
     Headers            map[string]string
-    Products           []Item
+    Items           []Item
     TheClient          *http.Client
     CategoryCallInfo   GetCategoriesStruct
 }
@@ -81,12 +81,7 @@ func (o *EbayCall) SetHeader(k string, v string) {
 func (o *EbayCall) GetHeader(k string) string {
     return o.Headers[k]
 }
-func (o *EbayCall) SetCallname(v string) {
-    o.Headers["X-EBAY-API-CALL-NAME"] = v
-}
-func (o *EbayCall) GetCallname() string {
-    return o.Headers["X-EBAY-API-CALL-NAME"]
-}
+
 func (o *EbayCall) Execute(r *[]Result) error {
     cl := o.GetCallname()
     if cl == "GeteBayOfficialTime" {
@@ -199,5 +194,232 @@ func (o *EbayCall) GetAllCategories(r *[]Result) error {
     return nil
 }
 
+// Getters and Setters
+
+type ItemFilter func (o Item) bool
+func NewEbayCall () *EbayCall {
+    return &EbayCall{}
+}
+
+func (o *EbayCall) Clone () *EbayCall {
+    var no EbayCall
+    no.DevID = o.DevID
+    no.AppID = o.AppID
+    no.CertID = o.CertID
+    no.CompatLevel = o.CompatLevel
+    no.SiteID = o.SiteID
+    no.EndPoint = o.EndPoint
+    no.EbayAuthToken = o.EbayAuthToken
+    no.Country = o.Country
+    no.Currency = o.Currency
+    no.Language = o.Language
+    no.MessageID = o.MessageID
+    no.WarningLevel = o.WarningLevel
+    no.PayPalEmailAddress = o.PayPalEmailAddress
+    no.Callname = o.Callname
+    no.XMLData = o.XMLData
+    no.Headers = o.Headers
+    no.Items = o.Items
+    no.CategoryCallInfo = o.CategoryCallInfo
+    return &no
+}
+
+func (o *EbayCall) SetDevID (v string) {
+    o.DevID = v
+}
+
+func (o *EbayCall) GetDevID () string {
+    return o.DevID
+}
+
+func (o *EbayCall) SetAppID (v string) {
+    o.AppID = v
+}
+
+func (o *EbayCall) GetAppID () string {
+    return o.AppID
+}
+
+func (o *EbayCall) SetCertID (v string) {
+    o.CertID = v
+}
+
+func (o *EbayCall) GetCertID () string {
+    return o.CertID
+}
+
+func (o *EbayCall) SetCompatLevel (v string) {
+    o.CompatLevel = v
+}
+
+func (o *EbayCall) GetCompatLevel () string {
+    return o.CompatLevel
+}
+
+func (o *EbayCall) SetSiteID (v string) {
+    o.SiteID = v
+}
+
+func (o *EbayCall) GetSiteID () string {
+    return o.SiteID
+}
+
+func (o *EbayCall) SetEndPoint (v string) {
+    o.EndPoint = v
+}
+
+func (o *EbayCall) GetEndPoint () string {
+    return o.EndPoint
+}
+
+func (o *EbayCall) SetEbayAuthToken (v string) {
+    o.EbayAuthToken = v
+}
+
+func (o *EbayCall) GetEbayAuthToken () string {
+    return o.EbayAuthToken
+}
+
+func (o *EbayCall) SetCountry (v string) {
+    o.Country = v
+}
+
+func (o *EbayCall) GetCountry () string {
+    return o.Country
+}
+
+func (o *EbayCall) SetCurrency (v string) {
+    o.Currency = v
+}
+
+func (o *EbayCall) GetCurrency () string {
+    return o.Currency
+}
+
+func (o *EbayCall) SetLanguage (v string) {
+    o.Language = v
+}
+
+func (o *EbayCall) GetLanguage () string {
+    return o.Language
+}
+
+func (o *EbayCall) SetMessageID (v string) {
+    o.MessageID = v
+}
+
+func (o *EbayCall) GetMessageID () string {
+    return o.MessageID
+}
+
+func (o *EbayCall) SetWarningLevel (v string) {
+    o.WarningLevel = v
+}
+
+func (o *EbayCall) GetWarningLevel () string {
+    return o.WarningLevel
+}
+
+func (o *EbayCall) SetPayPalEmailAddress (v string) {
+    o.PayPalEmailAddress = v
+}
+
+func (o *EbayCall) GetPayPalEmailAddress () string {
+    return o.PayPalEmailAddress
+}
+
+func (o *EbayCall) SetXMLData (v string) {
+    o.XMLData = v
+}
+func (o *EbayCall) SetCallname(v string) {
+    o.Callname = v
+    o.Headers["X-EBAY-API-CALL-NAME"] = v
+}
+func (o *EbayCall) GetCallname() string {
+    return o.Callname
+}
+func (o *EbayCall) GetXMLData () string {
+    return o.XMLData
+}
+
+func (o *EbayCall) SetHeaders (v map[string]string) {
+    o.Headers = v
+}
+
+func (o *EbayCall) GetHeaders () map[string]string {
+    return o.Headers
+}
+
+func (o *EbayCall) FilterItems(f ItemFilter) []Item {
+    tmp := o.Items[:0]
+    for _, x := range o.Items {
+        if f(x) {
+            tmp = append(tmp, x)
+        }
+    }
+    return tmp
+}
+
+func (o *EbayCall) AddItem(v Item) {
+    o.Items = append(o.Items,v)
+}
+
+func (o *EbayCall) RemoveItem(i int) {
+    if i > len(o.Items) {
+        panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","EbayCall","Items",len(o.Items)))
+    }
+    o.Items = o.Items[:i+copy(o.Items[i:], o.Items[i+1:])]
+}
+
+func (o *EbayCall) GetItem(i int) Item {
+    if i > len(o.Items) {
+        panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n","EbayCall","Items",len(o.Items)))
+    }
+    return o.Items[i]
+}
+
+func (o *EbayCall) SetItems (v []Item) {
+    o.Items = v
+}
+
+func (o *EbayCall) GetItems () []Item {
+    return o.Items
+}
+
+func (o *EbayCall) SetCategoryCallInfo (v GetCategoriesStruct) {
+    o.CategoryCallInfo = v
+}
+
+func (o *EbayCall) GetCategoryCallInfo () GetCategoriesStruct {
+    return o.CategoryCallInfo
+}
+
 
 // Debug Functions
+
+func (o_EbayCall *EbayCall) Debug() string {
+    var txt string
+    txt = fmt.Sprintf("%sEbayCall.DevID: %s\n",txt, o_EbayCall.DevID)
+    txt = fmt.Sprintf("%sEbayCall.AppID: %s\n",txt, o_EbayCall.AppID)
+    txt = fmt.Sprintf("%sEbayCall.CertID: %s\n",txt, o_EbayCall.CertID)
+    txt = fmt.Sprintf("%sEbayCall.CompatLevel: %s\n",txt, o_EbayCall.CompatLevel)
+    txt = fmt.Sprintf("%sEbayCall.SiteID: %s\n",txt, o_EbayCall.SiteID)
+    txt = fmt.Sprintf("%sEbayCall.EndPoint: %s\n",txt, o_EbayCall.EndPoint)
+    txt = fmt.Sprintf("%sEbayCall.EbayAuthToken: %s\n",txt, o_EbayCall.EbayAuthToken)
+    txt = fmt.Sprintf("%sEbayCall.Country: %s\n",txt, o_EbayCall.Country)
+    txt = fmt.Sprintf("%sEbayCall.Currency: %s\n",txt, o_EbayCall.Currency)
+    txt = fmt.Sprintf("%sEbayCall.Language: %s\n",txt, o_EbayCall.Language)
+    txt = fmt.Sprintf("%sEbayCall.MessageID: %s\n",txt, o_EbayCall.MessageID)
+    txt = fmt.Sprintf("%sEbayCall.WarningLevel: %s\n",txt, o_EbayCall.WarningLevel)
+    txt = fmt.Sprintf("%sEbayCall.PayPalEmailAddress: %s\n",txt, o_EbayCall.PayPalEmailAddress)
+    txt = fmt.Sprintf("%sEbayCall.Callname: %s\n",txt, o_EbayCall.Callname)
+    txt = fmt.Sprintf("%sEbayCall.XMLData: %s\n",txt, o_EbayCall.XMLData)
+    for k,v := range o_EbayCall.Headers {
+        txt = fmt.Sprintf("%sEbayCall.Headers [%s]: %s\n",txt,k,v)
+    }
+    for i,v := range o_EbayCall.Items {
+        txt = fmt.Sprintf("%sEbayCall.Items [%d]: %s\n",txt,i,v.Debug())
+    }
+    globalDebugFunction(DBG_DEBUG, txt)
+    return txt
+}
