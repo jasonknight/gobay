@@ -13,7 +13,7 @@ func TestItemTemplate(t *testing.T) {
 	call, err := NewEbayCallEx(cnf)
 	p := call.NewItem()
 	p.Title = "xxx123"
-	p.StartPrice = 33.28
+	p.StartPrice = "33.28"
 	s, err := compileGoString("ItemTemplate", data, p, nil)
 	if err != nil {
 		t.Errorf("Failed to compile template %v\n", err)

@@ -16,42 +16,42 @@ type PaymentMethod string
 type ShipToLocation string
 
 type PictureDetail struct {
-	GalleryDuration string
-	GalleryType     string
-	GalleryURL      string
-	PhotoDisplay    string
-	PictureURL      string
+	GalleryDuration string `yaml:"GalleryDuration"`
+	GalleryType     string `yaml:"GalleryType"`
+	GalleryURL      string `yaml:"GalleryURL"`
+	PhotoDisplay    string `yaml:"PhotoDisplay"`
+	PictureURL      string `yaml:"PictureURL"`
 }
 
 type ShippingServiceOption struct {
-	Service  string
-	Cost     string
-	Priority string
-	Location ShipToLocation
+	Service  string         `yaml:"Service"`
+	Cost     string         `yaml:"Cost"`
+	Priority string         `yaml:"Priority"`
+	Location ShipToLocation `yaml:"Location"`
 }
 type Item struct {
-	EbayID             int64
-	SKU                string
-	Title              string
-	Description        string
-	StartPrice         float32
-	Quantity           string
-	ListingType        string
-	Country            string
-	Currency           string
-	Location           string
-	PayPalEmailAddress string
-	PrimaryCategory    string
-	Site               string
-	StoreCategoryID    int64
-	DispatchTimeMax    string
-	ListingDuration    string
+	EbayID             string `yaml:"EbayID"`
+	SKU                string `yaml:"SKU"`
+	Title              string `yaml:"Title"`
+	Description        string `yaml:"Description"`
+	StartPrice         string `yaml:"StartPrice"`
+	Quantity           string `yaml:"Quantity"`
+	ListingType        string `yaml:"ListingType"`
+	Country            string `yaml:"Country"`
+	Currency           string `yaml:"Currency"`
+	Location           string `yaml:"Location"`
+	PayPalEmailAddress string `yaml:"PayPalEmailAddress"`
+	PrimaryCategory    string `yaml:"PrimaryCategory"`
+	Site               string `yaml:"Site"`
+	StoreCategoryID    string `yaml:"StoreCategoryID"`
+	DispatchTimeMax    string `yaml:"DispatchTimeMax"`
+	ListingDuration    string `yaml:"ListingDuration"`
 
-	ShipToLocations                     []ShipToLocation
-	PictureDetails                      []PictureDetail
-	PaymentMethods                      []PaymentMethod
-	ShippingServiceOptions              []ShippingServiceOption
-	InternationalShippingServiceOptions []ShippingServiceOption
+	ShipToLocations                     []ShipToLocation        `yaml:"ShipToLocations"`
+	PictureDetails                      []PictureDetail         `yaml:"PictureDetails"`
+	PaymentMethods                      []PaymentMethod         `yaml:"PaymentMethods"`
+	ShippingServiceOptions              []ShippingServiceOption `yaml:"ShippingServiceOptions"`
+	InternationalShippingServiceOptions []ShippingServiceOption `yaml:"InternationalShippingServiceOptions"`
 }
 
 func NewItem() *Item {
@@ -101,11 +101,11 @@ func (o *Item) GetTitle() string {
 	return o.Title
 }
 
-func (o *Item) SetPrice(v float32) {
+func (o *Item) SetPrice(v string) {
 	o.StartPrice = v
 }
 
-func (o *Item) GetPrice() float32 {
+func (o *Item) GetPrice() string {
 	return o.StartPrice
 }
 
