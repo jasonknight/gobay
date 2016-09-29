@@ -150,3 +150,18 @@ func TestGetAllCategoriesResponseParsing(t *testing.T) {
 		return
 	}
 }
+
+func TestNotificationResultParsing(t *testing.T) {
+	data, err := fileGetContents("test_data/GetFeedbackResponse.xml")
+	if err != nil {
+		t.Errorf("fileGetContents returned error %+v!!\n", err)
+		return
+	}
+	o, err := NewNotificationResult(data)
+	if err != nil {
+		t.Errorf("NewNotificationResult returned error %+v!!\n", err)
+		return
+	}
+	t.Errorf("%+v",o)
+	return
+}

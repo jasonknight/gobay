@@ -86,6 +86,19 @@ type Result struct {
 	ListingRecommendations     []ListingRecommendation
 }
 
+type NotificationResult struct {
+	Body []byte `xml:"soapenv:Envelope>soapenv:Body"`
+	Header []byte `xml:"soapenv:Envelope>soapenv:Header"`
+}
+
+func NewNotificationResult(data []byte) (*Result, error) {
+	var o NotificationResult
+	err := xml.Unmarshal(data, &o)
+	if err != nil {
+		return nil, err
+	}
+	return &o, nil
+}
 func NewResult(data []byte) (*Result, error) {
 	var o Result
 	err := xml.Unmarshal(data, &o)
