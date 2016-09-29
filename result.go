@@ -3,6 +3,11 @@ package gobay
 import "encoding/xml"
 import "fmt"
 
+//import "bytes"
+import "io"
+
+//import "reflect"
+
 type ErrorParameter struct {
 	Value   string
 	ParamID string `xml:"ParamID,attr"`
@@ -87,12 +92,45 @@ type Result struct {
 }
 
 type NotificationResult struct {
-	Body []byte `xml:"soapenv:Envelope>soapenv:Body"`
-	Header []byte `xml:"soapenv:Envelope>soapenv:Header"`
+	Body struct {
+		InnerXML string `xml:",innerxml"`
+	}
+	Header struct {
+		InnerXML string `xml:",innerxml"`
+	}
+	// Header string `xml:"Header,innerxml"`
 }
 
-func NewNotificationResult(data []byte) (*Result, error) {
+func soapBodyToString(r io.Reader, txt *string) {
+	// result
+
+	// the current value stack
+	//values := make([]string,0)
+	// parser
+	p := xml.NewDecoder(r)
+
+	for token, err := p.Token(); err == nil; token, err = p.Token() {
+		switch t := token.(type) {
+		case xml.StartElement:
+			// var tmp string
+			// if len(t.)
+			*txt = *txt + fmt.Sprintf("<%s>", t.Name.Local)
+		case xml.CharData:
+			// push
+			*txt = *txt + string([]byte(t))
+		case xml.EndElement:
+			*txt = *txt + fmt.Sprintf("</%s>", t.Name.Local)
+		}
+		//fmt.Printf("Token[%s]:(%+v)\n",reflect.TypeOf(token),token)
+	}
+
+}
+func NewNotificationResult(data []byte) (*NotificationResult, error) {
 	var o NotificationResult
+
+	// var str string
+	// soapBodyToString(bytes.NewReader(data),&str)
+	// fmt.Printf("New xml is: %s\n",str)
 	err := xml.Unmarshal(data, &o)
 	if err != nil {
 		return nil, err

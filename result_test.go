@@ -162,6 +162,6 @@ func TestNotificationResultParsing(t *testing.T) {
 		t.Errorf("NewNotificationResult returned error %+v!!\n", err)
 		return
 	}
-	t.Errorf("%+v",o)
+	t.Errorf("%+v", o)
 	return
 }
