@@ -90,11 +90,37 @@ type Result struct {
 	Fees                       []Fee `xml:"Fees>Fee"`
 	ListingRecommendations     []ListingRecommendation
 }
+type FeedbackComment struct {
+	CommentingUser      string
+	CommentingUserScore string
+	CommentText         string
+	CommentTime         string
+	CommentType         string
+	ItemID              string
+	Role                string
+	FeedbackID          string
+	TransactionID       string
+	ItemTitle           string
+	ItemPrice           string
+}
+type NotificationFeedback struct {
+	Comments []FeedbackComment `xml:"FeedbackDetail"`
+}
 
 type NotificationResult struct {
 	Body struct {
-		InnerXML string `xml:",innerxml"`
+		InnerXML         string                 `xml:",innerxml"`
+		Feedback         []NotificationFeedback `xml:"GetFeedbackResponse>FeedbackDetailArray"`
+		PaginationResult struct {
+			TotalNumberOfPages   string
+			TotalNumberOfEntries string
+		} `xml:"GetFeedbackResponse>PaginationResult"`
+		EntriesPerPage        string `xml:"GetFeedbackResponse>EntriesPerPage"`
+		PageNumber            string `xml:"GetFeedbackResponse>PageNumber"`
+		NotificationEventName string `xml:"GetFeedbackResponse>NotificationEventName"`
+		RecipientUserID       string `xml:"GetFeedbackResponse>RecipientUserID"`
 	}
+
 	Header struct {
 		InnerXML string `xml:",innerxml"`
 	}

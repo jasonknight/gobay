@@ -162,6 +162,14 @@ func TestNotificationResultParsing(t *testing.T) {
 		t.Errorf("NewNotificationResult returned error %+v!!\n", err)
 		return
 	}
-	t.Errorf("%+v", o)
+	if len(o.Body.Feedback[0].Comments) == 0 {
+		t.Errorf("Not enough comments")
+		return
+	}
+
+	if o.Body.NotificationEventName != "Feedback" {
+		t.Errorf("NotificationEventName is wrong")
+	}
+
 	return
 }
