@@ -97,7 +97,7 @@ func TestAddItemsXML(t *testing.T) {
 }
 
 func TestGetAllCategories(t *testing.T) {
-	are_you_sure := "NO"
+	are_you_sure := "YES"
 	if are_you_sure != "YES" {
 		return
 	}
