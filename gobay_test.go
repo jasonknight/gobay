@@ -71,7 +71,7 @@ func TestGetTime(t *testing.T) {
 
 func TestGeteBayDetails(t *testing.T) {
 	if shouldRunSandbox() == false {
-		//return
+		return
 	}
 	var results []Result
 
