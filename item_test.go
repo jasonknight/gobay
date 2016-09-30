@@ -97,10 +97,10 @@ func TestCollectAddItems(t *testing.T) {
 		return
 	}
 
-	ebay.XMLData,err = ebay.CollectAddItemsXML(s)
+	ebay.XMLData, err = ebay.CollectAddItemsXML(s)
 
 	if err != nil {
-		t.Errorf("CollectAddItemsXML has error %s",err)
+		t.Errorf("CollectAddItemsXML has error %s", err)
 		return
 	}
 
@@ -110,7 +110,7 @@ func TestCollectAddItems(t *testing.T) {
 
 }
 
-func TestAddItem( t *testing.T) {
+func TestAddItem(t *testing.T) {
 	if shouldRunSandbox() == false {
 		return
 	}
@@ -148,12 +148,12 @@ func TestAddItem( t *testing.T) {
 
 	ebay.Execute(&results)
 
-	for _,r := range results {
+	for _, r := range results {
 		if r.Failure() {
-			for _,e := range r.Errors {
-				t.Errorf("%s\n",e.LongMessage)
-				for _,ep := range e.ErrorParameters {
-					t.Errorf("\t%s\n",ep.Value)
+			for _, e := range r.Errors {
+				t.Errorf("%s\n", e.LongMessage)
+				for _, ep := range e.ErrorParameters {
+					t.Errorf("\t%s\n", ep.Value)
 				}
 			}
 			return

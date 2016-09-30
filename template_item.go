@@ -21,9 +21,11 @@ func ItemTemplate() string {
     <Quantity>{{ .Quantity }}</Quantity> 
     <Site>{{ .Site }}</Site> 
     <StartPrice currencyID="{{ .Currency }}">{{ .StartPrice }}</StartPrice> 
+    {{ if .StoreCategoryID }}
     <Storefront> 
       <StoreCategoryID>{{ .StoreCategoryID }}</StoreCategoryID> 
     </Storefront> 
+    {{ end }}
     <Title><![CDATA[{{ .Title }}]]></Title>
     <PictureDetails> 
       <GalleryType>Gallery</GalleryType>

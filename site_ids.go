@@ -33,29 +33,29 @@ var SiteIDMap = [...]struct {
 
 var SiteCodeTypeMap = [...]struct {
 	SiteValue string
-	SiteID string
-	Currency string
+	SiteID    string
+	Currency  string
 }{
-{SiteValue: "Australia", SiteID: "15", Currency: "AU"}, 
-{SiteValue: "Austria", SiteID: "16", Currency: "EU"}, 
-{SiteValue: "Belgium_Dutch", SiteID: "123", Currency: "EU"}, 
-{SiteValue: "Belgium_French", SiteID: "23", Currency: "EU"}, 
-{SiteValue: "Canada", SiteID: "2", Currency: "CAD"}, 
-{SiteValue: "CanadaFrench", SiteID: "210", Currency: "CAD"},
-{SiteValue: "France", SiteID: "71", Currency: "EU"}, 
-{SiteValue: "Germany", SiteID: "77", Currency: "EU"}, 
-{SiteValue: "HongKong", SiteID: "201", Currency: "HK"}, 
-{SiteValue: "India", SiteID: "203", Currency: "IN"}, 
-{SiteValue: "Ireland", SiteID: "205", Currency: "EU"}, 
-{SiteValue: "Italy", SiteID: "101", Currency: "EU"}, 
-{SiteValue: "Malaysia", SiteID: "207", Currency: "MY"}, 
-{SiteValue: "Netherlands", SiteID: "146", Currency: "EU"}, 
-{SiteValue: "Philippines", SiteID: "211", Currency: "PH"}, 
-{SiteValue: "Poland", SiteID: "212", Currency: "PL"}, 
-{SiteValue: "Russia", SiteID: "215", Currency: "RUB"},
-{SiteValue: "Singapore", SiteID: "216", Currency: "SG"}, 
-{SiteValue: "Spain", SiteID: "186", Currency: "EU"}, 
-{SiteValue: "Switzerland", SiteID: "193", Currency: "CH"}, 
-{SiteValue: "UK", SiteID: "3", Currency: "GB"}, 
-{SiteValue: "US", SiteID: "0", Currency: "US"}, 
+	{SiteValue: "Australia", SiteID: "15", Currency: "AU"},
+	{SiteValue: "Austria", SiteID: "16", Currency: "EU"},
+	{SiteValue: "Belgium_Dutch", SiteID: "123", Currency: "EU"},
+	{SiteValue: "Belgium_French", SiteID: "23", Currency: "EU"},
+	{SiteValue: "Canada", SiteID: "2", Currency: "CAD"},
+	{SiteValue: "CanadaFrench", SiteID: "210", Currency: "CAD"},
+	{SiteValue: "France", SiteID: "71", Currency: "EU"},
+	{SiteValue: "Germany", SiteID: "77", Currency: "EU"},
+	{SiteValue: "HongKong", SiteID: "201", Currency: "HK"},
+	{SiteValue: "India", SiteID: "203", Currency: "IN"},
+	{SiteValue: "Ireland", SiteID: "205", Currency: "EU"},
+	{SiteValue: "Italy", SiteID: "101", Currency: "EU"},
+	{SiteValue: "Malaysia", SiteID: "207", Currency: "MY"},
+	{SiteValue: "Netherlands", SiteID: "146", Currency: "EU"},
+	{SiteValue: "Philippines", SiteID: "211", Currency: "PH"},
+	{SiteValue: "Poland", SiteID: "212", Currency: "PL"},
+	{SiteValue: "Russia", SiteID: "215", Currency: "RUB"},
+	{SiteValue: "Singapore", SiteID: "216", Currency: "SG"},
+	{SiteValue: "Spain", SiteID: "186", Currency: "EU"},
+	{SiteValue: "Switzerland", SiteID: "193", Currency: "CH"},
+	{SiteValue: "UK", SiteID: "3", Currency: "GB"},
+	{SiteValue: "US", SiteID: "0", Currency: "US"},
 }

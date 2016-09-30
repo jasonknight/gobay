@@ -28,8 +28,8 @@ type EbayCall struct {
 	XMLData            string
 	Cache              string
 	AddItemsLimit      int
-	CallDepthLimit		int
-	CallDepth 			int
+	CallDepthLimit     int
+	CallDepth          int
 	Headers            map[string]string
 	Items              []*Item
 	TheClient          *http.Client
@@ -152,63 +152,62 @@ func (o *EbayCall) CollectAddItems() (*AddItemsStruct, error) {
 	}
 	return nil, errors.New("Got to the end of CollectAddItems")
 }
-func (o *EbayCall) CollectAddItemsXML(s *AddItemsStruct) (string,error) {
-	items_xml, err := compileGoString("AddItems",AddItemsTemplate(),s,nil)
-    if err != nil {
-        return "",err
-    }
-    final_xml, err := compileGoString(
-        "FinalAddItems", 
-        WrapCall(
-            "AddItems", 
-            "", 
-            items_xml, 
-            "",
-        ), 
-        o, 
-        nil,
-    )
-    if err != nil {
-        return "",err
-    }
-    return final_xml,nil
+func (o *EbayCall) CollectAddItemsXML(s *AddItemsStruct) (string, error) {
+	items_xml, err := compileGoString("AddItems", AddItemsTemplate(), s, nil)
+	if err != nil {
+		return "", err
+	}
+	final_xml, err := compileGoString(
+		"FinalAddItems",
+		WrapCall(
+			"AddItems",
+			"",
+			items_xml,
+			"",
+		),
+		o,
+		nil,
+	)
+	if err != nil {
+		return "", err
+	}
+	return final_xml, nil
 }
 func (o *EbayCall) AddItems(r *[]Result) error {
 	// helps to prevent flooding the server if you do shit wrong
 	if o.CallDepth >= o.CallDepthLimit {
-		err := errors.New(fmt.Sprintf("CallDepthLimit of %d reached for AddItems!",o.CallDepthLimit))
-		appendFakeResult(fmt.Sprintf("%s",err),r)
+		err := errors.New(fmt.Sprintf("CallDepthLimit of %d reached for AddItems!", o.CallDepthLimit))
+		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
-	
 
-	o.CallDepth = o.CallDepth + 1 
+	o.CallDepth = o.CallDepth + 1
 	var tr []Result
-	s,err := o.CollectAddItems();
+	s, err := o.CollectAddItems()
 
 	if err != nil {
-       appendFakeResult(fmt.Sprintf("%s",err),r)
-       return err
+		appendFakeResult(fmt.Sprintf("%s", err), r)
+		return err
 	}
 
-	o.XMLData,err = o.CollectAddItemsXML(s)
+	o.XMLData, err = o.CollectAddItemsXML(s)
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s",err),r)
-    	return err
+		appendFakeResult(fmt.Sprintf("%s", err), r)
+		return err
 	}
 	o.MessageID, _ = pseudoUUID()
-	o.MessageIDs = append(o.MessageIDs,o.MessageID)
+	o.MessageIDs = append(o.MessageIDs, o.MessageID)
 	err = o.Send(&tr)
 
-	for _,cr := range tr {
-		*r = append(*r,cr)
+	for _, cr := range tr {
+		*r = append(*r, cr)
 	}
-	for _,child := range s.Children {
+	for _, child := range s.Children {
 		child.Item.sent = true
 	}
 	if err != nil { // the err from o.Send
-       appendFakeResult(fmt.Sprintf("%s",err),r)
-       return err
+		appendFakeResult(fmt.Sprintf("%s", err), r)
+		return err
 	}
 	if o.HasItemsToSend() {
 		return o.AddItems(r)
