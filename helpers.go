@@ -10,6 +10,7 @@ import "bytes"
 import "text/template"
 import "crypto/rand"
 import "gopkg.in/yaml.v2"
+import "github.com/satori/go.uuid"
 
 func version() string {
 	return "v1.0"
@@ -89,9 +90,9 @@ func pseudoUUID() (string, error) {
 		return "", err
 	}
 
-	uuid := fmt.Sprintf("%X-%X-%X-%X-%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
+	id := uuid.NewV4()
 
-	return uuid, nil
+	return id.String(), nil
 }
 
 func WrapCall(name string, pre string, text string, post string) string {

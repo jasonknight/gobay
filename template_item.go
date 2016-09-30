@@ -27,12 +27,20 @@ func ItemTemplate() string {
     </Storefront> 
     {{ end }}
     <Title><![CDATA[{{ .Title }}]]></Title>
+    {{ range .PictureDetails }}
     <PictureDetails> 
-      <GalleryType>Gallery</GalleryType>
-      {{ range .PictureDetails }}
+            {{ if .GalleryType }}
+            <GalleryType>{{.GalleryType}}</GalleryType>
+            {{ end }}
+            {{ if .GalleryURL }}
+            <GalleryURL>{{ .GalleryURL }}</GalleryURL>
+            {{ end }}
+            {{ if .PhotoDisplay }}
+            <GPhotoDisplay>{{ .PhotoDisplay }}</PhotoDisplay>
+            {{ end }}
             <PictureURL>{{ .PictureURL }}</PictureURL>
-      {{ end }}
     </PictureDetails>
+    {{ end }}
       <SKU>{{ .SKU }}</SKU>
     {{ range $key, $value := .ShipToLocations }} 
         <ShipToLocations>{{ $value }}</ShipToLocations> 
@@ -67,8 +75,9 @@ func ItemTemplate() string {
 }
 
 type AddItemsChild struct {
-	Item *Item
-	Text string
+	Item      *Item
+	MessageID string
+	Text      string
 }
 type AddItemsStruct struct {
 	Children []AddItemsChild
@@ -78,6 +87,7 @@ func AddItemsTemplate() string {
 	return `
 {{ range .Children }}
   <AddItemRequestContainer>
+    <MessageID>{{ .MessageID }}</MessageID>
     {{ .Text }}
   </AddItemRequestContainer>
 {{ end}}

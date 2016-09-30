@@ -125,12 +125,7 @@ func (o *EbayCall) Execute(r *[]Result) error {
 }
 func (o *EbayCall) CollectAddItems() (*AddItemsStruct, error) {
 	var s AddItemsStruct
-	infinity_cap := 100000
-	infinity_check := 1
-	for o.HasItemsToSend() {
-		if infinity_check >= infinity_cap {
-			return nil, errors.New("infinity_cap reached!")
-		}
+	if o.HasItemsToSend() {
 		for i := 0; i < len(o.Items); i++ {
 
 			ci := o.Items[i]
@@ -143,12 +138,12 @@ func (o *EbayCall) CollectAddItems() (*AddItemsStruct, error) {
 				return nil, errors.New(fmt.Sprintf("%s %v", err, ci))
 			}
 
-			s.Children = append(s.Children, AddItemsChild{Item: ci, Text: body})
+			s.Children = append(s.Children, AddItemsChild{Item: ci, Text: body, MessageID: ci.internal_id})
 			if len(s.Children) == o.AddItemsLimit {
 				return &s, nil
 			}
 		}
-		infinity_check++
+		return &s, nil
 	}
 	return nil, errors.New("Got to the end of CollectAddItems")
 }
@@ -183,9 +178,16 @@ func (o *EbayCall) AddItems(r *[]Result) error {
 
 	o.CallDepth = o.CallDepth + 1
 	var tr []Result
+
 	s, err := o.CollectAddItems()
 
 	if err != nil {
+		appendFakeResult(fmt.Sprintf("%s", err), r)
+		return err
+	}
+
+	if len(s.Children) > len(o.Items) {
+		err := errors.New(fmt.Sprintf("Too many Children %d!", len(s.Children)))
 		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}

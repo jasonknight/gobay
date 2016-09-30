@@ -16,7 +16,7 @@ PictureDetails:
   - GalleryType: "Gallery"
     GalleryURL: ""
     PhotoDisplay: ""
-    PictureURL: ""
+    PictureURL: "https://raw.githubusercontent.com/jasonknight/gobay/master/test_data/PlatoQuote.jpg"
 PaymentMethods:
   - "PayPal"
   - "PersonalCheck"

@@ -69,6 +69,9 @@ func TestCollectAddItems(t *testing.T) {
 	}
 
 	for _, c := range s.Children {
+		if c.MessageID != c.Item.GetInternalID() {
+			t.Errorf("MessageID should == item's internal_id")
+		}
 		c.Item.sent = true
 	}
 	os := *s // we'll use this momentarily
@@ -109,6 +112,54 @@ func TestCollectAddItems(t *testing.T) {
 	}
 
 }
+func TestCollectAddItemsLength(t *testing.T) {
+	// if shouldRunSandbox() == false {
+	// 	return
+	// }
+	//var results []Result
+
+	cnf, err := fileGetContents("test_data/test.yml")
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay, err := NewEbayCallEx(cnf)
+
+	if err != nil {
+		t.Errorf("Failed to initialize ebay call from test.yml %v\n", err)
+	}
+
+	i := ebay.NewItem()
+
+	pcnf, err := fileGetContents("test_data/product_1.yml")
+	if err != nil {
+		t.Errorf("Failed to load product_1.yml %v\n", err)
+		return
+	}
+	err = i.FromYAML(pcnf)
+
+	if err != nil {
+		t.Errorf("Failed FromYAML %v\n", err)
+		return
+	}
+	ebay.SetCallname("AddItems")
+	// Get an EbayCall
+
+	ebay.AddItem(i)
+
+	check, err := ebay.CollectAddItems()
+
+	if err != nil {
+		t.Errorf(fmt.Sprintf("wtf%s", err))
+		return
+	}
+
+	if len(check.Children) > len(ebay.Items) {
+		t.Errorf(fmt.Sprintf("Children: %+v", check.Children))
+		return
+	}
+}
 
 func TestAddItem(t *testing.T) {
 	if shouldRunSandbox() == false {
@@ -136,6 +187,11 @@ func TestAddItem(t *testing.T) {
 		return
 	}
 	err = i.FromYAML(pcnf)
+	i.SKU, _ = pseudoUUID()
+	i.Title, _ = pseudoUUID()
+
+	i.SKU = i.SKU[0:5]
+	i.Title = fmt.Sprintf("This is a simple title %s", i.Title[0:5])
 
 	if err != nil {
 		t.Errorf("Failed FromYAML %v\n", err)
@@ -145,6 +201,12 @@ func TestAddItem(t *testing.T) {
 	// Get an EbayCall
 
 	ebay.AddItem(i)
+
+	// check := ebay.CollectAddItems()
+
+	// if len(check.Children) > len(ebay.Items) {
+	// 	t.Errorf("What the fuck?")
+	// }
 
 	ebay.Execute(&results)
 
@@ -156,6 +218,7 @@ func TestAddItem(t *testing.T) {
 					t.Errorf("\t%s\n", ep.Value)
 				}
 			}
+			t.Errorf("%+v", r.Errors)
 			return
 		}
 	}
