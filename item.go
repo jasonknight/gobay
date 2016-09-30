@@ -30,7 +30,7 @@ type ShippingServiceOption struct {
 	Location ShipToLocation `yaml:"Location"`
 }
 type Item struct {
-	internal_id		   string
+	internal_id        string
 	EbayID             string `yaml:"EbayID"`
 	SKU                string `yaml:"SKU"`
 	Title              string `yaml:"Title"`
@@ -56,9 +56,8 @@ type Item struct {
 
 	ErrorsFromEbay []ErrorMessage
 	// Private fields
-	sent bool
+	sent   bool
 	failed bool
-
 }
 
 func NewItem() *Item {

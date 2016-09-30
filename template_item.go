@@ -63,15 +63,17 @@ func ItemTemplate() string {
   </Item> 
     `
 }
+
 type AddItemsChild struct {
-  Item *Item
-  Text string
+	Item *Item
+	Text string
 }
 type AddItemsStruct struct {
-  Children []AddItemsChild
+	Children []AddItemsChild
 }
+
 func AddItemsTemplate() string {
-  return `
+	return `
 {{ range .Children }}
   <AddItemRequestContainer>
     {{ .Text }}

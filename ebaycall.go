@@ -21,13 +21,13 @@ type EbayCall struct {
 	Currency           string
 	Language           string
 	MessageID          string
-	MessageIDs		   []string
+	MessageIDs         []string
 	WarningLevel       string
 	PayPalEmailAddress string
 	Callname           string
 	XMLData            string
 	Cache              string
-	AddItemsLimit	   int
+	AddItemsLimit      int
 	Headers            map[string]string
 	Items              []*Item
 	TheClient          *http.Client
@@ -96,7 +96,7 @@ func (o *EbayCall) Execute(r *[]Result) error {
 	if cl == "GeteBayOfficialTime" {
 		err := o.GeteBayOfficialTime(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s",err),r)
+			appendFakeResult(fmt.Sprintf("%s", err), r)
 			return err
 		}
 		return o.Send(r)
@@ -107,7 +107,7 @@ func (o *EbayCall) Execute(r *[]Result) error {
 		o.Callname = "GetAllCategories"
 		err := o.GetAllCategories(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s",err),r)
+			appendFakeResult(fmt.Sprintf("%s", err), r)
 			return err
 		}
 		return o.Send(r)
@@ -119,13 +119,13 @@ func (o *EbayCall) Execute(r *[]Result) error {
 
 	return nil
 }
-func (o *EbayCall) CollectAddItems() (*AddItemsStruct,error) {
+func (o *EbayCall) CollectAddItems() (*AddItemsStruct, error) {
 	var s AddItemsStruct
-	infinity_cap := 100000;
+	infinity_cap := 100000
 	infinity_check := 1
 	for o.HasItemsToSend() {
 		if infinity_check >= infinity_cap {
-			return nil,errors.New("infinity_cap reached!")
+			return nil, errors.New("infinity_cap reached!")
 		}
 		for i := 0; i < len(o.Items); i++ {
 
@@ -136,17 +136,17 @@ func (o *EbayCall) CollectAddItems() (*AddItemsStruct,error) {
 			}
 			body, err := compileGoString("Item", ItemTemplate(), ci, nil)
 			if err != nil {
-				return nil,errors.New(fmt.Sprintf("%s %v",err,ci))
+				return nil, errors.New(fmt.Sprintf("%s %v", err, ci))
 			}
 
-			s.Children = append(s.Children,AddItemsChild{Item: ci, Text: body })
+			s.Children = append(s.Children, AddItemsChild{Item: ci, Text: body})
 			if len(s.Children) == o.AddItemsLimit {
-				return &s,nil
+				return &s, nil
 			}
 		}
 		infinity_check++
 	}
-	return nil,errors.New("Got to the end of CollectAddItems")
+	return nil, errors.New("Got to the end of CollectAddItems")
 }
 func (o *EbayCall) AddItems(r *[]Result) error {
 	// var tr []Result
@@ -154,14 +154,14 @@ func (o *EbayCall) AddItems(r *[]Result) error {
 
 	// if err != nil {
 	// 	if err != nil {
- //            appendFakeResult(fmt.Sprintf("%s",err),r)
- //            return err
- //        }
+	//            appendFakeResult(fmt.Sprintf("%s",err),r)
+	//            return err
+	//        }
 	// }
 	return nil
 }
 func (o *EbayCall) HasItemsToSend() bool {
-	for _,i := range o.Items {
+	for _, i := range o.Items {
 		if i.sent == false && i.failed != true {
 			return true
 		}
@@ -171,7 +171,7 @@ func (o *EbayCall) HasItemsToSend() bool {
 func appendFakeResult(msg string, r *[]Result) {
 	e := NewFakeResult(fmt.Sprintf("%s", msg))
 	*r = append(*r, *e)
-} 
+}
 func (o *EbayCall) Send(r *[]Result) error {
 	o.TheClient = new(http.Client)
 
@@ -264,12 +264,12 @@ func (o *EbayCall) GetAllCategories(r *[]Result) error {
 
 	body, err := compileGoString("Time", GetAllCategoriesTemplate(), o.CategoryCallInfo, nil)
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s",err),r)
+		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	final_xml, err := compileGoString("FinalGetAllCategories", WrapCall("GetCategories", "", body, ""), o, nil)
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s",err),r)
+		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	o.XMLData = final_xml
@@ -444,7 +444,7 @@ func (o *EbayCall) FilterItems(f ItemFilter) []*Item {
 }
 
 func (o *EbayCall) AddItem(v *Item) {
-	v.internal_id,_ = pseudoUUID()
+	v.internal_id, _ = pseudoUUID()
 	o.Items = append(o.Items, v)
 }
 
@@ -462,13 +462,13 @@ func (o *EbayCall) GetItem(i int) *Item {
 	return o.Items[i]
 }
 
-func (o *EbayCall) GetItemByInternalID(id string) (*Item,error) {
-	for _,i := range o.Items {
+func (o *EbayCall) GetItemByInternalID(id string) (*Item, error) {
+	for _, i := range o.Items {
 		if i.internal_id == id {
-			return i,nil
+			return i, nil
 		}
 	}
-	return nil, errors.New(fmt.Sprintf("No item found with id: %s",id))
+	return nil, errors.New(fmt.Sprintf("No item found with id: %s", id))
 }
 
 func (o *EbayCall) SetItems(v []*Item) {

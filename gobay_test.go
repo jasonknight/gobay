@@ -4,7 +4,6 @@ import "testing"
 
 import "fmt"
 
-
 func TestNewEbayCallEx(t *testing.T) {
 	cnf, err := fileGetContents("test_data/test.yml")
 	if err != nil {

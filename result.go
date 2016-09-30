@@ -151,8 +151,8 @@ func NewFakeResult(msg string) *Result {
 }
 
 func (r *Result) Success() bool {
-	s := []string{"Success","Warning"}
-	return InStringSlice(s,r.Ack)
+	s := []string{"Success", "Warning"}
+	return InStringSlice(s, r.Ack)
 }
 func (r *Result) Warning() bool {
 	if r.Ack == "Warning" {
@@ -161,10 +161,9 @@ func (r *Result) Warning() bool {
 	return false
 }
 func (r *Result) Failure() bool {
-	s := []string{"Failure","PartialFailure"}
-	return InStringSlice(s,r.Ack)
+	s := []string{"Failure", "PartialFailure"}
+	return InStringSlice(s, r.Ack)
 }
-
 
 // Debug Functions
 

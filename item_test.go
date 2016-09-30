@@ -51,12 +51,12 @@ func TestCollectAddItems(t *testing.T) {
 
 	for i := 1; i < 11; i++ {
 		ni := oi.Clone()
-		ni.Title = fmt.Sprintf("%s-%d",ni.Title,i)
-		ni.SKU = fmt.Sprintf("%s-%d",ni.SKU,i)
+		ni.Title = fmt.Sprintf("%s-%d", ni.Title, i)
+		ni.SKU = fmt.Sprintf("%s-%d", ni.SKU, i)
 		ebay.AddItem(ni)
 	}
 
-	s,err := ebay.CollectAddItems()
+	s, err := ebay.CollectAddItems()
 
 	if err != nil {
 		t.Errorf("ebay.CollectAddItems failed! %v\n", err)
@@ -68,19 +68,19 @@ func TestCollectAddItems(t *testing.T) {
 		return
 	}
 
-	for _,c := range s.Children {
+	for _, c := range s.Children {
 		c.Item.sent = true
 	}
 	os := *s // we'll use this momentarily
-	
-	s.Children = nil 
+
+	s.Children = nil
 
 	if len(s.Children) > 0 {
 		t.Errorf("Children should be empty! %v\n", err)
 		return
 	}
 
-	s,err = ebay.CollectAddItems()
+	s, err = ebay.CollectAddItems()
 
 	if len(s.Children) < 1 {
 		t.Errorf("Children should NOT be empty! %v\n", err)
@@ -118,8 +118,6 @@ func TestCollectAddItems(t *testing.T) {
 
 // 	i := ebay.NewItem()
 
-	
-	
 // 	pcnf, err := fileGetContents("test_data/product_1.yml")
 // 	if err != nil {
 // 		t.Errorf("Failed to load product_1.yml %v\n", err)
@@ -134,13 +132,12 @@ func TestCollectAddItems(t *testing.T) {
 // 	ebay.SetCallname("AddItems")
 // 	// Get an EbayCall
 
-
 // 	ebay.AddItem(i)
 
 // 	ebay.Execute(&results)
 
 // 	for _,r := range results {
-// 		if r.Failure() { 
+// 		if r.Failure() {
 // 			t.Errorf("Failed to add items %+v",r)
 // 			return
 // 		}

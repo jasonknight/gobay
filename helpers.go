@@ -113,15 +113,16 @@ func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
 	return yaml.Unmarshal(y, e)
 }
 func InStringSlice(s []string, r string) bool {
-             
-    for _, c := range s {
-        if r == c {
-            return true
-        }
-    }
 
-    return false
+	for _, c := range s {
+		if r == c {
+			return true
+		}
+	}
+
+	return false
 }
+
 var runSandboxTests bool
 
 func shouldRunSandbox() bool {
