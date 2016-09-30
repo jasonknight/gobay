@@ -117,3 +117,13 @@ func TestGetAllCategories(t *testing.T) {
 	}
 
 }
+
+func TestSiteIDToCode(t *testing.T) {
+	sid := "3"
+	scode := SiteIDToCode(sid)
+
+	if scode != "UK" {
+		t.Errorf("SiteIDToCode failed")
+		return
+	}
+}

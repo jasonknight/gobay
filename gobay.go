@@ -18,9 +18,9 @@ func init() {
 }
 
 func SiteIDToCode(id string) string {
-	for _, m := range SiteIDMap {
-		if m.SiteID == id {
-			return m.TerritoryID
+	for _, sm := range SiteCodeTypeMap {
+		if sm.SiteID == id {
+			return sm.SiteValue
 		}
 	}
 	return "UNKNOWN"

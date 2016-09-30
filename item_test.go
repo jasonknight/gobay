@@ -96,50 +96,67 @@ func TestCollectAddItems(t *testing.T) {
 		t.Errorf("ebay.CollectAddItems failed, first item shouldn't have the same Title! %v\n", err)
 		return
 	}
+
+	ebay.XMLData,err = ebay.CollectAddItemsXML(s)
+
+	if err != nil {
+		t.Errorf("CollectAddItemsXML has error %s",err)
+		return
+	}
+
+	if ebay.XMLData == "" {
+		t.Errorf("XMLData is empty!")
+	}
+
 }
 
-// func TestAddItem( t *testing.T) {
-// 	// if shouldRunSandbox() == false {
-// 	// 	return
-// 	// }
-// 	var results []Result
+func TestAddItem( t *testing.T) {
+	if shouldRunSandbox() == false {
+		return
+	}
+	var results []Result
 
-// 	cnf, err := fileGetContents("../secret.yml")
+	cnf, err := fileGetContents("../secret.yml")
 
-// 	if err != nil {
-// 		t.Errorf("Failed to load secret.yml %v\n", err)
-// 	}
+	if err != nil {
+		t.Errorf("Failed to load secret.yml %v\n", err)
+	}
 
-// 	ebay, err := NewEbayCallEx(cnf)
+	ebay, err := NewEbayCallEx(cnf)
 
-// 	if err != nil {
-// 		t.Errorf("Failed to initialize ebay call from secret.yml %v\n", err)
-// 	}
+	if err != nil {
+		t.Errorf("Failed to initialize ebay call from secret.yml %v\n", err)
+	}
 
-// 	i := ebay.NewItem()
+	i := ebay.NewItem()
 
-// 	pcnf, err := fileGetContents("test_data/product_1.yml")
-// 	if err != nil {
-// 		t.Errorf("Failed to load product_1.yml %v\n", err)
-// 		return
-// 	}
-// 	err = i.FromYAML(pcnf)
+	pcnf, err := fileGetContents("test_data/product_1.yml")
+	if err != nil {
+		t.Errorf("Failed to load product_1.yml %v\n", err)
+		return
+	}
+	err = i.FromYAML(pcnf)
 
-// 	if err != nil {
-// 		t.Errorf("Failed FromYAML %v\n", err)
-// 		return
-// 	}
-// 	ebay.SetCallname("AddItems")
-// 	// Get an EbayCall
+	if err != nil {
+		t.Errorf("Failed FromYAML %v\n", err)
+		return
+	}
+	ebay.SetCallname("AddItems")
+	// Get an EbayCall
 
-// 	ebay.AddItem(i)
+	ebay.AddItem(i)
 
-// 	ebay.Execute(&results)
+	ebay.Execute(&results)
 
-// 	for _,r := range results {
-// 		if r.Failure() {
-// 			t.Errorf("Failed to add items %+v",r)
-// 			return
-// 		}
-// 	}
-// }
+	for _,r := range results {
+		if r.Failure() {
+			for _,e := range r.Errors {
+				t.Errorf("%s\n",e.LongMessage)
+				for _,ep := range e.ErrorParameters {
+					t.Errorf("\t%s\n",ep.Value)
+				}
+			}
+			return
+		}
+	}
+}

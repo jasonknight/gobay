@@ -28,6 +28,8 @@ type EbayCall struct {
 	XMLData            string
 	Cache              string
 	AddItemsLimit      int
+	CallDepthLimit		int
+	CallDepth 			int
 	Headers            map[string]string
 	Items              []*Item
 	TheClient          *http.Client
@@ -59,6 +61,7 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	e.Cache = c["Cache"].(string)
 
 	e.AddItemsLimit = 5
+	e.CallDepthLimit = 3
 
 	m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s", e.CompatLevel)
 	m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
@@ -92,6 +95,7 @@ func (o *EbayCall) GetHeader(k string) string {
 }
 
 func (o *EbayCall) Execute(r *[]Result) error {
+	o.CallDepth = 0
 	cl := o.GetCallname()
 	if cl == "GeteBayOfficialTime" {
 		err := o.GeteBayOfficialTime(r)
@@ -148,16 +152,67 @@ func (o *EbayCall) CollectAddItems() (*AddItemsStruct, error) {
 	}
 	return nil, errors.New("Got to the end of CollectAddItems")
 }
+func (o *EbayCall) CollectAddItemsXML(s *AddItemsStruct) (string,error) {
+	items_xml, err := compileGoString("AddItems",AddItemsTemplate(),s,nil)
+    if err != nil {
+        return "",err
+    }
+    final_xml, err := compileGoString(
+        "FinalAddItems", 
+        WrapCall(
+            "AddItems", 
+            "", 
+            items_xml, 
+            "",
+        ), 
+        o, 
+        nil,
+    )
+    if err != nil {
+        return "",err
+    }
+    return final_xml,nil
+}
 func (o *EbayCall) AddItems(r *[]Result) error {
-	// var tr []Result
-	// s,err := o.CollectAddItems();
+	// helps to prevent flooding the server if you do shit wrong
+	if o.CallDepth >= o.CallDepthLimit {
+		err := errors.New(fmt.Sprintf("CallDepthLimit of %d reached for AddItems!",o.CallDepthLimit))
+		appendFakeResult(fmt.Sprintf("%s",err),r)
+		return err
+	}
+	
 
-	// if err != nil {
-	// 	if err != nil {
-	//            appendFakeResult(fmt.Sprintf("%s",err),r)
-	//            return err
-	//        }
-	// }
+	o.CallDepth = o.CallDepth + 1 
+	var tr []Result
+	s,err := o.CollectAddItems();
+
+	if err != nil {
+       appendFakeResult(fmt.Sprintf("%s",err),r)
+       return err
+	}
+
+	o.XMLData,err = o.CollectAddItemsXML(s)
+	if err != nil {
+		appendFakeResult(fmt.Sprintf("%s",err),r)
+    	return err
+	}
+	o.MessageID, _ = pseudoUUID()
+	o.MessageIDs = append(o.MessageIDs,o.MessageID)
+	err = o.Send(&tr)
+
+	for _,cr := range tr {
+		*r = append(*r,cr)
+	}
+	for _,child := range s.Children {
+		child.Item.sent = true
+	}
+	if err != nil { // the err from o.Send
+       appendFakeResult(fmt.Sprintf("%s",err),r)
+       return err
+	}
+	if o.HasItemsToSend() {
+		return o.AddItems(r)
+	}
 	return nil
 }
 func (o *EbayCall) HasItemsToSend() bool {
