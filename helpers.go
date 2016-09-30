@@ -112,3 +112,27 @@ func WrapCall(name string, pre string, text string, post string) string {
 func LoadConfiguration(y []byte, e *map[interface{}]interface{}) error {
 	return yaml.Unmarshal(y, e)
 }
+func InStringSlice(s []string, r string) bool {
+             
+    for _, c := range s {
+        if r == c {
+            return true
+        }
+    }
+
+    return false
+}
+var runSandboxTests bool
+
+func shouldRunSandbox() bool {
+	runSandboxTests = false // turn this to true if you have
+	// setup your sandbox account
+	if fileExists("../secret.yml") == false {
+		fmt.Printf("Not Running sandbox tests because no secret\n")
+		return false
+	}
+	if runSandboxTests == false {
+		fmt.Printf("Not Running sandbox tests because of settings\n")
+	}
+	return runSandboxTests
+}

@@ -4,7 +4,7 @@ import "encoding/xml"
 import "fmt"
 
 //import "bytes"
-import "io"
+//import "io"
 
 //import "reflect"
 
@@ -127,36 +127,8 @@ type NotificationResult struct {
 	// Header string `xml:"Header,innerxml"`
 }
 
-func soapBodyToString(r io.Reader, txt *string) {
-	// result
-
-	// the current value stack
-	//values := make([]string,0)
-	// parser
-	p := xml.NewDecoder(r)
-
-	for token, err := p.Token(); err == nil; token, err = p.Token() {
-		switch t := token.(type) {
-		case xml.StartElement:
-			// var tmp string
-			// if len(t.)
-			*txt = *txt + fmt.Sprintf("<%s>", t.Name.Local)
-		case xml.CharData:
-			// push
-			*txt = *txt + string([]byte(t))
-		case xml.EndElement:
-			*txt = *txt + fmt.Sprintf("</%s>", t.Name.Local)
-		}
-		//fmt.Printf("Token[%s]:(%+v)\n",reflect.TypeOf(token),token)
-	}
-
-}
 func NewNotificationResult(data []byte) (*NotificationResult, error) {
 	var o NotificationResult
-
-	// var str string
-	// soapBodyToString(bytes.NewReader(data),&str)
-	// fmt.Printf("New xml is: %s\n",str)
 	err := xml.Unmarshal(data, &o)
 	if err != nil {
 		return nil, err
@@ -177,6 +149,22 @@ func NewFakeResult(msg string) *Result {
 	o.Errors = append(o.Errors, ErrorMessage{ShortMessage: msg})
 	return &o
 }
+
+func (r *Result) Success() bool {
+	s := []string{"Success","Warning"}
+	return InStringSlice(s,r.Ack)
+}
+func (r *Result) Warning() bool {
+	if r.Ack == "Warning" {
+		return true
+	}
+	return false
+}
+func (r *Result) Failure() bool {
+	s := []string{"Failure","PartialFailure"}
+	return InStringSlice(s,r.Ack)
+}
+
 
 // Debug Functions
 

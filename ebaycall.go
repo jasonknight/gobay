@@ -21,13 +21,15 @@ type EbayCall struct {
 	Currency           string
 	Language           string
 	MessageID          string
+	MessageIDs		   []string
 	WarningLevel       string
 	PayPalEmailAddress string
 	Callname           string
 	XMLData            string
 	Cache              string
+	AddItemsLimit	   int
 	Headers            map[string]string
-	Items              []Item
+	Items              []*Item
 	TheClient          *http.Client
 	CategoryCallInfo   *GetCategoriesStruct
 }
@@ -55,6 +57,8 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	e.Language = c["Language"].(string)
 	e.WarningLevel = c["WarningLevel"].(string)
 	e.Cache = c["Cache"].(string)
+
+	e.AddItemsLimit = 5
 
 	m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s", e.CompatLevel)
 	m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
@@ -92,6 +96,7 @@ func (o *EbayCall) Execute(r *[]Result) error {
 	if cl == "GeteBayOfficialTime" {
 		err := o.GeteBayOfficialTime(r)
 		if err != nil {
+			appendFakeResult(fmt.Sprintf("%s",err),r)
 			return err
 		}
 		return o.Send(r)
@@ -102,13 +107,71 @@ func (o *EbayCall) Execute(r *[]Result) error {
 		o.Callname = "GetAllCategories"
 		err := o.GetAllCategories(r)
 		if err != nil {
+			appendFakeResult(fmt.Sprintf("%s",err),r)
 			return err
 		}
 		return o.Send(r)
 	}
 
+	if cl == "AddItems" {
+		return o.AddItems(r)
+	}
+
 	return nil
 }
+func (o *EbayCall) CollectAddItems() (*AddItemsStruct,error) {
+	var s AddItemsStruct
+	infinity_cap := 100000;
+	infinity_check := 1
+	for o.HasItemsToSend() {
+		if infinity_check >= infinity_cap {
+			return nil,errors.New("infinity_cap reached!")
+		}
+		for i := 0; i < len(o.Items); i++ {
+
+			ci := o.Items[i]
+			// we can to skip over items we've sent
+			if ci.sent == true {
+				continue
+			}
+			body, err := compileGoString("Item", ItemTemplate(), ci, nil)
+			if err != nil {
+				return nil,errors.New(fmt.Sprintf("%s %v",err,ci))
+			}
+
+			s.Children = append(s.Children,AddItemsChild{Item: ci, Text: body })
+			if len(s.Children) == o.AddItemsLimit {
+				return &s,nil
+			}
+		}
+		infinity_check++
+	}
+	return nil,errors.New("Got to the end of CollectAddItems")
+}
+func (o *EbayCall) AddItems(r *[]Result) error {
+	// var tr []Result
+	// s,err := o.CollectAddItems();
+
+	// if err != nil {
+	// 	if err != nil {
+ //            appendFakeResult(fmt.Sprintf("%s",err),r)
+ //            return err
+ //        }
+	// }
+	return nil
+}
+func (o *EbayCall) HasItemsToSend() bool {
+	for _,i := range o.Items {
+		if i.sent == false && i.failed != true {
+			return true
+		}
+	}
+	return false
+}
+func appendFakeResult(msg string, r *[]Result) {
+	e := NewFakeResult(fmt.Sprintf("%s", msg))
+	*r = append(*r, *e)
+} 
 func (o *EbayCall) Send(r *[]Result) error {
 	o.TheClient = new(http.Client)
 
@@ -201,10 +264,12 @@ func (o *EbayCall) GetAllCategories(r *[]Result) error {
 
 	body, err := compileGoString("Time", GetAllCategoriesTemplate(), o.CategoryCallInfo, nil)
 	if err != nil {
+		appendFakeResult(fmt.Sprintf("%s",err),r)
 		return err
 	}
 	final_xml, err := compileGoString("FinalGetAllCategories", WrapCall("GetCategories", "", body, ""), o, nil)
 	if err != nil {
+		appendFakeResult(fmt.Sprintf("%s",err),r)
 		return err
 	}
 	o.XMLData = final_xml
@@ -213,7 +278,7 @@ func (o *EbayCall) GetAllCategories(r *[]Result) error {
 
 // Getters and Setters
 
-type ItemFilter func(o Item) bool
+type ItemFilter func(o *Item) bool
 
 func NewEbayCall() *EbayCall {
 	return &EbayCall{}
@@ -368,7 +433,7 @@ func (o *EbayCall) GetHeaders() map[string]string {
 	return o.Headers
 }
 
-func (o *EbayCall) FilterItems(f ItemFilter) []Item {
+func (o *EbayCall) FilterItems(f ItemFilter) []*Item {
 	tmp := o.Items[:0]
 	for _, x := range o.Items {
 		if f(x) {
@@ -378,7 +443,8 @@ func (o *EbayCall) FilterItems(f ItemFilter) []Item {
 	return tmp
 }
 
-func (o *EbayCall) AddItem(v Item) {
+func (o *EbayCall) AddItem(v *Item) {
+	v.internal_id,_ = pseudoUUID()
 	o.Items = append(o.Items, v)
 }
 
@@ -389,18 +455,27 @@ func (o *EbayCall) RemoveItem(i int) {
 	o.Items = o.Items[:i+copy(o.Items[i:], o.Items[i+1:])]
 }
 
-func (o *EbayCall) GetItem(i int) Item {
+func (o *EbayCall) GetItem(i int) *Item {
 	if i > len(o.Items) {
 		panic(fmt.Sprintf("i:%d is out of bounds for %s.%s(%d)!\n", "EbayCall", "Items", len(o.Items)))
 	}
 	return o.Items[i]
 }
 
-func (o *EbayCall) SetItems(v []Item) {
+func (o *EbayCall) GetItemByInternalID(id string) (*Item,error) {
+	for _,i := range o.Items {
+		if i.internal_id == id {
+			return i,nil
+		}
+	}
+	return nil, errors.New(fmt.Sprintf("No item found with id: %s",id))
+}
+
+func (o *EbayCall) SetItems(v []*Item) {
 	o.Items = v
 }
 
-func (o *EbayCall) GetItems() []Item {
+func (o *EbayCall) GetItems() []*Item {
 	return o.Items
 }
 

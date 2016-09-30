@@ -2,6 +2,7 @@ package gobay
 
 func ItemTemplate() string {
 	return `
+  {{ $Currency := .Currency }}
   <Item> 
     <CategoryMappingAllowed>true</CategoryMappingAllowed> 
     <Country>{{ .Country }}</Country> 
@@ -37,16 +38,16 @@ func ItemTemplate() string {
     <ShippingDetails>
     {{ range $key, $value := .ShippingServiceOptions }}
       <ShippingServiceOptions>
-        <ShippingService>{{ $value.ShippingService }}</ShippingService>
-        <ShippingServiceCost currencyID="{{ .Currency }}">{{ $value.ShippingServiceCost }}</ShippingServiceCost>
-        <ShippingServicePriority>{{ $value.ShippingServicePriority }}</ShippingServicePriority>
+        <ShippingService>{{ $value.Service }}</ShippingService>
+        <ShippingServiceCost currencyID="{{ $Currency }}">{{ $value.Cost }}</ShippingServiceCost>
+        <ShippingServicePriority>{{ $value.Priority }}</ShippingServicePriority>
       </ShippingServiceOptions>
     {{ end }}
     {{ range $key, $value := .InternationalShippingServiceOptions }}
         <InternationalShippingServiceOption>
-          <ShippingService>{{ $value.ShippingService }}</ShippingService>
-          <ShippingServiceCost currencyID="{{ .Currency }}">{{ $value.ShippingServiceCost }}</ShippingServiceCost>
-          <ShippingServicePriority>{{ $value.ShippingServicePriority }}</ShippingServicePriority>
+          <ShippingService>{{ $value.Service }}</ShippingService>
+          <ShippingServiceCost currencyID="{{ $Currency }}">{{ $value.Cost }}</ShippingServiceCost>
+          <ShippingServicePriority>{{ $value.Priority }}</ShippingServicePriority>
           <ShipToLocation>{{ $value.Location }}</ShipToLocation>
         </InternationalShippingServiceOption>
     {{ end }}
@@ -61,4 +62,20 @@ func ItemTemplate() string {
     </ReturnPolicy>
   </Item> 
     `
+}
+type AddItemsChild struct {
+  Item *Item
+  Text string
+}
+type AddItemsStruct struct {
+  Children []AddItemsChild
+}
+func AddItemsTemplate() string {
+  return `
+{{ range .Children }}
+  <AddItemRequestContainer>
+    {{ .Text }}
+  </AddItemRequestContainer>
+{{ end}}
+`
 }
