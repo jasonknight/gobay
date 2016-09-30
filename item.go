@@ -27,7 +27,7 @@ type ShippingServiceOption struct {
 	Service   string           `yaml:"Service"`
 	Cost      string           `yaml:"Cost"`
 	Priority  string           `yaml:"Priority"`
-	Locations []ShipToLocation `yaml:"Locations";xml:"ShipToLocation"`
+	Locations []ShipToLocation `yaml:"Locations" xml:"ShipToLocation"`
 }
 type ReturnPolicyStruct struct {
 	Description              string `yaml:"Description"`
@@ -64,7 +64,7 @@ type Item struct {
 	PayPalEmailAddress string             `yaml:"PayPalEmailAddress"`
 	PrimaryCategory    string             `yaml:"PrimaryCategory"`
 	Site               string             `yaml:"Site"`
-	StoreCategoryID    string             `yaml:"StoreCategoryID"`
+	StoreCategoryID    string             `yaml:"StoreCategoryID" xml:"StoreFront>StoreCategoryID"`
 	DispatchTimeMax    string             `yaml:"DispatchTimeMax"`
 	ListingDuration    string             `yaml:"ListingDuration"`
 	ReturnPolicy       ReturnPolicyStruct `yaml:"ReturnPolicy"`

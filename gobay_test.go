@@ -68,17 +68,38 @@ func TestGetTime(t *testing.T) {
 	}
 
 }
-func TestAddItemsXML(t *testing.T) {
-	cnf, err := fileGetContents("test_data/test.yml")
-	if err != nil {
-		t.Errorf("Failed to load test.yml %v\n", err)
+
+func TestGeteBayDetails(t *testing.T) {
+	if shouldRunSandbox() == false {
+		//return
 	}
+	var results []Result
+
+	cnf, err := fileGetContents("../secret.yml")
+
+	if err != nil {
+		t.Errorf("Failed to load secret.yml %v\n", err)
+	}
+
 	ebay, err := NewEbayCallEx(cnf)
 
 	if err != nil {
-		t.Errorf("Failed to load test.yml %v\n", err)
+		t.Errorf("Failed to initialize ebay call from secret.yml %v\n", err)
 	}
-	ebay.SetCallname("AddItems")
+
+	ebay.SetCallname("GeteBayDetails")
+	ebay.EbayDetailsCallInfo = NewGetEbayDetailsStruct()
+	err = ebay.Execute(&results)
+	if err != nil {
+		t.Errorf("Failed to Execute %v\n", err)
+	}
+
+	for _, r := range results {
+		if r.Ack != "Success" {
+			t.Errorf("GeteBayDetails failed %+v\n", r)
+		}
+	}
+
 }
 
 func TestGetAllCategories(t *testing.T) {

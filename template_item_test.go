@@ -26,3 +26,15 @@ func TestItemTemplate(t *testing.T) {
 		t.Errorf("Failed reverse template \n%v\n%v", p, np)
 	}
 }
+func TestAddItemsXML(t *testing.T) {
+	cnf, err := fileGetContents("test_data/test.yml")
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+	ebay, err := NewEbayCallEx(cnf)
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+	ebay.SetCallname("AddItems")
+}

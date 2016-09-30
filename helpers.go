@@ -98,10 +98,12 @@ func pseudoUUID() (string, error) {
 func WrapCall(name string, pre string, text string, post string) string {
 	s := `<?xml version="1.0" encoding="utf-8"?>
 <%sRequest xmlns="urn:ebay:apis:eBLBaseComponents">
- <RequesterCredentials> 
-    <eBayAuthToken>{{ .EbayAuthToken }}</eBayAuthToken> 
-  </RequesterCredentials> 
-  <WarningLevel>{{ .WarningLevel }}</WarningLevel> 
+	<RequesterCredentials> 
+		<eBayAuthToken>{{ .EbayAuthToken }}</eBayAuthToken> 
+	</RequesterCredentials> 
+	<MessageID>{{ .MessageID }}</MessageID>
+	<Version>{{ .CompatLevel }}</Version>
+	<WarningLevel>{{ .WarningLevel }}</WarningLevel>
 %s
 %s
 %s

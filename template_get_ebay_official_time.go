@@ -4,8 +4,5 @@ package gobay
 func GeteBayOfficialTimeTemplate() string {
 	return `
 <ErrorLanguage>{{ .Language }}</ErrorLanguage>
-<MessageID>{{ .MessageID }}</MessageID>
-<Version>{{ .CompatLevel }}</Version>
-<WarningLevel>{{ .WarningLevel }}</WarningLevel>
 `
 }

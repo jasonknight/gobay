@@ -34,6 +34,7 @@ type EbayCall struct {
 	Items              []*Item
 	TheClient          *http.Client
 	CategoryCallInfo   *GetCategoriesStruct
+	EbayDetailsCallInfo	   *GetEbayDetailsStruct
 }
 
 func NewEbayCallEx(conf []byte) (*EbayCall, error) {
@@ -97,8 +98,18 @@ func (o *EbayCall) GetHeader(k string) string {
 func (o *EbayCall) Execute(r *[]Result) error {
 	o.CallDepth = 0
 	cl := o.GetCallname()
+
 	if cl == "GeteBayOfficialTime" {
 		err := o.GeteBayOfficialTime(r)
+		if err != nil {
+			appendFakeResult(fmt.Sprintf("%s", err), r)
+			return err
+		}
+		return o.Send(r)
+	}
+
+	if cl == "GeteBayDetails" {
+		err := o.GeteBayDetails(r)
 		if err != nil {
 			appendFakeResult(fmt.Sprintf("%s", err), r)
 			return err
@@ -301,6 +312,20 @@ func (o *EbayCall) GeteBayOfficialTime(r *[]Result) error {
 		return err
 	}
 	final_xml, err := compileGoString("FinalTime", WrapCall("GeteBayOfficialTime", "", body, ""), o, nil)
+	if err != nil {
+		return err
+	}
+	o.XMLData = final_xml
+	return nil
+}
+
+func (o *EbayCall) GeteBayDetails(r *[]Result) error {
+	o.MessageID, _ = pseudoUUID()
+	body, err := compileGoString("GeteBayDetails", GeteBayDetailsTemplate(), o.EbayDetailsCallInfo, nil)
+	if err != nil {
+		return err
+	}
+	final_xml, err := compileGoString("FinalTime", WrapCall("GeteBayDetails", "", body, ""), o, nil)
 	if err != nil {
 		return err
 	}
