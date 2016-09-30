@@ -60,6 +60,10 @@ type ListingRecommendation struct {
 	Type      string
 	Values    []string `xml:"Value"`
 }
+type AddItemResponseContainerStruct struct {
+	CorrelationID string
+	Errors        []ErrorMessage
+}
 type Result struct {
 	Timestamp             string
 	Ack                   string

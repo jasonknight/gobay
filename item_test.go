@@ -187,11 +187,11 @@ func TestAddItem(t *testing.T) {
 		return
 	}
 	err = i.FromYAML(pcnf)
-	i.SKU, _ = pseudoUUID()
-	i.Title, _ = pseudoUUID()
+	// i.SKU, _ = pseudoUUID()
+	// i.Title, _ = pseudoUUID()
 
-	i.SKU = i.SKU[0:5]
-	i.Title = fmt.Sprintf("This is a simple title %s", i.Title[0:5])
+	// i.SKU = i.SKU[0:5]
+	// i.Title = fmt.Sprintf("This is a simple title %s", i.Title[0:5])
 
 	if err != nil {
 		t.Errorf("Failed FromYAML %v\n", err)
@@ -216,6 +216,14 @@ func TestAddItem(t *testing.T) {
 				t.Errorf("%s\n", e.LongMessage)
 				for _, ep := range e.ErrorParameters {
 					t.Errorf("\t%s\n", ep.Value)
+				}
+			}
+			for _, nr := range r.Items {
+				for _, e := range nr.Errors {
+					t.Errorf("%s\n", e.LongMessage)
+					for _, ep := range e.ErrorParameters {
+						t.Errorf("\t%s\n", ep.Value)
+					}
 				}
 			}
 			t.Errorf("%+v", r.Errors)

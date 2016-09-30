@@ -24,28 +24,51 @@ type PictureDetail struct {
 }
 
 type ShippingServiceOption struct {
-	Service  string         `yaml:"Service"`
-	Cost     string         `yaml:"Cost"`
-	Priority string         `yaml:"Priority"`
-	Location ShipToLocation `yaml:"Location"`
+	Service   string           `yaml:"Service"`
+	Cost      string           `yaml:"Cost"`
+	Priority  string           `yaml:"Priority"`
+	Locations []ShipToLocation `yaml:"Locations";xml:"ShipToLocation"`
+}
+type ReturnPolicyStruct struct {
+	Description              string `yaml:"Description"`
+	EAN                      string `yaml:"EAN"`
+	ExtendedHolidayReturns   string `yaml:"ExtendedHolidayReturns"`
+	Refund                   string `yaml:"Refund"`
+	RefundOption             string `yaml:"RefundOption"`
+	RestockingFeeValue       string `yaml:"RestockingFeeValue"`
+	RestockingFeeValueOption string `yaml:"RestockingFeeValueOption"`
+	ReturnsAccepted          string `yaml:"ReturnsAccepted"`
+	ReturnsAcceptedOption    string `yaml:"ReturnsAcceptedOption"`
+	ReturnsWithin            string `yaml:"ReturnsWithin"`
+	ReturnsWithinOption      string `yaml:"ReturnsWithinOption"`
+	ShippingCostPaidBy       string `yaml:"ShippingCostPaidBy"`
+	ShippingCostPaidByOption string `yaml:"ShippingCostPaidByOption"`
+	WarrantyDuration         string `yaml:"WarrantyDuration"`
+	WarrantyDurationOption   string `yaml:"WarrantyDurationOption"`
+	WarrantyOffered          string `yaml:"WarrantyOffered"`
+	WarrantyOfferedOption    string `yaml:"WarrantyOfferedOption"`
+	WarrantyType             string `yaml:"WarrantyType"`
+	WarrantyTypeOption       string `yaml:"WarrantyTypeOption"`
 }
 type Item struct {
-	EbayID             string `yaml:"EbayID"`
-	SKU                string `yaml:"SKU"`
-	Title              string `yaml:"Title"`
-	Description        string `yaml:"Description"`
-	StartPrice         string `yaml:"StartPrice"`
-	Quantity           string `yaml:"Quantity"`
-	ListingType        string `yaml:"ListingType"`
-	Country            string `yaml:"Country"`
-	Currency           string `yaml:"Currency"`
-	Location           string `yaml:"Location"`
-	PayPalEmailAddress string `yaml:"PayPalEmailAddress"`
-	PrimaryCategory    string `yaml:"PrimaryCategory"`
-	Site               string `yaml:"Site"`
-	StoreCategoryID    string `yaml:"StoreCategoryID"`
-	DispatchTimeMax    string `yaml:"DispatchTimeMax"`
-	ListingDuration    string `yaml:"ListingDuration"`
+	EbayID             string             `yaml:"EbayID"`
+	SKU                string             `yaml:"SKU"`
+	Title              string             `yaml:"Title"`
+	Description        string             `yaml:"Description"`
+	StartPrice         string             `yaml:"StartPrice"`
+	Quantity           string             `yaml:"Quantity"`
+	ListingType        string             `yaml:"ListingType"`
+	Country            string             `yaml:"Country"`
+	Currency           string             `yaml:"Currency"`
+	Location           string             `yaml:"Location"`
+	PayPalEmailAddress string             `yaml:"PayPalEmailAddress"`
+	PrimaryCategory    string             `yaml:"PrimaryCategory"`
+	Site               string             `yaml:"Site"`
+	StoreCategoryID    string             `yaml:"StoreCategoryID"`
+	DispatchTimeMax    string             `yaml:"DispatchTimeMax"`
+	ListingDuration    string             `yaml:"ListingDuration"`
+	ReturnPolicy       ReturnPolicyStruct `yaml:"ReturnPolicy"`
+	ScheduleTime       string             `yaml:"ScheduleTime"`
 
 	ShipToLocations                     []ShipToLocation        `yaml:"ShipToLocations"`
 	PictureDetails                      []PictureDetail         `yaml:"PictureDetails"`

@@ -51,6 +51,11 @@ func ItemTemplate() string {
         <ShippingService>{{ $value.Service }}</ShippingService>
         <ShippingServiceCost currencyID="{{ $Currency }}">{{ $value.Cost }}</ShippingServiceCost>
         <ShippingServicePriority>{{ $value.Priority }}</ShippingServicePriority>
+        {{ if $value.Locations }}
+          {{ range $x,$y := $value.Locations }}
+            <ShipToLocation>{{ $y }}</ShipToLocation>
+          {{ end }}
+        {{ end }}
       </ShippingServiceOptions>
     {{ end }}
     {{ range $key, $value := .InternationalShippingServiceOptions }}
@@ -58,18 +63,77 @@ func ItemTemplate() string {
           <ShippingService>{{ $value.Service }}</ShippingService>
           <ShippingServiceCost currencyID="{{ $Currency }}">{{ $value.Cost }}</ShippingServiceCost>
           <ShippingServicePriority>{{ $value.Priority }}</ShippingServicePriority>
-          <ShipToLocation>{{ $value.Location }}</ShipToLocation>
+          {{ if $value.Locations }}
+            {{ range $x,$y := $value.Locations }}
+              <ShipToLocation>{{ $y }}</ShipToLocation>
+            {{ end }}
+          {{ end }}
         </InternationalShippingServiceOption>
     {{ end }}
     </ShippingDetails>
     <DispatchTimeMax>{{ .DispatchTimeMax }}</DispatchTimeMax>
-    <ReturnPolicy>
-      <ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>
-      <RefundOption>MoneyBack</RefundOption>
-      <ReturnsWithinOption>Days_30</ReturnsWithinOption>
-      <Description>You may return items still in pristine, un-opened condition.</Description>
-      <ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>
-    </ReturnPolicy>
+    {{ if .ReturnPolicy }} 
+
+    	{{ if .ReturnPolicy.Description }}
+    		<Description>{{ .ReturnPolicy.Description }}</Description>
+    	{{ end }}
+        	{{ if .ReturnPolicy.EAN }}
+    		<EAN>{{ .ReturnPolicy.EAN }}</EAN>
+    	{{ end }}
+        	{{ if .ReturnPolicy.ExtendedHolidayReturns }}
+    		<ExtendedHolidayReturns>{{ .ReturnPolicy.ExtendedHolidayReturns }}</ExtendedHolidayReturns>
+    	{{ end }}
+        	{{ if .ReturnPolicy.Refund }}
+    		<Refund>{{ .ReturnPolicy.Refund }}</Refund>
+    	{{ end }}
+        	{{ if .ReturnPolicy.RefundOption }}
+    		<RefundOption>{{ .ReturnPolicy.RefundOption }}</RefundOption>
+    	{{ end }}
+        	{{ if .ReturnPolicy.RestockingFeeValue }}
+    		<RestockingFeeValue>{{ .ReturnPolicy.RestockingFeeValue }}</RestockingFeeValue>
+    	{{ end }}
+        	{{ if .ReturnPolicy.RestockingFeeValueOption }}
+    		<RestockingFeeValueOption>{{ .ReturnPolicy.RestockingFeeValueOption }}</RestockingFeeValueOption>
+    	{{ end }}
+        	{{ if .ReturnPolicy.ReturnsAccepted }}
+    		<ReturnsAccepted>{{ .ReturnPolicy.ReturnsAccepted }}</ReturnsAccepted>
+    	{{ end }}
+        	{{ if .ReturnPolicy.ReturnsAcceptedOption }}
+    		<ReturnsAcceptedOption>{{ .ReturnPolicy.ReturnsAcceptedOption }}</ReturnsAcceptedOption>
+    	{{ end }}
+        	{{ if .ReturnPolicy.ReturnsWithin }}
+    		<ReturnsWithin>{{ .ReturnPolicy.ReturnsWithin }}</ReturnsWithin>
+    	{{ end }}
+        	{{ if .ReturnPolicy.ReturnsWithinOption }}
+    		<ReturnsWithinOption>{{ .ReturnPolicy.ReturnsWithinOption }}</ReturnsWithinOption>
+    	{{ end }}
+        	{{ if .ReturnPolicy.ShippingCostPaidBy }}
+    		<ShippingCostPaidBy>{{ .ReturnPolicy.ShippingCostPaidBy }}</ShippingCostPaidBy>
+    	{{ end }}
+        	{{ if .ReturnPolicy.ShippingCostPaidByOption }}
+    		<ShippingCostPaidByOption>{{ .ReturnPolicy.ShippingCostPaidByOption }}</ShippingCostPaidByOption>
+    	{{ end }}
+        	{{ if .ReturnPolicy.WarrantyDuration }}
+    		<WarrantyDuration>{{ .ReturnPolicy.WarrantyDuration }}</WarrantyDuration>
+    	{{ end }}
+        	{{ if .ReturnPolicy.WarrantyDurationOption }}
+    		<WarrantyDurationOption>{{ .ReturnPolicy.WarrantyDurationOption }}</WarrantyDurationOption>
+    	{{ end }}
+        	{{ if .ReturnPolicy.WarrantyOffered }}
+    		<WarrantyOffered>{{ .ReturnPolicy.WarrantyOffered }}</WarrantyOffered>
+    	{{ end }}
+        	{{ if .ReturnPolicy.WarrantyOfferedOption }}
+    		<WarrantyOfferedOption>{{ .ReturnPolicy.WarrantyOfferedOption }}</WarrantyOfferedOption>
+    	{{ end }}
+        	{{ if .ReturnPolicy.WarrantyType }}
+    		<WarrantyType>{{ .ReturnPolicy.WarrantyType }}</WarrantyType>
+    	{{ end }}
+      {{ if .ReturnPolicy.WarrantyTypeOption }}
+        <WarrantyTypeOption>{{ .ReturnPolicy.WarrantyTypeOption }}</WarrantyTypeOption>
+      {{ end }}  
+
+
+    {{ end }}
   </Item> 
     `
 }

@@ -10,7 +10,7 @@ DispatchTimeMax: "3"
 ListingDuration: "Days_10"
 ShipToLocations:
   - "GB"
-  - "World"
+  - "Worldwide"
   - "Europe"
 PictureDetails:
   - GalleryType: "Gallery"
@@ -31,16 +31,19 @@ InternationalShippingServiceOptions:
   - Service: "UK_RoyalMailAirmailInternational"
     Cost: "2.50"
     Priority: "1"
-    Location: "Europe"
-  - Service: "UK_RoyalMailAirmailInternational"
-    Cost: "3.50"
-    Priority: "2"
-    Location: "Worldwide"
+    Locations: 
+      - "Europe"
+      - "Worldwide"
   - Service: "UK_RoyalMailInternationalSignedFor"
     Cost: "8.50"
     Priority: "3"
-    Location: "Europe"
-  - Service: "UK_RoyalMailInternationalSignedFor"
-    Cost: "8.50"
-    Priority: "4"
-    Location: "Europe"
+    Locations: 
+      - "Europe"
+      - "Worldwide"
+
+ReturnPolicy:
+  ReturnsAcceptedOption: "ReturnsAccepted"
+  RefundOption: "MoneyBack"
+  ReturnsWithinOption: "Days_30"
+  Description: "Text"
+  ShippingCostPaidByOption: "Buyer"
