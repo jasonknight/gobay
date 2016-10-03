@@ -18,7 +18,6 @@ type GetMyeBaySellingStruct struct {
 	HideVariations        string
 	DetailLevel           []string
 	ErrorLanguage         string
-	MessageID             string
 	OutputSelector        []string
 	Version               string
 	WarningLevel          string

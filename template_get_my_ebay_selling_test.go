@@ -180,9 +180,6 @@ func TestTemplate_get_my_ebay_selling(t *testing.T) {
 	if o.ErrorLanguage != " string " {
 		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.ErrorLanguage)
 	}
-	if o.MessageID != " string " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.MessageID)
-	}
 	if o.OutputSelector[0] != " string " {
 		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.OutputSelector)
 	}
