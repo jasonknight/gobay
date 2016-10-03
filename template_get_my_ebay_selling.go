@@ -14,7 +14,7 @@ type ItemListCustomization struct {
 	DurationInDays    string
 	OrderStatusFilter string
 }
-type Template_get_my_ebay_selling struct {
+type GetMyeBaySellingStruct struct {
 	HideVariations        string
 	DetailLevel           []string
 	ErrorLanguage         string
@@ -32,8 +32,8 @@ type Template_get_my_ebay_selling struct {
 	UnsoldList            ItemListCustomization
 }
 
-func NewTemplate_get_my_ebay_selling(data []byte) *Template_get_my_ebay_selling {
-	var o Template_get_my_ebay_selling
+func NewGetMyeBaySellingStruct(data []byte) *GetMyeBaySellingStruct {
+	var o GetMyeBaySellingStruct
 	xml.Unmarshal(data, &o)
 	return &o
 }

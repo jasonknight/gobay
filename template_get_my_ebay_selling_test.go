@@ -83,7 +83,7 @@ func TestTemplate_get_my_ebay_selling(t *testing.T) {
   <Version> string </Version>
   <WarningLevel> WarningLevelCodeType </WarningLevel>
 </GetMyeBaySellingRequest>`
-	o := NewTemplate_get_my_ebay_selling([]byte(data))
+	o := NewGetMyeBaySellingStruct([]byte(data))
 	if o.ActiveList.Include != " boolean " {
 		t.Errorf("o.ActiveList.Include has not been filled out!! %+v\n", o.ActiveList)
 	}
