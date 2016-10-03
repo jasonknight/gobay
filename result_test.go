@@ -125,6 +125,7 @@ func TestAddItemsResponseParsing(t *testing.T) {
 		t.Errorf("ItemID wrong!!\n")
 	}
 	if o.Items[1].ItemID != "SECONDITEMID" {
+		t.Errorf("%+v\n",o.Items)
 		t.Errorf("ItemID wrong!!\n")
 	}
 

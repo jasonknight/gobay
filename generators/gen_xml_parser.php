@@ -9,11 +9,17 @@ $struct_name = ucfirst($target);
 if ( !file_exists($example) ) {
     die("$example does not exist!\n");
 } 
-
+libxml_use_internal_errors(true);
 $example_contents = file_get_contents($example);
+echo $example_contents;
 $r = simplexml_load_string($example_contents);
 
-
+if ($r === false) {
+    echo "Failed loading XML\n";
+    foreach(libxml_get_errors() as $error) {
+        echo "\t", $error->message;
+    }
+}
 
 function to_struct($r, $sname, $ws="") {
     $txt = "{$ws}$sname struct {\n";

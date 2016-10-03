@@ -6,11 +6,30 @@
     <CategoryID> string </CategoryID>
     <CorrelationID> string </CorrelationID>
     <DiscountReason> DiscountReasonCodeType </DiscountReason>
+    <DiscountReason> DiscountReasonCodeType </DiscountReason>
     <!-- ... more DiscountReason values allowed here ... -->
     <EndTime> dateTime </EndTime>
     <Errors> 
       <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
        <ErrorCode>666</ErrorCode>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
+      <!-- ... more ErrorParameters nodes allowed here ... -->
+      <LongMessage> string </LongMessage>
+      <SeverityCode> SeverityCodeType </SeverityCode>
+      <ShortMessage> string </ShortMessage>
+      <UserDisplayHint> boolean </UserDisplayHint>
+    </Errors>
+    <Errors> 
+      <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
+       <ErrorCode>666</ErrorCode>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
       <ErrorParameters ParamID="string">
         <Value> string </Value>
       </ErrorParameters>
@@ -23,6 +42,11 @@
     <!-- ... more Errors nodes allowed here ... -->
     <Fees>
       <Fee>
+        <Fee currencyID="CurrencyCodeType"> AmountType (double) </Fee>
+        <Name> string </Name>
+        <PromotionalDiscount currencyID="CurrencyCodeType"> AmountType (double) </PromotionalDiscount>
+      </Fee>
+       <Fee>
         <Fee currencyID="CurrencyCodeType"> AmountType (double) </Fee>
         <Name> string </Name>
         <PromotionalDiscount currencyID="CurrencyCodeType"> AmountType (double) </PromotionalDiscount>
@@ -39,10 +63,41 @@
         <Metadata>
           <Name> string </Name>
           <Value> string </Value>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <Metadata>
+          <Name> string </Name>
+          <Value> string </Value>
+          <Value> string </Value>
           <!-- ... more Value values allowed here ... -->
         </Metadata>
         <!-- ... more Metadata nodes allowed here ... -->
         <Type> string </Type>
+        <Value> string </Value>
+        <Value> string </Value>
+        <!-- ... more Value values allowed here ... -->
+      </Recommendation>
+       <Recommendation> 
+        <Code> string </Code>
+        <FieldName> string </FieldName>
+        <Group> string </Group>
+        <Message> string </Message>
+        <Metadata>
+          <Name> string </Name>
+          <Value> string </Value>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <Metadata>
+          <Name> string </Name>
+          <Value> string </Value>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <!-- ... more Metadata nodes allowed here ... -->
+        <Type> string </Type>
+        <Value> string </Value>
         <Value> string </Value>
         <!-- ... more Value values allowed here ... -->
       </Recommendation>
@@ -51,17 +106,35 @@
     <Message> string </Message>
     <StartTime> dateTime </StartTime>
   </AddItemResponseContainer>
-
-  <AddItemResponseContainer>
+<AddItemResponseContainer>
     <Category2ID> string </Category2ID>
     <CategoryID> string </CategoryID>
     <CorrelationID> string </CorrelationID>
+    <DiscountReason> DiscountReasonCodeType </DiscountReason>
     <DiscountReason> DiscountReasonCodeType </DiscountReason>
     <!-- ... more DiscountReason values allowed here ... -->
     <EndTime> dateTime </EndTime>
     <Errors> 
       <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
        <ErrorCode>666</ErrorCode>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
+      <!-- ... more ErrorParameters nodes allowed here ... -->
+      <LongMessage> string </LongMessage>
+      <SeverityCode> SeverityCodeType </SeverityCode>
+      <ShortMessage> string </ShortMessage>
+      <UserDisplayHint> boolean </UserDisplayHint>
+    </Errors>
+    <Errors> 
+      <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
+       <ErrorCode>666</ErrorCode>
+      <ErrorParameters ParamID="string">
+        <Value> string </Value>
+      </ErrorParameters>
       <ErrorParameters ParamID="string">
         <Value> string </Value>
       </ErrorParameters>
@@ -78,6 +151,11 @@
         <Name> string </Name>
         <PromotionalDiscount currencyID="CurrencyCodeType"> AmountType (double) </PromotionalDiscount>
       </Fee>
+       <Fee>
+        <Fee currencyID="CurrencyCodeType"> AmountType (double) </Fee>
+        <Name> string </Name>
+        <PromotionalDiscount currencyID="CurrencyCodeType"> AmountType (double) </PromotionalDiscount>
+      </Fee>
       <!-- ... more Fee nodes allowed here ... -->
     </Fees>
     <ItemID>SECONDITEMID</ItemID>
@@ -87,13 +165,44 @@
         <FieldName> string </FieldName>
         <Group> string </Group>
         <Message> string </Message>
-        <Metadata> 
+        <Metadata>
           <Name> string </Name>
+          <Value> string </Value>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <Metadata>
+          <Name> string </Name>
+          <Value> string </Value>
           <Value> string </Value>
           <!-- ... more Value values allowed here ... -->
         </Metadata>
         <!-- ... more Metadata nodes allowed here ... -->
         <Type> string </Type>
+        <Value> string </Value>
+        <Value> string </Value>
+        <!-- ... more Value values allowed here ... -->
+      </Recommendation>
+       <Recommendation> 
+        <Code> string </Code>
+        <FieldName> string </FieldName>
+        <Group> string </Group>
+        <Message> string </Message>
+        <Metadata>
+          <Name> string </Name>
+          <Value> string </Value>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <Metadata>
+          <Name> string </Name>
+          <Value> string </Value>
+          <Value> string </Value>
+          <!-- ... more Value values allowed here ... -->
+        </Metadata>
+        <!-- ... more Metadata nodes allowed here ... -->
+        <Type> string </Type>
+        <Value> string </Value>
         <Value> string </Value>
         <!-- ... more Value values allowed here ... -->
       </Recommendation>
@@ -102,6 +211,7 @@
     <Message> string </Message>
     <StartTime> dateTime </StartTime>
   </AddItemResponseContainer>
+
   <!-- ... more AddItemResponseContainer nodes allowed here ... -->
   <!-- Standard Output Fields -->
   <Ack> AckCodeType </Ack>
@@ -115,6 +225,24 @@
   <Errors> 
     <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
      <ErrorCode>666</ErrorCode>
+    <ErrorParameters ParamID="string">
+      <Value> string </Value>
+    </ErrorParameters>
+    <ErrorParameters ParamID="string">
+      <Value> string </Value>
+    </ErrorParameters>
+    <!-- ... more ErrorParameters nodes allowed here ... -->
+    <LongMessage> string </LongMessage>
+    <SeverityCode> SeverityCodeType </SeverityCode>
+    <ShortMessage> string </ShortMessage>
+    <UserDisplayHint> boolean </UserDisplayHint>
+  </Errors>
+  <Errors> 
+    <ErrorClassification> ErrorClassificationCodeType </ErrorClassification>
+     <ErrorCode>666</ErrorCode>
+    <ErrorParameters ParamID="string">
+      <Value> string </Value>
+    </ErrorParameters>
     <ErrorParameters ParamID="string">
       <Value> string </Value>
     </ErrorParameters>

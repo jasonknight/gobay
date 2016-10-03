@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMyeBaySellingRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+  <!-- Call-specific Input Fields -->
+  <ActiveList> 
+    <Include> boolean </Include>
+    <IncludeNotes> boolean </IncludeNotes>
+    <ListingType> ListingTypeCodeType </ListingType>
+    <Pagination> PaginationType
+      <EntriesPerPage> int </EntriesPerPage>
+      <PageNumber> int </PageNumber>
+    </Pagination>
+    <Sort> ItemSortTypeCodeType </Sort>
+  </ActiveList>
+  <BidList> 
+    <Include> boolean </Include>
+    <IncludeNotes> boolean </IncludeNotes>
+    <Pagination> PaginationType
+      <EntriesPerPage> int </EntriesPerPage>
+      <PageNumber> int </PageNumber>
+    </Pagination>
+    <Sort> ItemSortTypeCodeType </Sort>
+  </BidList>
+  <DeletedFromSoldList> 
+    <DurationInDays> int </DurationInDays>
+    <Include> boolean </Include>
+    <IncludeNotes> boolean </IncludeNotes>
+    <Sort> ItemSortTypeCodeType </Sort>
+  </DeletedFromSoldList>
+  <DeletedFromUnsoldList> 
+    <DurationInDays> int </DurationInDays>
+    <Include> boolean </Include>
+    <IncludeNotes> boolean </IncludeNotes>
+    <Sort> ItemSortTypeCodeType </Sort>
+  </DeletedFromUnsoldList>
+  <HideVariations> boolean </HideVariations>
+  <ScheduledList> 
+    <Include> boolean </Include>
+    <IncludeNotes> boolean </IncludeNotes>
+    <Pagination> PaginationType
+      <EntriesPerPage> int </EntriesPerPage>
+      <PageNumber> int </PageNumber>
+    </Pagination>
+    <Sort> ItemSortTypeCodeType </Sort>
+  </ScheduledList>
+  <SellingSummary> 
+    <Include> boolean </Include>
+  </SellingSummary>
+  <SoldList>
+    <DurationInDays> int </DurationInDays>
+    <Include> boolean </Include>
+    <IncludeNotes> boolean </IncludeNotes>
+    <OrderStatusFilter> OrderStatusFilterCodeType </OrderStatusFilter>
+    <Pagination> PaginationType
+      <EntriesPerPage> int </EntriesPerPage>
+      <PageNumber> int </PageNumber>
+    </Pagination>
+    <Sort> ItemSortTypeCodeType </Sort>
+  </SoldList>
+  <UnsoldList> 
+    <DurationInDays> int </DurationInDays>
+    <Include> boolean </Include>
+    <IncludeNotes> boolean </IncludeNotes>
+    <Pagination> PaginationType
+      <EntriesPerPage> int </EntriesPerPage>
+      <PageNumber> int </PageNumber>
+    </Pagination>
+    <Sort> ItemSortTypeCodeType </Sort>
+  </UnsoldList>
+  <!-- Standard Input Fields -->
+  <DetailLevel> DetailLevelCodeType </DetailLevel>
+  <DetailLevel> DetailLevelCodeType </DetailLevel>
+  <!-- ... more DetailLevel values allowed here ... -->
+  <ErrorLanguage> string </ErrorLanguage>
+  <MessageID> string </MessageID>
+  <OutputSelector> string </OutputSelector>
+  <OutputSelector> string </OutputSelector>
+  <!-- ... more OutputSelector values allowed here ... -->
+  <Version> string </Version>
+  <WarningLevel> WarningLevelCodeType </WarningLevel>
+</GetMyeBaySellingRequest>
