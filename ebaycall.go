@@ -10,31 +10,31 @@ import (
 )
 
 type EbayCall struct {
-	DevID              string
-	AppID              string
-	CertID             string
-	CompatLevel        string
-	SiteID             string
-	EndPoint           string
-	EbayAuthToken      string
-	Country            string
-	Currency           string
-	Language           string
-	MessageID          string
-	MessageIDs         []string
-	WarningLevel       string
-	PayPalEmailAddress string
-	Callname           string
-	XMLData            string
-	Cache              string
-	AddItemsLimit      int
-	CallDepthLimit     int
-	CallDepth          int
-	Headers            map[string]string
-	Items              []*Item
-	TheClient          *http.Client
-	CategoryCallInfo   *GetCategoriesStruct
-	EbayDetailsCallInfo	   *GetEbayDetailsStruct
+	DevID               string
+	AppID               string
+	CertID              string
+	CompatLevel         string
+	SiteID              string
+	EndPoint            string
+	EbayAuthToken       string
+	Country             string
+	Currency            string
+	Language            string
+	MessageID           string
+	MessageIDs          []string
+	WarningLevel        string
+	PayPalEmailAddress  string
+	Callname            string
+	XMLData             string
+	Cache               string
+	AddItemsLimit       int
+	CallDepthLimit      int
+	CallDepth           int
+	Headers             map[string]string
+	Items               []*Item
+	TheClient           *http.Client
+	CategoryCallInfo    *GetCategoriesStruct
+	EbayDetailsCallInfo *GetEbayDetailsStruct
 }
 
 func NewEbayCallEx(conf []byte) (*EbayCall, error) {
