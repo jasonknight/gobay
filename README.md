@@ -24,7 +24,7 @@ ebay.SetCallname("AddItems")
 p := ebay.NewProduct()
 
 p.Title = "My Fancy Product"
-//... more product setting here stuff here
+//... more product setting lines here
 // or you can load with
 // p.FromYAML([]byte(yaml_string_you_load))
 
