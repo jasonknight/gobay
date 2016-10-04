@@ -2,72 +2,72 @@ package gobay
 
 import "testing"
 
-func TestTemplate_get_my_ebay_selling(t *testing.T) {
+func TestGetMyeBaySellingTemplate(t *testing.T) {
 	data := `<?xml version="1.0" encoding="utf-8"?>
 <GetMyeBaySellingRequest xmlns="urn:ebay:apis:eBLBaseComponents">
   <!-- Call-specific Input Fields -->
   <ActiveList> 
-    <Include> boolean </Include>
-    <IncludeNotes> boolean </IncludeNotes>
+    <Include>true</Include>
+    <IncludeNotes>true</IncludeNotes>
     <ListingType> ListingTypeCodeType </ListingType>
     <Pagination> PaginationType
-      <EntriesPerPage> int </EntriesPerPage>
-      <PageNumber> int </PageNumber>
+      <EntriesPerPage>666</EntriesPerPage>
+      <PageNumber>666</PageNumber>
     </Pagination>
     <Sort> ItemSortTypeCodeType </Sort>
   </ActiveList>
   <BidList> 
-    <Include> boolean </Include>
-    <IncludeNotes> boolean </IncludeNotes>
+    <Include>true</Include>
+    <IncludeNotes>true</IncludeNotes>
     <Pagination> PaginationType
-      <EntriesPerPage> int </EntriesPerPage>
-      <PageNumber> int </PageNumber>
+      <EntriesPerPage>666</EntriesPerPage>
+      <PageNumber>666</PageNumber>
     </Pagination>
     <Sort> ItemSortTypeCodeType </Sort>
   </BidList>
   <DeletedFromSoldList> 
-    <DurationInDays> int </DurationInDays>
-    <Include> boolean </Include>
-    <IncludeNotes> boolean </IncludeNotes>
+    <DurationInDays>666</DurationInDays>
+    <Include>true</Include>
+    <IncludeNotes>true</IncludeNotes>
     <Sort> ItemSortTypeCodeType </Sort>
   </DeletedFromSoldList>
   <DeletedFromUnsoldList> 
-    <DurationInDays> int </DurationInDays>
-    <Include> boolean </Include>
-    <IncludeNotes> boolean </IncludeNotes>
+    <DurationInDays>666</DurationInDays>
+    <Include>true</Include>
+    <IncludeNotes>true</IncludeNotes>
     <Sort> ItemSortTypeCodeType </Sort>
   </DeletedFromUnsoldList>
-  <HideVariations> boolean </HideVariations>
+  <HideVariations>true</HideVariations>
   <ScheduledList> 
-    <Include> boolean </Include>
-    <IncludeNotes> boolean </IncludeNotes>
+    <Include>true</Include>
+    <IncludeNotes>true</IncludeNotes>
     <Pagination> PaginationType
-      <EntriesPerPage> int </EntriesPerPage>
-      <PageNumber> int </PageNumber>
+      <EntriesPerPage>666</EntriesPerPage>
+      <PageNumber>666</PageNumber>
     </Pagination>
     <Sort> ItemSortTypeCodeType </Sort>
   </ScheduledList>
   <SellingSummary> 
-    <Include> boolean </Include>
+    <Include>true</Include>
   </SellingSummary>
   <SoldList>
-    <DurationInDays> int </DurationInDays>
-    <Include> boolean </Include>
-    <IncludeNotes> boolean </IncludeNotes>
+    <DurationInDays>666</DurationInDays>
+    <Include>true</Include>
+    <IncludeNotes>true</IncludeNotes>
     <OrderStatusFilter> OrderStatusFilterCodeType </OrderStatusFilter>
     <Pagination> PaginationType
-      <EntriesPerPage> int </EntriesPerPage>
-      <PageNumber> int </PageNumber>
+      <EntriesPerPage>666</EntriesPerPage>
+      <PageNumber>666</PageNumber>
     </Pagination>
     <Sort> ItemSortTypeCodeType </Sort>
   </SoldList>
   <UnsoldList> 
-    <DurationInDays> int </DurationInDays>
-    <Include> boolean </Include>
-    <IncludeNotes> boolean </IncludeNotes>
+    <DurationInDays>666</DurationInDays>
+    <Include>true</Include>
+    <IncludeNotes>true</IncludeNotes>
     <Pagination> PaginationType
-      <EntriesPerPage> int </EntriesPerPage>
-      <PageNumber> int </PageNumber>
+      <EntriesPerPage>666</EntriesPerPage>
+      <PageNumber>666</PageNumber>
     </Pagination>
     <Sort> ItemSortTypeCodeType </Sort>
   </UnsoldList>
@@ -83,113 +83,137 @@ func TestTemplate_get_my_ebay_selling(t *testing.T) {
   <Version> string </Version>
   <WarningLevel> WarningLevelCodeType </WarningLevel>
 </GetMyeBaySellingRequest>`
-	o := NewGetMyeBaySellingStruct([]byte(data))
-	if o.ActiveList.Include != " boolean " {
+	o := GetMyeBaySellingStructFromXML([]byte(data))
+	if o.ActiveList.Include != true {
 		t.Errorf("o.ActiveList.Include has not been filled out!! %+v\n", o.ActiveList)
+		return
 	}
-	if o.ActiveList.IncludeNotes != " boolean " {
+	if o.ActiveList.IncludeNotes != true {
 		t.Errorf("o.ActiveList.IncludeNotes has not been filled out!! %+v\n", o.ActiveList)
+		return
 	}
 	if o.ActiveList.ListingType != " ListingTypeCodeType " {
 		t.Errorf("o.ActiveList.ListingType has not been filled out!! %+v\n", o.ActiveList)
+		return
 	}
 	if o.ActiveList.Sort != " ItemSortTypeCodeType " {
 		t.Errorf("o.ActiveList.Sort has not been filled out!! %+v\n", o.ActiveList)
+		return
 	}
-	if o.BidList.Include != " boolean " {
+	if o.BidList.Include != true {
 		t.Errorf("o.BidList.Include has not been filled out!! %+v\n", o.BidList)
+		return
 	}
-	if o.BidList.IncludeNotes != " boolean " {
+	if o.BidList.IncludeNotes != true {
 		t.Errorf("o.BidList.IncludeNotes has not been filled out!! %+v\n", o.BidList)
+		return
 	}
 	if o.BidList.Sort != " ItemSortTypeCodeType " {
 		t.Errorf("o.BidList.Sort has not been filled out!! %+v\n", o.BidList)
+		return
 	}
-	if o.DeletedFromSoldList.DurationInDays != " int " {
+	if o.DeletedFromSoldList.DurationInDays != 666 {
 		t.Errorf("o.DeletedFromSoldList.DurationInDays has not been filled out!! %+v\n", o.DeletedFromSoldList)
+		return
 	}
-	if o.DeletedFromSoldList.Include != " boolean " {
+	if o.DeletedFromSoldList.Include != true {
 		t.Errorf("o.DeletedFromSoldList.Include has not been filled out!! %+v\n", o.DeletedFromSoldList)
+		return
 	}
-	if o.DeletedFromSoldList.IncludeNotes != " boolean " {
+	if o.DeletedFromSoldList.IncludeNotes != true {
 		t.Errorf("o.DeletedFromSoldList.IncludeNotes has not been filled out!! %+v\n", o.DeletedFromSoldList)
+		return
 	}
 	if o.DeletedFromSoldList.Sort != " ItemSortTypeCodeType " {
 		t.Errorf("o.DeletedFromSoldList.Sort has not been filled out!! %+v\n", o.DeletedFromSoldList)
+		return
 	}
-	if o.DeletedFromUnsoldList.DurationInDays != " int " {
+	if o.DeletedFromUnsoldList.DurationInDays != 666 {
 		t.Errorf("o.DeletedFromUnsoldList.DurationInDays has not been filled out!! %+v\n", o.DeletedFromUnsoldList)
+		return
 	}
-	if o.DeletedFromUnsoldList.Include != " boolean " {
+	if o.DeletedFromUnsoldList.Include != true {
 		t.Errorf("o.DeletedFromUnsoldList.Include has not been filled out!! %+v\n", o.DeletedFromUnsoldList)
+		return
 	}
-	if o.DeletedFromUnsoldList.IncludeNotes != " boolean " {
+	if o.DeletedFromUnsoldList.IncludeNotes != true {
 		t.Errorf("o.DeletedFromUnsoldList.IncludeNotes has not been filled out!! %+v\n", o.DeletedFromUnsoldList)
+		return
 	}
 	if o.DeletedFromUnsoldList.Sort != " ItemSortTypeCodeType " {
 		t.Errorf("o.DeletedFromUnsoldList.Sort has not been filled out!! %+v\n", o.DeletedFromUnsoldList)
+		return
 	}
-	if o.HideVariations != " boolean " {
+	if o.HideVariations != true {
 		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.HideVariations)
+		return
 	}
-	if o.ScheduledList.Include != " boolean " {
+	if o.ScheduledList.Include != true {
 		t.Errorf("o.ScheduledList.Include has not been filled out!! %+v\n", o.ScheduledList)
+		return
 	}
-	if o.ScheduledList.IncludeNotes != " boolean " {
+	if o.ScheduledList.IncludeNotes != true {
 		t.Errorf("o.ScheduledList.IncludeNotes has not been filled out!! %+v\n", o.ScheduledList)
+		return
 	}
 	if o.ScheduledList.Sort != " ItemSortTypeCodeType " {
 		t.Errorf("o.ScheduledList.Sort has not been filled out!! %+v\n", o.ScheduledList)
+		return
 	}
-	if o.SellingSummary.Include != " boolean " {
+	if o.SellingSummary.Include != true {
 		t.Errorf("o.SellingSummary.Include has not been filled out!! %+v\n", o.SellingSummary)
+		return
 	}
-	if o.SoldList.DurationInDays != " int " {
+	if o.SoldList.DurationInDays != 666 {
 		t.Errorf("o.SoldList.DurationInDays has not been filled out!! %+v\n", o.SoldList)
+		return
 	}
-	if o.SoldList.Include != " boolean " {
+	if o.SoldList.Include != true {
 		t.Errorf("o.SoldList.Include has not been filled out!! %+v\n", o.SoldList)
+		return
 	}
-	if o.SoldList.IncludeNotes != " boolean " {
+	if o.SoldList.IncludeNotes != true {
 		t.Errorf("o.SoldList.IncludeNotes has not been filled out!! %+v\n", o.SoldList)
+		return
 	}
 	if o.SoldList.OrderStatusFilter != " OrderStatusFilterCodeType " {
 		t.Errorf("o.SoldList.OrderStatusFilter has not been filled out!! %+v\n", o.SoldList)
+		return
 	}
 	if o.SoldList.Sort != " ItemSortTypeCodeType " {
 		t.Errorf("o.SoldList.Sort has not been filled out!! %+v\n", o.SoldList)
+		return
 	}
-	if o.UnsoldList.DurationInDays != " int " {
+	if o.UnsoldList.DurationInDays != 666 {
 		t.Errorf("o.UnsoldList.DurationInDays has not been filled out!! %+v\n", o.UnsoldList)
+		return
 	}
-	if o.UnsoldList.Include != " boolean " {
+	if o.UnsoldList.Include != true {
 		t.Errorf("o.UnsoldList.Include has not been filled out!! %+v\n", o.UnsoldList)
+		return
 	}
-	if o.UnsoldList.IncludeNotes != " boolean " {
+	if o.UnsoldList.IncludeNotes != true {
 		t.Errorf("o.UnsoldList.IncludeNotes has not been filled out!! %+v\n", o.UnsoldList)
+		return
 	}
 	if o.UnsoldList.Sort != " ItemSortTypeCodeType " {
 		t.Errorf("o.UnsoldList.Sort has not been filled out!! %+v\n", o.UnsoldList)
+		return
 	}
-	if o.DetailLevel[0] != " DetailLevelCodeType " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.DetailLevel)
+	if o.DetailLevels[0] != " DetailLevelCodeType " {
+		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.DetailLevels)
+		return
 	}
-	if o.DetailLevel[1] != " DetailLevelCodeType " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.DetailLevel)
+	if o.DetailLevels[1] != " DetailLevelCodeType " {
+		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.DetailLevels)
+		return
 	}
-	if o.ErrorLanguage != " string " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.ErrorLanguage)
+	if o.OutputSelectors[0] != " string " {
+		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.OutputSelectors)
+		return
 	}
-	if o.OutputSelector[0] != " string " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.OutputSelector)
-	}
-	if o.OutputSelector[1] != " string " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.OutputSelector)
-	}
-	if o.Version != " string " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.Version)
-	}
-	if o.WarningLevel != " WarningLevelCodeType " {
-		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.WarningLevel)
+	if o.OutputSelectors[1] != " string " {
+		t.Errorf("Template_get_my_ebay_selling has not been filled out %+v!!\n", o.OutputSelectors)
+		return
 	}
 }

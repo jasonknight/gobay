@@ -95,7 +95,7 @@ type GetMyeBaySellingResult struct {
 	Errors                          []ErrorMessage
 }
 
-func NewGetMyeBaySellingResult(data []byte) *GetMyeBaySellingResult {
+func GetMyeBaySellingResultStructFromXML(data []byte) *GetMyeBaySellingResult {
 	var o GetMyeBaySellingResult
 	xml.Unmarshal(data, &o)
 	return &o
