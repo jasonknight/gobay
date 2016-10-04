@@ -10,22 +10,28 @@ The planned API in your go code will be:
 ```go
 import "gobay"
 
-cnf, err := fileGetContents("blahblah.yml") //you need to define this function
+var results []Result
+cnf, err := fileGetContents("blahblah.yml") //you need to define this function, 
+// or load a file your preferred way...
 if err != nil {
     t.Errorf("Failed to load test.yml %v\n", err)
 }
-call,err := gobay.NewEbayCallEx(cnf)
+ebay,err := gobay.NewEbayCallEx(cnf)
 if err != nil {
     panic(err)
 }
-call.SetCallname("AddItems")
-p := call.NewProduct()
+ebay.SetCallname("AddItems")
+p := ebay.NewProduct()
 
 p.Title = "My Fancy Product"
+//... more product setting here stuff here
+// or you can load with
+// p.FromYAML([]byte(yaml_string_you_load))
 
-call.AddProduct(p)
 
-results,err := call.Execute()
+ebay.AddProduct(p)
+
+err := ebay.Execute(&results)
 
 for _,res := range results {
     if res.Success() {
