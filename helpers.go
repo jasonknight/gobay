@@ -140,3 +140,100 @@ func shouldRunSandbox() bool {
 	}
 	return runSandboxTests
 }
+
+func ValidateListingType(t string) bool {
+	types := []string{"Auction", "Chinese", "FixedPriceItem", "Half", "LeadGeneration", "PersonalOffer", "Shopping", "Unknown"}
+	if InStringSlice(types, t) {
+		return true
+	}
+	return false
+}
+func ValidateOrderStatusFilterType(t string) bool {
+	types := []string{"All", "AwaitingPayment", "AwaitingShipment", "PaidAndShipped"}
+	if InStringSlice(types, t) {
+		return true
+	}
+	return false
+}
+func ValidateItemSortCodeType(t string) bool {
+	types := []string{"BestOffer",
+		"BestOfferCount",
+		"BestOfferCountDescending",
+		"BestOfferDescending",
+		"BidCount",
+		"BidCountDescending",
+		"BidderCount",
+		"BidderCountDescending",
+		"BuyerEmail",
+		"BuyerEmailDescending",
+		"BuyerPostalCode",
+		"BuyerPostalCodeDescending",
+		"BuyerUserID",
+		"BuyerUserIDDescending",
+		"CurrentPrice",
+		"CurrentPriceDescending",
+		"CustomCode",
+		"EndTime",
+		"EndTimeDescending",
+		"FeedbackLeft",
+		"FeedbackLeftDescending",
+		"FeedbackReceived",
+		"FeedbackReceivedDescending",
+		"HighBidderUserID",
+		"HighBidderUserIDDescending",
+		"ItemID",
+		"ItemIDDescending",
+		"LeadCount",
+		"LeadCountDescending",
+		"ListingDuration",
+		"ListingDurationDescending",
+		"ListingType",
+		"ListingTypeDescending",
+		"MaxBid",
+		"MaxBidDescending",
+		"NewLeadCount",
+		"NewLeadCountDescending",
+		"Price",
+		"PriceDescending",
+		"Quantity",
+		"QuantityAvailable",
+		"QuantityAvailableDescending",
+		"QuantityDescending",
+		"QuantityPurchased",
+		"QuantityPurchasedDescending",
+		"QuantitySold",
+		"QuantitySoldDescending",
+		"QuestionCount",
+		"QuestionCountDescending",
+		"ReservePrice",
+		"ReservePriceDescending",
+		"SellerEmail",
+		"SellerEmailDescending",
+		"SellerUserID",
+		"SellerUserIDDescending",
+		"ShippingServiceCost",
+		"ShippingServiceCostDescending",
+		"SoldPlatform",
+		"SoldPlatformDescending",
+		"StartPrice",
+		"StartPriceDescending",
+		"StartTime",
+		"StartTimeDescending",
+		"TimeLeft",
+		"TimeLeftDescending",
+		"Title",
+		"TitleDescending",
+		"TotalPrice",
+		"TotalPriceDescending",
+		"UserID",
+		"UserIDDescending",
+		"WatchCount",
+		"WatchCountDescending",
+		"WonPlatform",
+		"WonPlatformDescending",
+	}
+	if InStringSlice(types, t) {
+		return true
+	}
+	return false
+}
