@@ -1,6 +1,6 @@
 # gobay
 [![Build Status](https://travis-ci.org/jasonknight/gobay.svg?branch=master)](https://travis-ci.org/jasonknight/gobay)
-
+[![Become A Patron](https://github.com/jasonknight/gobay/raw/master/assets/patreon.png)](https://www.patreon.com/user?u=4141497)
 A simple and direct eBay Trading API SDK in Golang. 
 
 The planned API in your go code will be:
