@@ -8,7 +8,6 @@ before_install:
   - go get -t -v ./...
 
 script:
-  - ls -alsh
   - bash go_test.sh
 
 after_success:
