@@ -22,7 +22,7 @@ if err != nil {
     panic(err)
 }
 ebay.SetCallname("AddItems")
-p := ebay.NewProduct()
+p := ebay.NewProduct() // this sets some things up for you...
 
 p.Title = "My Fancy Product"
 //... more product setting lines here
