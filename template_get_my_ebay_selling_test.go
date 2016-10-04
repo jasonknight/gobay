@@ -220,124 +220,158 @@ func TestGetMyeBaySellingTemplate(t *testing.T) {
 }
 
 func TestLists(t *testing.T) {
-	o := NewMyeBaySellingStruct()
-	o.AddActiveList()
-	if o.ActiveList.Include != true {
-		t.Errorf("Failed, including ActiveList is required here")
-		return
-	}
-	txt, err := compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
-	if err != nil {
-		t.Errorf("Could not compile file %s", err)
-		return
-	}
-	txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>", txt)
+    o := NewMyeBaySellingStruct()
+    o.AddActiveList()
 
-	to := GetMyeBaySellingStructFromXML([]byte(txt))
+    if o.ActiveList.Include != true {
+        t.Errorf("Failed, including ActiveList is required %+v",o.ActiveList)
+        return
+    }
 
-	if to.ActiveList.Include != o.ActiveList.Include {
-		t.Error("Failed to reload output")
-	}
+    txt, err := compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
 
-	// AutoGenned
+    txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>",txt)
 
-	o = NewMyeBaySellingStruct()
-	o.AddBidList()
-	if o.BidList.Include != true {
-		t.Errorf("Failed, including BidList is required here %+v", o.BidList)
-		return
-	}
-	txt, err = compileGoString("TestBidList", GetMyeBaySellingTemplate(), o, nil)
-	if err != nil {
-		t.Errorf("Could not compile file %s", err)
-		return
-	}
-	txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>", txt)
+    to := GetMyeBaySellingStructFromXML([]byte(txt))
 
-	to = GetMyeBaySellingStructFromXML([]byte(txt))
+    if to.ActiveList.Include != o.ActiveList.Include {
+        t.Errorf("Failed to reload output")
+    }
 
-	if to.BidList.Include != o.BidList.Include {
-		t.Error("Failed to reload output for BidList [[%s]]", txt)
-		return
-	}
+    // Generated code here
 
-	o = NewMyeBaySellingStruct()
-	o.AddScheduledList()
-	if o.ScheduledList.Include != true {
-		t.Errorf("Failed, including ScheduledList is required here %+v", o.ScheduledList)
-		return
-	}
-	txt, err = compileGoString("TestScheduledList", GetMyeBaySellingTemplate(), o, nil)
-	if err != nil {
-		t.Errorf("Could not compile file %s", err)
-		return
-	}
-	txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>", txt)
+    o.AddSoldList()
 
-	to = GetMyeBaySellingStructFromXML([]byte(txt))
+    if o.SoldList.Include != true {
+        t.Errorf("Failed, including SoldList is required %+v",o.SoldList)
+        return
+    }
 
-	if to.ScheduledList.Include != o.ScheduledList.Include {
-		t.Error("Failed to reload output for ScheduledList [[%s]]", txt)
-		return
-	}
+    txt, err = compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
+    if err != nil {
+        t.Errorf("Could not compile file %s",err)
+        return
+    }
 
-	o = NewMyeBaySellingStruct()
-	o.AddSoldList()
-	if o.SoldList.Include != true {
-		t.Errorf("Failed, including SoldList is required here %+v", o.SoldList)
-		return
-	}
-	txt, err = compileGoString("TestSoldList", GetMyeBaySellingTemplate(), o, nil)
-	if err != nil {
-		t.Errorf("Could not compile file %s", err)
-		return
-	}
-	txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>", txt)
+    txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>",txt)
 
-	to = GetMyeBaySellingStructFromXML([]byte(txt))
+    to = GetMyeBaySellingStructFromXML([]byte(txt))
 
-	if to.SoldList.Include != o.SoldList.Include {
-		t.Error("Failed to reload output for SoldList [[%s]]", txt)
-		return
-	}
+    if to.SoldList.Include != o.SoldList.Include {
+        t.Errorf("Failed to reload output")
+        return
+    }
 
-	o = NewMyeBaySellingStruct()
-	o.AddUnsoldList()
-	if o.UnsoldList.Include != true {
-		t.Errorf("Failed, including UnsoldList is required here %+v", o.UnsoldList)
-		return
-	}
-	txt, err = compileGoString("TestUnsoldList", GetMyeBaySellingTemplate(), o, nil)
-	if err != nil {
-		t.Errorf("Could not compile file %s", err)
-		return
-	}
-	txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>", txt)
+    o.AddUnsoldList()
 
-	to = GetMyeBaySellingStructFromXML([]byte(txt))
+    if o.UnsoldList.Include != true {
+        t.Errorf("Failed, including UnsoldList is required %+v",o.UnsoldList)
+        return
+    }
 
-	if to.UnsoldList.Include != o.UnsoldList.Include {
-		t.Error("Failed to reload output for UnsoldList [[%s]]", txt)
-		return
-	}
+    txt, err = compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
+    if err != nil {
+        t.Errorf("Could not compile file %s",err)
+        return
+    }
 
-	o = NewMyeBaySellingStruct()
-	o.AddDeletedFromUnsoldList()
-	if o.DeletedFromUnsoldList.Include != true {
-		t.Errorf("Failed, including DeletedFromUnsoldList is required here %+v", o.DeletedFromUnsoldList)
-		return
-	}
-	txt, err = compileGoString("TestDeletedFromUnsoldList", GetMyeBaySellingTemplate(), o, nil)
-	if err != nil {
-		t.Errorf("Could not compile file %s", err)
-		return
-	}
-	txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>", txt)
+    txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>",txt)
 
-	to = GetMyeBaySellingStructFromXML([]byte(txt))
+    to = GetMyeBaySellingStructFromXML([]byte(txt))
 
-	if to.DeletedFromUnsoldList.Include != o.DeletedFromUnsoldList.Include {
-		t.Error("Failed to reload output for DeletedFromUnsoldList [[%s]]", txt)
-		return
-	}
+    if to.UnsoldList.Include != o.UnsoldList.Include {
+        t.Errorf("Failed to reload output")
+        return
+    }
+
+    o.AddBidList()
+
+    if o.BidList.Include != true {
+        t.Errorf("Failed, including BidList is required %+v",o.BidList)
+        return
+    }
+
+    txt, err = compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
+    if err != nil {
+        t.Errorf("Could not compile file %s",err)
+        return
+    }
+
+    txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>",txt)
+
+    to = GetMyeBaySellingStructFromXML([]byte(txt))
+
+    if to.BidList.Include != o.BidList.Include {
+        t.Errorf("Failed to reload output")
+        return
+    }
+
+    o.AddDeletedFromSoldList()
+
+    if o.DeletedFromSoldList.Include != true {
+        t.Errorf("Failed, including DeletedFromSoldList is required %+v",o.DeletedFromSoldList)
+        return
+    }
+
+    txt, err = compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
+    if err != nil {
+        t.Errorf("Could not compile file %s",err)
+        return
+    }
+
+    txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>",txt)
+
+    to = GetMyeBaySellingStructFromXML([]byte(txt))
+
+    if to.DeletedFromSoldList.Include != o.DeletedFromSoldList.Include {
+        t.Errorf("Failed to reload output")
+        return
+    }
+
+    o.AddDeletedFromUnsoldList()
+
+    if o.DeletedFromUnsoldList.Include != true {
+        t.Errorf("Failed, including DeletedFromUnsoldList is required %+v",o.DeletedFromUnsoldList)
+        return
+    }
+
+    txt, err = compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
+    if err != nil {
+        t.Errorf("Could not compile file %s",err)
+        return
+    }
+
+    txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>",txt)
+
+    to = GetMyeBaySellingStructFromXML([]byte(txt))
+
+    if to.DeletedFromUnsoldList.Include != o.DeletedFromUnsoldList.Include {
+        t.Errorf("Failed to reload output")
+        return
+    }
+
+    o.AddScheduledList()
+
+    if o.ScheduledList.Include != true {
+        t.Errorf("Failed, including ScheduledList is required %+v",o.ScheduledList)
+        return
+    }
+
+    txt, err = compileGoString("Test", GetMyeBaySellingTemplate(), o, nil)
+    if err != nil {
+        t.Errorf("Could not compile file %s",err)
+        return
+    }
+
+    txt = fmt.Sprintf("<?xml version=\"1.0\" encoding=\"utf-8\"?><root>%s</root>",txt)
+
+    to = GetMyeBaySellingStructFromXML([]byte(txt))
+
+    if to.ScheduledList.Include != o.ScheduledList.Include {
+        t.Errorf("Failed to reload output")
+        return
+    }
+
+
 }
+

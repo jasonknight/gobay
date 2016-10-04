@@ -132,11 +132,11 @@ func shouldRunSandbox() bool {
 	runSandboxTests = false // turn this to true if you have
 	// setup your sandbox account
 	if fileExists("../secret.yml") == false {
-		fmt.Printf("Not Running sandbox tests because no secret\n")
+		//fmt.Printf("Not Running sandbox tests because no secret\n")
 		return false
 	}
 	if runSandboxTests == false {
-		fmt.Printf("Not Running sandbox tests because of settings\n")
+		//fmt.Printf("Not Running sandbox tests because of settings\n")
 	}
 	return runSandboxTests
 }
