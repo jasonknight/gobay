@@ -35,58 +35,7 @@ type EbayCall struct {
 	Items               []*Item
 	TheClient           *http.Client
 	CategoryCallInfo    *GetCategoriesStruct
-	EbayDetailsCallInfo *GetEbayDetailsStruct
-}
-
-func NewEbayCallEx(conf []byte) (*EbayCall, error) {
-	var e EbayCall
-	m := make(map[string]string)
-	c := make(map[interface{}]interface{})
-	err := LoadConfiguration(conf, &c)
-
-	if err != nil {
-		return nil, err
-	}
-
-	e.DevID = c["DevID"].(string)
-	e.AppID = c["AppID"].(string)
-	e.CertID = c["CertID"].(string)
-	e.CompatLevel = c["CompatLevel"].(string)
-	e.SiteID = c["SiteID"].(string)
-	e.EndPoint = c["EndPoint"].(string)
-	e.EbayAuthToken = c["EbayAuthToken"].(string)
-	e.Country = c["Country"].(string)
-	e.Currency = c["Currency"].(string)
-	e.PayPalEmailAddress = c["PayPalEmailAddress"].(string)
-	e.Language = c["Language"].(string)
-	e.WarningLevel = c["WarningLevel"].(string)
-	e.Cache = c["Cache"].(string)
-
-	e.AddItemsLimit = 5
-	e.CallDepthLimit = 3
-
-	m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s", e.CompatLevel)
-	m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
-	m["X-EBAY-API-APP-NAME"] = fmt.Sprintf("%s", e.AppID)
-	m["X-EBAY-API-CERT-NAME"] = fmt.Sprintf("%s", e.CertID)
-	//m["X-EBAY-API-CALL-NAME"] = fmt.Sprintf("%s", e.Callname)
-	m["X-EBAY-API-SITEID"] = fmt.Sprintf("%s", e.SiteID)
-	e.Headers = m
-
-	if e.Cache == "" {
-		return nil, errors.New("You MUST specify a cache location in the yml file!")
-	}
-
-	return &e, nil
-}
-
-func (o *EbayCall) NewItem() *Item {
-	p := NewItem()
-	p.Country = o.Country
-	p.Site = SiteIDToCode(o.SiteID)
-	p.Currency = o.Currency
-	p.PayPalEmailAddress = o.PayPalEmailAddress
-	return p
+	EbayDetailsCallInfo *EbayDetails
 }
 
 func (o *EbayCall) SetHeader(k string, v string) {
@@ -318,7 +267,7 @@ func (o *EbayCall) Send(r interface{}) error {
 			filePutContents(fmt.Sprintf("%s/%s-%s.xml", o.Cache, o.GetCallname(), o.MessageID), string(b))
 		}
 	}
-	res, err := NewResult(b)
+	res, err := NewResultEx(b)
 	if err != nil {
 		res = NewFakeResult(fmt.Sprintf("%s", err))
 	}
@@ -364,9 +313,9 @@ func AddToResult(r interface{}, x interface{}) {
 		tr := r.(*[]Result)
 		*tr = append(*tr, x.(Result))
 		break
-	case *[]GetMyeBaySellingResult:
-		tr := r.(*[]GetMyeBaySellingResult)
-		*tr = append(*tr, x.(GetMyeBaySellingResult))
+	case *[]MyeBaySellingResult:
+		tr := r.(*[]MyeBaySellingResult)
+		*tr = append(*tr, x.(MyeBaySellingResult))
 		break
 	default:
 		panic("AddToResult type is not supported, this is bad, DO NOT DO THIS")
@@ -400,10 +349,6 @@ func (o *EbayCall) GetAllCategories(r interface{}) error {
 // Getters and Setters
 
 type ItemFilter func(o *Item) bool
-
-func NewEbayCall() *EbayCall {
-	return &EbayCall{}
-}
 
 func (o *EbayCall) Clone() *EbayCall {
 	var no EbayCall

@@ -1,13 +1,13 @@
 DevID: "1234567"
 AppID: "777777"
 CertID: "8asd8890"
-CompatLevel: "570"
+CompatLevel: "967"
 SiteID: "3"
-EndPoint: http://ebay.com
-EbayAuthToken: adkfanjsd'fjawoefnaldknadklfnasl;d vas'dlvnsdv''asndvnasldvnlsdnvlsak
-Country: GB
-Currency: GBP
-PayPalEmailAddress: fake@faker.com
-Language: en_GB
-WarningLevel: High
+EndPoint: "http://ebay.com"
+EbayAuthToken: "adkfanjsd'fjawoefnaldknadklfnasl;d" 
+Country: "GB"
+Currency: "GBP"
+PayPalEmailAddress: "fake@faker.com"
+Language: "en_GB"
+WarningLevel: "High"
 Cache: ".cache"

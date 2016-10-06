@@ -86,9 +86,7 @@ type Item struct {
 func (i *Item) GetInternalID() string {
 	return i.internal_id
 }
-func NewItem() *Item {
-	return &Item{}
-}
+
 
 func (o *Item) Clone() *Item {
 	var no Item

@@ -71,7 +71,7 @@ type ItemArrayStruct struct {
 	Items      []ItemResultStruct `xml:"Item"`
 	Pagination PaginationStruct   `xml:PaginationResult`
 }
-type GetMyeBaySellingResult struct {
+type MyeBaySellingResult struct {
 	Ack                             string
 	Build                           string
 	CorrelationID                   string
@@ -95,8 +95,8 @@ type GetMyeBaySellingResult struct {
 	Errors                          []ErrorMessage
 }
 
-func GetMyeBaySellingResultStructFromXML(data []byte) *GetMyeBaySellingResult {
-	var o GetMyeBaySellingResult
+func GetMyeBaySellingResultStructFromXML(data []byte) *MyeBaySellingResult {
+	var o MyeBaySellingResult
 	xml.Unmarshal(data, &o)
 	return &o
 }

@@ -2,10 +2,6 @@ package gobay
 
 //import "fmt"
 
-func NewPictureDetail() *PictureDetail {
-	return &PictureDetail{}
-}
-
 func (o *PictureDetail) Clone() *PictureDetail {
 	var no PictureDetail
 	no.GalleryDuration = o.GalleryDuration
@@ -54,10 +50,6 @@ func (o *PictureDetail) SetPictureURL(v string) {
 
 func (o *PictureDetail) GetPictureURL() string {
 	return o.PictureURL
-}
-
-func NewShippingServiceOption() *ShippingServiceOption {
-	return &ShippingServiceOption{}
 }
 
 func (o *ShippingServiceOption) Clone() *ShippingServiceOption {

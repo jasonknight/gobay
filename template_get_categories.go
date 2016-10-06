@@ -9,23 +9,6 @@ type GetCategoriesStruct struct {
 	OutputSelectors []string `xml:"OutputSelector"`
 }
 
-func NewGetCategoriesStruct() *GetCategoriesStruct {
-	var s GetCategoriesStruct
-	s.LevelLimit = "3"
-	s.ViewAllNodes = "false"
-	s.DetailLevels = append(s.DetailLevels, "ReturnAll")
-	outputs := [...]string{
-		"CategoryID",
-		"CategoryLevel",
-		"CategoryName",
-		"CategoryParentID",
-	}
-	for _, v := range outputs {
-		s.OutputSelectors = append(s.OutputSelectors, v)
-	}
-	return &s
-}
-
 func GetAllCategoriesTemplate() string {
 	return `
 <CategorySiteID>{{ .SiteID }}</CategorySiteID>

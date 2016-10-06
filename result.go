@@ -1,6 +1,6 @@
 package gobay
 
-import "encoding/xml"
+//import "encoding/xml"
 import "fmt"
 
 //import "bytes"
@@ -129,29 +129,6 @@ type NotificationResult struct {
 		InnerXML string `xml:",innerxml"`
 	}
 	// Header string `xml:"Header,innerxml"`
-}
-
-func NewNotificationResult(data []byte) (*NotificationResult, error) {
-	var o NotificationResult
-	err := xml.Unmarshal(data, &o)
-	if err != nil {
-		return nil, err
-	}
-	return &o, nil
-}
-func NewResult(data []byte) (*Result, error) {
-	var o Result
-	err := xml.Unmarshal(data, &o)
-	if err != nil {
-		return nil, err
-	}
-	return &o, nil
-}
-func NewFakeResult(msg string) *Result {
-	var o Result
-	o.Ack = "InternalFailure"
-	o.Errors = append(o.Errors, ErrorMessage{ShortMessage: msg})
-	return &o
 }
 
 func (r *Result) Success() bool {

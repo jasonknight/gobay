@@ -16,7 +16,7 @@ type MyeBaySellingOpts struct {
 	Sort           string
 	DurationInDays int
 }
-type MyeBaySellingStruct struct {
+type MyeBaySelling struct {
 	ActiveList            MyeBaySellingOpts
 	SoldList              MyeBaySellingOpts
 	UnsoldList            MyeBaySellingOpts
@@ -32,13 +32,12 @@ type MyeBaySellingStruct struct {
 	HideVariations bool
 }
 
-func GetMyeBaySellingStructFromXML(data []byte) *MyeBaySellingStruct {
-	var o MyeBaySellingStruct
-	xml.Unmarshal(data, &o)
-	return &o
+func (o *MyeBaySelling) FromXML(data []byte) error {
+	err := xml.Unmarshal(data, o)
+	return err
 }
-func NewMyeBaySellingStruct() *MyeBaySellingStruct {
-	o := MyeBaySellingStruct{
+func NewMyeBaySelling() *MyeBaySelling {
+	o := MyeBaySelling{
 		// ActiveList: nil,
 		// SoldList: nil,
 		// UnsoldList: nil,
@@ -53,7 +52,7 @@ func NewMyeBaySellingStruct() *MyeBaySellingStruct {
 	}
 	return &o
 }
-func (o *MyeBaySellingStruct) AddActiveList() {
+func (o *MyeBaySelling) AddActiveList() {
 	o.ActiveList = MyeBaySellingOpts{
 		Include:      true,
 		IncludeNotes: false,
@@ -63,7 +62,7 @@ func (o *MyeBaySellingStruct) AddActiveList() {
 	}
 
 }
-func (o *MyeBaySellingStruct) AddScheduledList() {
+func (o *MyeBaySelling) AddScheduledList() {
 	o.ScheduledList = MyeBaySellingOpts{
 		Include:      true,
 		IncludeNotes: false,
@@ -72,7 +71,7 @@ func (o *MyeBaySellingStruct) AddScheduledList() {
 		Sort:         "EndTimeDescending",
 	}
 }
-func (o *MyeBaySellingStruct) AddBidList() {
+func (o *MyeBaySelling) AddBidList() {
 	o.BidList = MyeBaySellingOpts{
 		Include:      true,
 		IncludeNotes: false,
@@ -80,7 +79,7 @@ func (o *MyeBaySellingStruct) AddBidList() {
 		Sort:         "BestOffer",
 	}
 }
-func (o *MyeBaySellingStruct) AddDeletedFromSoldList() {
+func (o *MyeBaySelling) AddDeletedFromSoldList() {
 	o.DeletedFromSoldList = MyeBaySellingOpts{
 		DurationInDays: 10,
 		Include:        true,
@@ -88,7 +87,7 @@ func (o *MyeBaySellingStruct) AddDeletedFromSoldList() {
 		Sort:           "ItemIDDescending",
 	}
 }
-func (o *MyeBaySellingStruct) AddDeletedFromUnsoldList() {
+func (o *MyeBaySelling) AddDeletedFromUnsoldList() {
 	o.DeletedFromUnsoldList = MyeBaySellingOpts{
 		DurationInDays: 10,
 		Include:        true,
@@ -96,7 +95,7 @@ func (o *MyeBaySellingStruct) AddDeletedFromUnsoldList() {
 		Sort:           "ItemIDDescending",
 	}
 }
-func (o *MyeBaySellingStruct) AddSoldList() {
+func (o *MyeBaySelling) AddSoldList() {
 	o.SoldList = MyeBaySellingOpts{
 		DurationInDays: 10,
 		Include:        true,
@@ -105,7 +104,7 @@ func (o *MyeBaySellingStruct) AddSoldList() {
 		Sort:           "ItemIDDescending",
 	}
 }
-func (o *MyeBaySellingStruct) AddUnsoldList() {
+func (o *MyeBaySelling) AddUnsoldList() {
 	o.UnsoldList = MyeBaySellingOpts{
 		DurationInDays: 10,
 		Include:        true,

@@ -15,7 +15,7 @@ func TestResult(t *testing.T) {
 		<Fee currencyID="GBP">0.0</Fee>
 	</Fee>
 		<Fee><Name>BuyItNowFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>CategoryFeaturedFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>FeaturedFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>GalleryPlusFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>FeaturedGalleryFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>FixedPriceDurationFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>GalleryFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>GiftIconFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>HighLightFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>InsertionFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>InternationalInsertionFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>ListingDesignerFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>ListingFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>PhotoDisplayFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>PhotoFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>ReserveFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>SchedulingFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>SubtitleFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>BorderFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>ProPackBundleFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>BasicUpgradePackBundleFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>ValuePackBundleFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>PrivateListingFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>ProPackPlusBundleFee</Name><Fee currencyID="GBP">0.0</Fee></Fee><Fee><Name>MotorsGermanySearchFee</Name><Fee currencyID="GBP">0.0</Fee></Fee></Fees></AddFixedPriceItemResponse>`
-	o, err := NewResult([]byte(data))
+	o, err := NewResultEx([]byte(data))
 	if err != nil {
 		t.Errorf("NewResult returned error %+v!!\n", err)
 	}
@@ -97,7 +97,7 @@ func TestResult(t *testing.T) {
 func TestResultTwo(t *testing.T) {
 	data := `<?xml version="1.0" encoding="UTF-8"?>
 <EndItemResponse xmlns="urn:ebay:apis:eBLBaseComponents"><Timestamp>2016-09-26T06:44:59.344Z</Timestamp><Ack>Failure</Ack><Errors><ShortMessage>The auction has been closed.</ShortMessage><LongMessage>The auction has already been closed.</LongMessage><ErrorCode>1047</ErrorCode><SeverityCode>Error</SeverityCode><ErrorClassification>RequestError</ErrorClassification></Errors><Version>987</Version><Build>E987_UNI_API5_18120651_R1</Build></EndItemResponse>`
-	o, err := NewResult([]byte(data))
+	o, err := NewResultEx([]byte(data))
 
 	if err != nil {
 		t.Errorf("NewResult returned error %+v!!\n", err)
@@ -114,7 +114,7 @@ func TestAddItemsResponseParsing(t *testing.T) {
 	if err != nil {
 		t.Errorf("fileGetContents returned error %+v!!\n", err)
 	}
-	o, err := NewResult(data)
+	o, err := NewResultEx(data)
 	if err != nil {
 		t.Errorf("NewResult returned error %+v!!\n", err)
 	}
@@ -137,7 +137,7 @@ func TestGetAllCategoriesResponseParsing(t *testing.T) {
 		t.Errorf("fileGetContents returned error %+v!!\n", err)
 		return
 	}
-	o, err := NewResult(data)
+	o, err := NewResultEx(data)
 	if err != nil {
 		t.Errorf("NewResult returned error %+v!!\n", err)
 		return
@@ -158,7 +158,7 @@ func TestNotificationResultParsing(t *testing.T) {
 		t.Errorf("fileGetContents returned error %+v!!\n", err)
 		return
 	}
-	o, err := NewNotificationResult(data)
+	o, err := NewNotificationResultEx(data)
 	if err != nil {
 		t.Errorf("NewNotificationResult returned error %+v!!\n", err)
 		return

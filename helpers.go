@@ -95,8 +95,8 @@ func pseudoUUID() (string, error) {
 	return id.String(), nil
 }
 
-func WrapCall(name string, pre string, text string, post string) string {
-	s := `<?xml version="1.0" encoding="utf-8"?>
+func WrapTemplate() string {
+	return `<?xml version="1.0" encoding="utf-8"?>
 <%sRequest xmlns="urn:ebay:apis:eBLBaseComponents">
 	<RequesterCredentials> 
 		<eBayAuthToken>{{ .EbayAuthToken }}</eBayAuthToken> 
@@ -107,8 +107,10 @@ func WrapCall(name string, pre string, text string, post string) string {
 %s
 %s
 %s
-</%sRequest>
-`
+</%sRequest>`
+}
+func WrapCall(name string, pre string, text string, post string) string {
+	s := WrapTemplate()
 	return fmt.Sprintf(s, name, pre, text, post, name)
 }
 

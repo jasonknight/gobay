@@ -1,30 +1,28 @@
 <?php
 
 $tmpl = "
-    o.AddFIELD()
+  o.AddFIELD()
 
-    if o.FIELD.Include != true {
-        t.Errorf(\"Failed, including FIELD is required %+v\",o.FIELD)
-        return
-    }
+  if o.FIELD.Include != true {
+    t.Errorf(\"Failed, including FIELD is required %+v\",o.FIELD)
+    return
+  }
 
-    txt, err = compileGoString(\"Test\", GetMyeBaySellingTemplate(), o, nil)
-    if err != nil {
-        t.Errorf(\"Could not compile file %s\",err)
-        return
-    }
+  txt, err = compileGoString(\"Test\",GetMyeBaySellingTemplate(), o, nil)
+  if err != nil {
+    t.Errorf(\"Failed: %v\",err)
+  }
+  txt = fmt.Sprintf(\"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?><root>%s</root>\", txt)
 
-    txt = fmt.Sprintf(\"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?><root>%s</root>\",txt)
+  to = GetMyeBaySellingStructFromXML([]byte(txt))
 
-    to = GetMyeBaySellingStructFromXML([]byte(txt))
-
-    if to.FIELD.Include != o.FIELD.Include {
-        t.Errorf(\"Failed to reload output\")
-        return
-    }
+  if to.FIELD.Include != o.FIELD.Include {
+    t.Errorf(\"Failed to reload output for AddFIELD\")
+    return
+  }
 ";
 
-$ins = array("ActiveList",           
+$ins = array(           
 "SoldList",             
 "UnsoldList",           
 "BidList",              
@@ -32,6 +30,7 @@ $ins = array("ActiveList",
 "DeletedFromUnsoldList",
 "ScheduledList"); 
 
-foreach ($ins as $in ) {
-    echo str_replace("FIELD",$in, $tmpl);
-}       
+foreach ( $ins as $in ) {
+    echo str_replace("FIELD",$in,$tmpl);
+}
+
