@@ -87,7 +87,6 @@ func (i *Item) GetInternalID() string {
 	return i.internal_id
 }
 
-
 func (o *Item) Clone() *Item {
 	var no Item
 	no.EbayID = o.EbayID

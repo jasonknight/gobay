@@ -175,6 +175,41 @@ func TestGetMyeBaySelling(t *testing.T) {
 	}
 }
 
+func TestGetNotificationPreferences(t *testing.T) {
+	if shouldRunSandbox() == false {
+		return
+	}
+	fmt.Printf("Going ahead with TestGetNotificationPreferences!\n")
+	var results []NotificationPreferencesResult
+
+	cnf, err := fileGetContents("../secret.yml")
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay, err := NewEbayCallEx(cnf)
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay.SetCallname("GetNotificationPreferences")
+
+	ebay.NotificationPreferencesCallInfo.PreferenceLevel = "Application"
+
+	err = ebay.Execute(&results)
+	if err != nil {
+		t.Errorf("Failed to Execute %v\n", err)
+	}
+
+	for _, r := range results {
+		if r.Ack != "Success" {
+			t.Errorf("GetMyeBaySelling failed %+v\n", r)
+		}
+	}
+}
+
 func TestSiteIDToCode(t *testing.T) {
 	sid := "3"
 	scode := SiteIDToCode(sid)

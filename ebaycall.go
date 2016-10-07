@@ -11,32 +11,33 @@ import (
 )
 
 type EbayCall struct {
-	DevID               string
-	AppID               string
-	CertID              string
-	CompatLevel         string
-	SiteID              string
-	EndPoint            string
-	EbayAuthToken       string
-	Country             string
-	Currency            string
-	Language            string
-	MessageID           string
-	MessageIDs          []string
-	WarningLevel        string
-	PayPalEmailAddress  string
-	Callname            string
-	XMLData             string
-	Cache               string
-	AddItemsLimit       int
-	CallDepthLimit      int
-	CallDepth           int
-	Headers             map[string]string
-	Items               []*Item
-	TheClient           *http.Client
-	CategoryCallInfo    *GetCategoriesStruct
-	EbayDetailsCallInfo *EbayDetails
-	MyeBaySellingCallInfo *MyeBaySelling
+	DevID                           string
+	AppID                           string
+	CertID                          string
+	CompatLevel                     string
+	SiteID                          string
+	EndPoint                        string
+	EbayAuthToken                   string
+	Country                         string
+	Currency                        string
+	Language                        string
+	MessageID                       string
+	MessageIDs                      []string
+	WarningLevel                    string
+	PayPalEmailAddress              string
+	Callname                        string
+	XMLData                         string
+	Cache                           string
+	AddItemsLimit                   int
+	CallDepthLimit                  int
+	CallDepth                       int
+	Headers                         map[string]string
+	Items                           []*Item
+	TheClient                       *http.Client
+	CategoryCallInfo                *GetCategoriesStruct
+	EbayDetailsCallInfo             *EbayDetails
+	NotificationPreferencesCallInfo *NotificationPreferencesRequest
+	MyeBaySellingCallInfo           *MyeBaySelling
 }
 
 func (o *EbayCall) SetHeader(k string, v string) {
@@ -77,6 +78,15 @@ func (o *EbayCall) Execute(r interface{}) error {
 		return o.Send(r)
 	}
 
+	if cl == "GetNotificationPreferences" {
+		err := o.GetNotificationPreferences(r)
+		if err != nil {
+			appendFakeResult(fmt.Sprintf("%s", err), r)
+			return err
+		}
+		return o.Send(r)
+	}
+
 	if cl == "GetAllCategories" {
 		o.SetCallname("GetCategories")
 		o.Callname = "GetAllCategories"
@@ -101,6 +111,19 @@ func (o *EbayCall) GetMyeBaySelling(r interface{}) error {
 		return err
 	}
 	final_xml, err := compileGoString("FinalMyeBaySelling", WrapCall("GetMyeBaySelling", "", body, ""), o, nil)
+	if err != nil {
+		return err
+	}
+	o.XMLData = final_xml
+	return nil
+}
+func (o *EbayCall) GetNotificationPreferences(r interface{}) error {
+	o.MessageID, _ = pseudoUUID()
+	body, err := compileGoString("NotificationPreferences", NotificationPreferencesTemplate(), o.NotificationPreferencesCallInfo, nil)
+	if err != nil {
+		return err
+	}
+	final_xml, err := compileGoString("FinalNotificationPreferences", WrapCall("GetNotificationPreferences", "", body, ""), o, nil)
 	if err != nil {
 		return err
 	}
@@ -219,15 +242,13 @@ func (o *EbayCall) Send(r interface{}) error {
 
 	if o.XMLData == "" {
 		err := errors.New("XMLData was empty!")
-		e := NewFakeResult(fmt.Sprintf("%s", err))
-		AddToResult(r, *e)
+		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	filePutContents(fmt.Sprintf("%s/last-sent.xml", o.Cache), o.XMLData)
 	req, err := http.NewRequest("POST", o.EndPoint, bytes.NewBufferString(o.XMLData))
 	if err != nil {
-		e := NewFakeResult(fmt.Sprintf("%s", err))
-		AddToResult(r, *e)
+		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	//req.URL.Host = "148.251.124.116:9090"
@@ -238,8 +259,7 @@ func (o *EbayCall) Send(r interface{}) error {
 	resp, err := o.TheClient.Do(req)
 	//Post(o.EndPoint, "text/xml; charset=utf-8", )
 	if err != nil {
-		e := NewFakeResult(fmt.Sprintf("%s", err))
-		AddToResult(r, *e)
+		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	//fmt.Printf("%+v\n", resp)
@@ -249,8 +269,7 @@ func (o *EbayCall) Send(r interface{}) error {
 
 	globalDebugFunction(DBG_DEBUG, fmt.Sprintf("[[BODY: %s]]", string(b)))
 	if err != nil {
-		e := NewFakeResult(fmt.Sprintf("%s", err))
-		AddToResult(r, *e)
+		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	if !fileExists(o.Cache) {
@@ -268,11 +287,12 @@ func (o *EbayCall) Send(r interface{}) error {
 			filePutContents(fmt.Sprintf("%s/%s-%s.xml", o.Cache, o.GetCallname(), o.MessageID), string(b))
 		}
 	}
-	res, err := NewResultEx(b)
+	res, err := NewResultEx(r, b)
 	if err != nil {
-		res = NewFakeResult(fmt.Sprintf("%s", err))
+		appendFakeResult(fmt.Sprintf("%s", err), r)
+		return err
 	}
-	AddToResult(r, *res)
+	AddToResult(r, res)
 	return nil
 }
 
@@ -317,6 +337,10 @@ func AddToResult(r interface{}, x interface{}) {
 	case *[]MyeBaySellingResult:
 		tr := r.(*[]MyeBaySellingResult)
 		*tr = append(*tr, x.(MyeBaySellingResult))
+		break
+	case *[]NotificationPreferencesResult:
+		tr := r.(*[]NotificationPreferencesResult)
+		*tr = append(*tr, x.(NotificationPreferencesResult))
 		break
 	default:
 		panic("AddToResult type is not supported, this is bad, DO NOT DO THIS")

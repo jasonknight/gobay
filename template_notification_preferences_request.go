@@ -1,5 +1,6 @@
 package gobay
+
 func NotificationPreferencesTemplate() string {
-	return`<PreferenceLevel>User</PreferenceLevel>
+	return `<PreferenceLevel>{{ .PreferenceLevel }}</PreferenceLevel>
 `
 }

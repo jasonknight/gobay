@@ -145,5 +145,3 @@ func TestGetMyeBaySellingResult(t *testing.T) {
 	}
 
 }
-
-

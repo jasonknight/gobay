@@ -1,6 +1,8 @@
 package gobay
+
 import "testing"
-func TestNotificationPreferencesResult ( t *testing.T ) {
+
+func TestNotificationPreferencesResult(t *testing.T) {
 	data := `<?xml version="1.0" encoding="UTF-8"?>
 <GetNotificationPreferencesResponse xmlns="urn:ebay:apis:eBLBaseComponents">
   <Timestamp>2010-12-30T00:26:04.640Z</Timestamp>
@@ -43,7 +45,7 @@ func TestNotificationPreferencesResult ( t *testing.T ) {
 	var o NotificationPreferencesResult
 	err := o.FromXML([]byte(data))
 	if err != nil {
-		t.Errorf("failed loading xml %v",err)
+		t.Errorf("failed loading xml %v", err)
 		return
 	}
 	if o.Timestamp != "2010-12-30T00:26:04.640Z" {
@@ -106,7 +108,6 @@ func TestNotificationPreferencesResult ( t *testing.T ) {
 		return
 	}
 
-
 	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != "EndOfAuction" {
 		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != EndOfAuction")
 		return
@@ -116,7 +117,5 @@ func TestNotificationPreferencesResult ( t *testing.T ) {
 		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != Enable")
 		return
 	}
-
-
 
 }
