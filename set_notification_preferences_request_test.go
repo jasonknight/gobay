@@ -1,6 +1,8 @@
 package gobay
+
 import "testing"
-func TestSetNotificationPreferencesRequest ( t *testing.T ) {
+
+func TestSetNotificationPreferencesRequest(t *testing.T) {
 	data := `<?xml version="1.0" encoding="utf-8"?>
 <SetNotificationPreferencesRequest xmlns="urn:ebay:apis:eBLBaseComponents">
   <!-- Call-specific Input Fields -->
@@ -71,11 +73,11 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 	var o SetNotificationPreferencesRequest
 	err := o.FromXML([]byte(data))
 	if err != nil {
-		t.Errorf("failed loading xml %v",err)
+		t.Errorf("failed loading xml %v", err)
 		return
 	}
 	if o.ApplicationDeliveryPreferences.AlertEmail != "anyURI" {
-		t.Errorf("failed because o.ApplicationDeliveryPreferences.AlertEmail != anyURI %v",o)
+		t.Errorf("failed because o.ApplicationDeliveryPreferences.AlertEmail != anyURI %v", o)
 		return
 	}
 
@@ -109,7 +111,6 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 		return
 	}
 
-
 	if o.ApplicationDeliveryPreferences.DeviceType != "DeviceTypeCodeType" {
 		t.Errorf("failed because o.ApplicationDeliveryPreferences.DeviceType != DeviceTypeCodeType")
 		return
@@ -119,7 +120,6 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 		t.Errorf("failed because o.ApplicationDeliveryPreferences.PayloadVersion != string")
 		return
 	}
-
 
 	if o.DeliveryURLName != "string" {
 		t.Errorf("failed because o.DeliveryURLName != string")
@@ -141,7 +141,6 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 		return
 	}
 
-
 	if o.UserData.ExternalUserData != "string" {
 		t.Errorf("failed because o.UserData.ExternalUserData != string")
 		return
@@ -158,7 +157,7 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 	}
 
 	if o.UserData.SMSSubscription.ItemToUnsubscribe != "ItemIDType (string)" {
-		t.Errorf("failed because o.UserData.SMSSubscription.ItemToUnsubscribe != ItemIDType (string) %+v",o.UserData.SMSSubscription)
+		t.Errorf("failed because o.UserData.SMSSubscription.ItemToUnsubscribe != ItemIDType (string) %+v", o.UserData.SMSSubscription)
 		return
 	}
 
@@ -171,7 +170,6 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 		t.Errorf("failed because o.UserData.SMSSubscription.UserStatus != SMSSubscriptionUserStatusCodeType")
 		return
 	}
-
 
 	if o.UserData.SummarySchedule[0].EventType != "NotificationEventTypeCodeType" {
 		t.Errorf("failed because o.UserData.SummarySchedule[0].EventType != NotificationEventTypeCodeType")
@@ -188,8 +186,6 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 		return
 	}
 
-
-
 	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != "EnableCodeType" {
 		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != EnableCodeType")
 		return
@@ -199,7 +195,5 @@ func TestSetNotificationPreferencesRequest ( t *testing.T ) {
 		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != NotificationEventTypeCodeType")
 		return
 	}
-
-
 
 }

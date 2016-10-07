@@ -19,7 +19,6 @@ func NewNotificationPreferencesResult() *NotificationPreferencesResult {
 	return &NotificationPreferencesResult{}
 }
 
-
 func (o *NotificationPreferencesResult) FromXML(data []byte) error {
 	return xml.Unmarshal(data, o)
 }
@@ -50,15 +49,15 @@ func (o *NotificationPreferencesResult) Warning() bool {
 }
 
 type ApplicationDeliveryPreference struct {
-	ApplicationURL          string `xml:"ApplicationURL" yaml:"ApplicationURL"`
-	ApplicationEnable       string `xml:"ApplicationEnable" yaml:"ApplicationEnable"`
-	AlertEmail              string `xml:"AlertEmail" yaml:"AlertEmail"`
-	AlertEnable             string `xml:"AlertEnable" yaml:"AlertEnable"`
-	NotificationPayloadType string `xml:"NotificationPayloadType" yaml:"NotificationPayloadType"`
-	DeviceType              string `xml:"DeviceType" yaml:"DeviceType"`
-	PayloadEncodingType     string `xml:"PayloadEncodingType" yaml:"PayloadEncodingType"`
-	PayloadVersion          int64  `xml:"PayloadVersion" yaml:"PayloadVersion"`
-	DeliveryURLDetails []DeliveryURLDetail `xml:"DeliveryURLDetails" yaml:"DeliveryURLDetails"`
+	ApplicationURL          string              `xml:"ApplicationURL" yaml:"ApplicationURL"`
+	ApplicationEnable       string              `xml:"ApplicationEnable" yaml:"ApplicationEnable"`
+	AlertEmail              string              `xml:"AlertEmail" yaml:"AlertEmail"`
+	AlertEnable             string              `xml:"AlertEnable" yaml:"AlertEnable"`
+	NotificationPayloadType string              `xml:"NotificationPayloadType" yaml:"NotificationPayloadType"`
+	DeviceType              string              `xml:"DeviceType" yaml:"DeviceType"`
+	PayloadEncodingType     string              `xml:"PayloadEncodingType" yaml:"PayloadEncodingType"`
+	PayloadVersion          int64               `xml:"PayloadVersion" yaml:"PayloadVersion"`
+	DeliveryURLDetails      []DeliveryURLDetail `xml:"DeliveryURLDetails" yaml:"DeliveryURLDetails"`
 }
 
 type UserDeliveryPreference struct {

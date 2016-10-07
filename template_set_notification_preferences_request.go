@@ -1,6 +1,7 @@
 package gobay
+
 func SetNotificationPreferencesTemplate() string {
-	return`
+	return `
   <ApplicationDeliveryPreferences> 
     <AlertEmail> anyURI </AlertEmail>
     <AlertEnable> EnableCodeType </AlertEnable>
