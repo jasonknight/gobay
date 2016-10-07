@@ -36,27 +36,12 @@ func (o *MyeBaySelling) FromXML(data []byte) error {
 	err := xml.Unmarshal(data, o)
 	return err
 }
-func NewMyeBaySelling() *MyeBaySelling {
-	o := MyeBaySelling{
-		// ActiveList: nil,
-		// SoldList: nil,
-		// UnsoldList: nil,
-		// BidList: nil,
-		// DeletedFromSoldList: nil,
-		// DeletedFromUnsoldList:nil,
-		// ScheduledList: nil,
-		SellingSummary: struct {
-			Include bool
-		}{Include: false},
-		HideVariations: false,
-	}
-	return &o
-}
+
 func (o *MyeBaySelling) AddActiveList() {
 	o.ActiveList = MyeBaySellingOpts{
 		Include:      true,
 		IncludeNotes: false,
-		ListingType:  "Chinese",
+		ListingType:  "Auction",
 		Pagination:   PaginationOpts{EntriesPerPage: 25, PageNumber: 1},
 		Sort:         "EndTimeDescending",
 	}
@@ -66,7 +51,7 @@ func (o *MyeBaySelling) AddScheduledList() {
 	o.ScheduledList = MyeBaySellingOpts{
 		Include:      true,
 		IncludeNotes: false,
-		ListingType:  "Chinese",
+		ListingType:  "Auction",
 		Pagination:   PaginationOpts{EntriesPerPage: 25, PageNumber: 1},
 		Sort:         "EndTimeDescending",
 	}

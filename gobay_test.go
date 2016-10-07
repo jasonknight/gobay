@@ -139,6 +139,42 @@ func TestGetAllCategories(t *testing.T) {
 
 }
 
+func TestGetMyeBaySelling(t *testing.T) {
+	if shouldRunSandbox() == false {
+		return
+	}
+	fmt.Printf("Going ahead with TestGetMyeBaySelling!\n")
+	var results []Result
+
+	cnf, err := fileGetContents("../secret.yml")
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay, err := NewEbayCallEx(cnf)
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay.SetCallname("GetMyeBaySelling")
+
+	ebay.MyeBaySellingCallInfo = NewMyeBaySelling()
+	ebay.MyeBaySellingCallInfo.AddActiveList()
+
+	err = ebay.Execute(&results)
+	if err != nil {
+		t.Errorf("Failed to Execute %v\n", err)
+	}
+
+	for _, r := range results {
+		if r.Ack != "Success" {
+			t.Errorf("GetMyeBaySelling failed %+v\n", r)
+		}
+	}
+}
+
 func TestSiteIDToCode(t *testing.T) {
 	sid := "3"
 	scode := SiteIDToCode(sid)

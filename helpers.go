@@ -144,7 +144,7 @@ func shouldRunSandbox() bool {
 }
 
 func ValidateListingType(t string) bool {
-	types := []string{"Auction", "Chinese", "FixedPriceItem", "Half", "LeadGeneration", "PersonalOffer", "Shopping", "Unknown"}
+	types := []string{"Auction", "FixedPriceItem", "StoresFixedPrice", "AdType"}
 	if InStringSlice(types, t) {
 		return true
 	}
@@ -233,6 +233,18 @@ func ValidateItemSortCodeType(t string) bool {
 		"WatchCountDescending",
 		"WonPlatform",
 		"WonPlatformDescending",
+	}
+	if InStringSlice(types, t) {
+		return true
+	}
+	return false
+}
+func ValidateNotificationRoleCodeType(t string) bool {
+	types := []string{
+		"Application",
+		"Event",
+		"User",
+		"UserData",
 	}
 	if InStringSlice(types, t) {
 		return true

@@ -36,6 +36,7 @@ type EbayCall struct {
 	TheClient           *http.Client
 	CategoryCallInfo    *GetCategoriesStruct
 	EbayDetailsCallInfo *EbayDetails
+	MyeBaySellingCallInfo *MyeBaySelling
 }
 
 func (o *EbayCall) SetHeader(k string, v string) {
@@ -95,11 +96,11 @@ func (o *EbayCall) Execute(r interface{}) error {
 }
 func (o *EbayCall) GetMyeBaySelling(r interface{}) error {
 	o.MessageID, _ = pseudoUUID()
-	body, err := compileGoString("MyeBaySelling", GeteBayOfficialTimeTemplate(), o, nil)
+	body, err := compileGoString("MyeBaySelling", GetMyeBaySellingTemplate(), o.MyeBaySellingCallInfo, nil)
 	if err != nil {
 		return err
 	}
-	final_xml, err := compileGoString("FinalMyeBaySelling", WrapCall("GeteBayOfficialTime", "", body, ""), o, nil)
+	final_xml, err := compileGoString("FinalMyeBaySelling", WrapCall("GetMyeBaySelling", "", body, ""), o, nil)
 	if err != nil {
 		return err
 	}

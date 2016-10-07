@@ -1,0 +1,179 @@
+Target file is: notification_preferences_result
+Name: NotificationPreferencesResult a: Timestamp 
+Name: NotificationPreferencesResult a: Ack 
+Name: NotificationPreferencesResult a: Version 
+Name: NotificationPreferencesResult a: Build 
+Name: NotificationPreferencesResult a: ApplicationDeliveryPreferences 
+Name: ApplicationDeliveryPreference a: ApplicationURL 
+Name: ApplicationDeliveryPreference a: ApplicationEnable 
+Name: ApplicationDeliveryPreference a: AlertEmail 
+Name: ApplicationDeliveryPreference a: AlertEnable 
+Name: ApplicationDeliveryPreference a: NotificationPayloadType 
+Name: ApplicationDeliveryPreference a: DeviceType 
+Name: ApplicationDeliveryPreference a: PayloadEncodingType 
+Name: ApplicationDeliveryPreference a: PayloadVersion 
+Name: NotificationPreferencesResult a: UserDeliveryPreferenceArray 
+Name: UserDeliveryPreference a: NotificationEnable 
+Array
+(
+    [def] => type NotificationEnable struct{
+	EventType string `xml:"EventType" yaml:"EventType"`
+	EventEnable string `xml:"EventEnable" yaml:"EventEnable"`
+}
+
+    [attributes] => Array
+        (
+            [EventType] => Array
+                (
+                    [0] => string
+                    [1] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [name] => EventType
+                                    [text] => EndOfAuction
+                                    [attributes] => Array
+                                        (
+                                        )
+
+                                    [children] => Array
+                                        (
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [EventEnable] => Array
+                (
+                    [0] => string
+                    [1] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [name] => EventEnable
+                                    [text] => Enable
+                                    [attributes] => Array
+                                        (
+                                        )
+
+                                    [children] => Array
+                                        (
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+Name: []NotificationEnable a: EventType 
+Name: []NotificationEnable a: EventEnable 
+package gobay
+import "testing"
+func TestNotificationPreferencesResult ( t *testing.T ) {
+	data := `<?xml version="1.0" encoding="UTF-8"?>
+<GetNotificationPreferencesResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+  <Timestamp>2010-12-30T00:26:04.640Z</Timestamp>
+  <Ack>Success</Ack>
+  <Version>699</Version>
+  <Build>E699_CORE_BUNDLED_12457306_R1</Build>
+  <ApplicationDeliveryPreferences>
+    <ApplicationURL src="123">mailto://magicalbookseller@yahoo.com</ApplicationURL>
+    <ApplicationEnable>Enable</ApplicationEnable>
+    <AlertEmail>mailto://magicalbookseller@yahoo.com</AlertEmail>
+    <AlertEnable>Enable</AlertEnable>
+    <NotificationPayloadType>eBLSchemaSOAP</NotificationPayloadType>
+    <DeviceType>Platform</DeviceType>
+    <PayloadEncodingType>JSON</PayloadEncodingType>
+    <PayloadVersion>557</PayloadVersion>
+  </ApplicationDeliveryPreferences>
+  <UserDeliveryPreferenceArray>
+    <NotificationEnable>
+      <EventType>EndOfAuction</EventType>
+      <EventEnable>Enable</EventEnable>
+    </NotificationEnable>
+    <NotificationEnable>
+      <EventType>Feedback</EventType>
+      <EventEnable>Enable</EventEnable>
+    </NotificationEnable>
+    <NotificationEnable>
+      <EventType>ItemListed</EventType>
+      <EventEnable>Enable</EventEnable>
+    </NotificationEnable>
+    <NotificationEnable>
+      <EventType>MyMessageseBayMessageHeader</EventType>
+      <EventEnable>Enable</EventEnable>
+    </NotificationEnable>
+    <NotificationEnable>
+      <EventType>BidReceived</EventType>
+      <EventEnable>Enable</EventEnable>
+    </NotificationEnable>
+  </UserDeliveryPreferenceArray>
+</GetNotificationPreferencesResponse>`
+	var o NotificationPreferencesResult
+	err := o.FromXML([]byte(data))
+	if err != nil {
+		t.Errorf("failed loading xml %v",err)
+	}
+	if o.Timestamp != "2010-12-30T00:26:04.640Z" {
+		t.Errorf("failed because Timestamp != 2010-12-30T00:26:04.640Z")
+	}
+
+	if o.Ack != "Success" {
+		t.Errorf("failed because Ack != Success")
+	}
+
+	if o.Version != 699 {
+		t.Errorf("failed because Version != 699")
+	}
+
+	if o.Build != "E699_CORE_BUNDLED_12457306_R1" {
+		t.Errorf("failed because Build != E699_CORE_BUNDLED_12457306_R1")
+	}
+
+	if o.ApplicationDeliveryPreferences.ApplicationEnable != "Enable" {
+		t.Errorf("failed because ApplicationEnable != Enable")
+	}
+
+	if o.ApplicationDeliveryPreferences.AlertEmail != "mailto://magicalbookseller@yahoo.com" {
+		t.Errorf("failed because AlertEmail != mailto://magicalbookseller@yahoo.com")
+	}
+
+	if o.ApplicationDeliveryPreferences.AlertEnable != "Enable" {
+		t.Errorf("failed because AlertEnable != Enable")
+	}
+
+	if o.ApplicationDeliveryPreferences.NotificationPayloadType != "eBLSchemaSOAP" {
+		t.Errorf("failed because NotificationPayloadType != eBLSchemaSOAP")
+	}
+
+	if o.ApplicationDeliveryPreferences.DeviceType != "Platform" {
+		t.Errorf("failed because DeviceType != Platform")
+	}
+
+	if o.ApplicationDeliveryPreferences.PayloadEncodingType != "JSON" {
+		t.Errorf("failed because PayloadEncodingType != JSON")
+	}
+
+	if o.ApplicationDeliveryPreferences.PayloadVersion != 557 {
+		t.Errorf("failed because PayloadVersion != 557")
+	}
+
+
+	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != "EndOfAuction" {
+		t.Errorf("failed because EventType != EndOfAuction")
+	}
+
+	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != "Enable" {
+		t.Errorf("failed because EventEnable != Enable")
+	}
+
+
+
+}
