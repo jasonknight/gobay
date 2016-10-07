@@ -21,7 +21,7 @@ func NewResultEx(r interface{}, data []byte) (interface{}, error) {
 		if err != nil {
 			return nil, err
 		}
-		return &o, nil
+		return o, nil
 		break
 	case *[]MyeBaySellingResult:
 		var o MyeBaySellingResult
@@ -29,7 +29,7 @@ func NewResultEx(r interface{}, data []byte) (interface{}, error) {
 		if err != nil {
 			return nil, err
 		}
-		return &o, nil
+		return o, nil
 		break
 	case *[]NotificationPreferencesResult:
 		var o NotificationPreferencesResult
@@ -37,7 +37,7 @@ func NewResultEx(r interface{}, data []byte) (interface{}, error) {
 		if err != nil {
 			return nil, err
 		}
-		return &o, nil
+		return o, nil
 		break
 	default:
 		panic("AddToResult type is not supported, this is bad, DO NOT DO THIS")

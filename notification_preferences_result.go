@@ -12,11 +12,13 @@ type NotificationPreferencesResult struct {
 	Build                          string                        `xml:"Build" yaml:"Build"`
 	ApplicationDeliveryPreferences ApplicationDeliveryPreference `xml:"ApplicationDeliveryPreferences" yaml:"ApplicationDeliveryPreferences"`
 	UserDeliveryPreferenceArray    UserDeliveryPreference        `xml:"UserDeliveryPreferenceArray" yaml:"UserDeliveryPreferenceArray"`
+	Errors                         []ErrorMessage
 }
 
 func NewNotificationPreferencesResult() *NotificationPreferencesResult {
 	return &NotificationPreferencesResult{}
 }
+
 
 func (o *NotificationPreferencesResult) FromXML(data []byte) error {
 	return xml.Unmarshal(data, o)
@@ -56,6 +58,7 @@ type ApplicationDeliveryPreference struct {
 	DeviceType              string `xml:"DeviceType" yaml:"DeviceType"`
 	PayloadEncodingType     string `xml:"PayloadEncodingType" yaml:"PayloadEncodingType"`
 	PayloadVersion          int64  `xml:"PayloadVersion" yaml:"PayloadVersion"`
+	DeliveryURLDetails []DeliveryURLDetail `xml:"DeliveryURLDetails" yaml:"DeliveryURLDetails"`
 }
 
 type UserDeliveryPreference struct {

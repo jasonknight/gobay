@@ -195,12 +195,65 @@ func TestGetNotificationPreferences(t *testing.T) {
 	}
 
 	ebay.SetCallname("GetNotificationPreferences")
-
+	ebay.NotificationPreferencesCallInfo = NewNotificationPreferencesRequest()
 	ebay.NotificationPreferencesCallInfo.PreferenceLevel = "Application"
 
 	err = ebay.Execute(&results)
 	if err != nil {
 		t.Errorf("Failed to Execute %v\n", err)
+		return
+	}
+
+	for _, r := range results {
+		if r.Ack != "Success" {
+			t.Errorf("GetMyeBaySelling failed %+v\n", r)
+		}
+	}
+}
+
+func TestSetNotificationPreferences(t *testing.T) {
+	if shouldRunSandbox() == false {
+		return
+	}
+	xmlSetting := `
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ApplicationDeliveryPreferences>
+		<ApplicationURL>mailto://magicalbookseller@yahoo.com</ApplicationURL>
+		<ApplicationEnable>Enable</ApplicationEnable>
+		<AlertEmail>mailto://magicalbookseller@yahoo.com</AlertEmail>
+		<AlertEnable>Enable</AlertEnable>
+		<NotificationPayloadType>eBLSchemaSOAP</NotificationPayloadType>
+		<DeviceType>Platform</DeviceType>
+		<PayloadEncodingType>JSON</PayloadEncodingType>
+		<PayloadVersion>557</PayloadVersion>
+	</ApplicationDeliveryPreferences>
+</root>
+ `
+	fmt.Printf("Going ahead with TestGetNotificationPreferences!\n")
+	var results []Result
+
+	cnf, err := fileGetContents("../secret.yml")
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay, err := NewEbayCallEx(cnf)
+
+	if err != nil {
+		t.Errorf("Failed to load test.yml %v\n", err)
+	}
+
+	ebay.SetCallname("GetNotificationPreferences")
+	info := NewSetNotificationPreferencesRequest()
+	info.FromXML([]byte(xmlSetting))
+	ebay.SetNotificationPreferencesCallInfo = info
+
+	err = ebay.Execute(&results)
+	if err != nil {
+		t.Errorf("Failed to Execute %v\n", err)
+		return
 	}
 
 	for _, r := range results {

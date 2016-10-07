@@ -37,6 +37,7 @@ type EbayCall struct {
 	CategoryCallInfo                *GetCategoriesStruct
 	EbayDetailsCallInfo             *EbayDetails
 	NotificationPreferencesCallInfo *NotificationPreferencesRequest
+	SetNotificationPreferencesCallInfo *SetNotificationPreferencesRequest
 	MyeBaySellingCallInfo           *MyeBaySelling
 }
 
@@ -87,6 +88,15 @@ func (o *EbayCall) Execute(r interface{}) error {
 		return o.Send(r)
 	}
 
+	if cl == "SetNotificationPreferences" {
+		err := o.SetNotificationPreferences(r)
+		if err != nil {
+			appendFakeResult(fmt.Sprintf("%s", err), r)
+			return err
+		}
+		return o.Send(r)
+	}
+
 	if cl == "GetAllCategories" {
 		o.SetCallname("GetCategories")
 		o.Callname = "GetAllCategories"
@@ -124,6 +134,19 @@ func (o *EbayCall) GetNotificationPreferences(r interface{}) error {
 		return err
 	}
 	final_xml, err := compileGoString("FinalNotificationPreferences", WrapCall("GetNotificationPreferences", "", body, ""), o, nil)
+	if err != nil {
+		return err
+	}
+	o.XMLData = final_xml
+	return nil
+}
+func (o *EbayCall) SetNotificationPreferences(r interface{}) error {
+	o.MessageID, _ = pseudoUUID()
+	body, err := compileGoString("SetNotificationPreferences", SetNotificationPreferencesTemplate(), o.SetNotificationPreferencesCallInfo, nil)
+	if err != nil {
+		return err
+	}
+	final_xml, err := compileGoString("FinalSetNotificationPreferences", WrapCall("GetNotificationPreferences", "", body, ""), o, nil)
 	if err != nil {
 		return err
 	}
