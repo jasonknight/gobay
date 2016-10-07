@@ -56,7 +56,7 @@ if ( !file_exists($example) ) {
 libxml_use_internal_errors(true);
 $example_contents = file_get_contents($example);
 $r = simplexml_load_string($example_contents);
-
+$orig_sxml = $r;
 if ($r === false) {
     echo "Failed loading XML\n";
     foreach(libxml_get_errors() as $error) {
@@ -155,7 +155,8 @@ function to_struct($r,$name="") {
 to_struct($r);
 
 // now we need to build the def file
-
+$base_name = cleanName($r['name']);
+$root_element_name =$r['name'];
 $target = toSnakeCase(cleanName($r['name']));
 echo "Target file is: $target\n";
 $target_txt = "package $pkg\n";
@@ -163,10 +164,12 @@ $target_txt .= "import (\n\t\"encoding/xml\"\n";
 $target_txt .= "\t\"gopkg.in/yaml.v2\"\n";
 $target_txt .= ")\n";
 $i = 0;
+$new_struct_func = "";
 foreach ( $structs as $name => $desc ) {
     $target_txt .= $desc['def'] . "\n";
     // Now we create the new function:
     if ($i == 0) { // only for the root!
+        $new_struct_func = "New{$name}";
         $nf = "func New{$name}() *{$name} {\n";
         $nf .= "\treturn &{$name}{}\n";
         $nf .= "}\n";
@@ -262,3 +265,45 @@ foreach ( $structs as $name => $desc ) {
     break;
 }
 file_put_contents($target . "_test.go", $txt);
+
+
+if ( preg_match("/Request/",$example) ) {
+    // We need to create a template
+    $template_fname = "template_{$target}";
+    $txt = "package $pkg\n";
+    $tfuncn = str_replace("Get","",$base_name);
+    $tfuncn = str_replace(".xml","",$tfuncn);
+    $tfuncn = str_replace("Request","",$tfuncn);
+    $tfuncn = "{$tfuncn}Template";
+    $txt .= "func $tfuncn() string {\n";
+    $orig_sxml = new SimpleXMLElement($example_contents);
+    $lines = explode("\n", $example_contents);
+    $cnt = "";
+    foreach ($lines as $line) {
+        if (preg_match("/$root_element_name/",$line) ) {
+            continue;
+        }
+        if (preg_match("/xml version=/",$line) ) {
+            continue;
+        }
+        $cnt .= $line . "\n";
+    }
+    $txt .= "\treturn`$cnt`\n";
+    $txt .= "}\n";
+
+    file_put_contents($template_fname . ".go",$txt);
+
+    // now we create the test
+
+    $txt = "package $pkg\n";
+    $txt .= "import \"testing\"\n";
+    $txt .= "func Test{$tfuncn}(t *testing.T) {\n";
+    $txt .= "\ttmpl := $tfuncn()\n";
+    $txt .= "\to := $new_struct_func()\n";
+    $txt .= "\tdata,err := compileGoString(\"Test{$tfuncn}\",tmpl,o,nil)\n";
+    $txt .= "\tif err != nil {\n\t\tt.Errorf(\"failed to compile $tfuncn %v\",err)\n\t}\n";
+    $txt .= "\tif data == \"\" {\n\t\tt.Errorf(\"failed to compite $tfuncn %v\",data)\n\t}\n";
+    $txt .= "}\n";
+    file_put_contents($template_fname . "_test.go",$txt);
+
+}

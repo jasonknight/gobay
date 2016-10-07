@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetNotificationPreferencesRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+<PreferenceLevel>User</PreferenceLevel>
+</GetNotificationPreferencesRequest>
