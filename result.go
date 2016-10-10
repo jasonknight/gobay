@@ -160,12 +160,12 @@ func (r *GenericResults) AddXML(b []byte) error {
 	if err != nil {
 		return err
 	}
-	r.Results = append(r.Results,nr)
+	r.Results = append(r.Results, nr)
 	return nil
 }
 func (r *GenericResults) AddString(b string) {
 	nr := NewFakeResult(fmt.Sprintf("%s", b))
-	r.Results = append(r.Results,*nr)
+	r.Results = append(r.Results, *nr)
 }
 
 // Debug Functions

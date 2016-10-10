@@ -2,8 +2,8 @@ package gobay
 
 import (
 	"encoding/xml"
-	"gopkg.in/yaml.v2"
 	"fmt"
+	"gopkg.in/yaml.v2"
 )
 
 type NotificationPreferencesResult struct {
@@ -80,10 +80,10 @@ func (r *GenericNotificationPreferenceResults) AddXML(b []byte) error {
 	if err != nil {
 		return err
 	}
-	r.Results = append(r.Results,nr)
+	r.Results = append(r.Results, nr)
 	return nil
 }
 func (r *GenericNotificationPreferenceResults) AddString(b string) {
 	nr := NewFakeResult(fmt.Sprintf("%s", b))
-	r.Results = append(r.Results,*nr)
+	r.Results = append(r.Results, *nr)
 }

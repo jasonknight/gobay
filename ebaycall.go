@@ -9,6 +9,7 @@ import (
 	"os"
 	//"reflect"
 )
+
 type EbayResultSlice interface {
 	AddXML([]byte) error
 	AddString(string)
@@ -229,8 +230,6 @@ func (o *EbayCall) AddItems(r EbayResultSlice) error {
 	o.MessageIDs = append(o.MessageIDs, o.MessageID)
 	err = o.Send(r)
 
-
-	
 	if err != nil { // the err from o.Send
 		return err
 	}
