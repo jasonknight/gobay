@@ -11,7 +11,7 @@ The planned API in your go code will be:
 ```go
 import "github.com/jasonknight/gobay"
 
-var results GenericResults
+var r GenericResults
 cnf, err := fileGetContents("blahblah.yml") //you need to define this function, 
 // or load a file your preferred way...
 if err != nil {
@@ -32,9 +32,9 @@ p.Title = "My Fancy Product"
 
 ebay.AddProduct(p)
 
-err := ebay.Execute(&results)
+err := ebay.Execute(&r)
 
-for _,res := range results.Results {
+for _,res := range r.Results {
     if res.Success() {
         fmt.Printf("Sent %+v\n",p)
     } else {
