@@ -13,6 +13,7 @@ func NewNotificationResultEx(data []byte) (*NotificationResult, error) {
 	}
 	return &o, nil
 }
+
 // func NewResultEx(r interface{}, data []byte) (interface{}, error) {
 // 	switch r.(type) {
 // 	case *[]Result:
