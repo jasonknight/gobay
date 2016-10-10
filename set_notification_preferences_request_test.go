@@ -197,4 +197,3 @@ func TestSetNotificationPreferencesRequest(t *testing.T) {
 	}
 
 }
-

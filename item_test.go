@@ -182,7 +182,7 @@ func TestAddItem(t *testing.T) {
 	for j := 1; j < 3; j++ {
 		i := ebay.NewItem()
 
-		pcnf, err := fileGetContents(fmt.Sprintf("test_data/product_%d.yml",j))
+		pcnf, err := fileGetContents(fmt.Sprintf("test_data/product_%d.yml", j))
 		if err != nil {
 			t.Errorf("Failed to load product_%d.yml %v\n", j, err)
 			return
@@ -190,12 +190,12 @@ func TestAddItem(t *testing.T) {
 		err = i.FromYAML(pcnf)
 
 		if err != nil {
-			t.Errorf("Failed FromYAML for product %d %v\n",j, err)
+			t.Errorf("Failed FromYAML for product %d %v\n", j, err)
 			return
 		}
 		ebay.AddItem(i)
 	}
-	
+
 	ebay.SetCallname("AddItems")
 
 	// check := ebay.CollectAddItems()

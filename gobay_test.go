@@ -216,11 +216,11 @@ func TestSetNotificationPreferences(t *testing.T) {
 		return
 	}
 
-	data,err := fileGetContents("../setnots.xml")
-    if err != nil {
-        t.Errorf("failed to load secret file %s",err)
-        return
-    }
+	data, err := fileGetContents("../setnots.xml")
+	if err != nil {
+		t.Errorf("failed to load secret file %s", err)
+		return
+	}
 
 	fmt.Printf("Going ahead with TestGetNotificationPreferences!\n")
 	var results []Result
