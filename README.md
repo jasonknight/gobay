@@ -9,7 +9,7 @@ A simple and direct eBay Trading API SDK in Golang.[Please check the Wiki ](http
 The planned API in your go code will be:
 
 ```go
-import "gobay"
+import "github.com/jasonknight/gobay"
 
 var results GenericResults
 cnf, err := fileGetContents("blahblah.yml") //you need to define this function, 

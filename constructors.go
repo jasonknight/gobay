@@ -13,38 +13,38 @@ func NewNotificationResultEx(data []byte) (*NotificationResult, error) {
 	}
 	return &o, nil
 }
-func NewResultEx(r interface{}, data []byte) (interface{}, error) {
-	switch r.(type) {
-	case *[]Result:
-		var o Result
-		err := xml.Unmarshal(data, &o)
-		if err != nil {
-			return nil, err
-		}
-		return o, nil
-		break
-	case *[]MyeBaySellingResult:
-		var o MyeBaySellingResult
-		err := xml.Unmarshal(data, &o)
-		if err != nil {
-			return nil, err
-		}
-		return o, nil
-		break
-	case *[]NotificationPreferencesResult:
-		var o NotificationPreferencesResult
-		err := o.FromXML(data)
-		if err != nil {
-			return nil, err
-		}
-		return o, nil
-		break
-	default:
-		panic("AddToResult type is not supported, this is bad, DO NOT DO THIS")
-	}
+// func NewResultEx(r interface{}, data []byte) (interface{}, error) {
+// 	switch r.(type) {
+// 	case *[]Result:
+// 		var o Result
+// 		err := xml.Unmarshal(data, &o)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		return o, nil
+// 		break
+// 	case *[]MyeBaySellingResult:
+// 		var o MyeBaySellingResult
+// 		err := xml.Unmarshal(data, &o)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		return o, nil
+// 		break
+// 	case *[]NotificationPreferencesResult:
+// 		var o NotificationPreferencesResult
+// 		err := o.FromXML(data)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		return o, nil
+// 		break
+// 	default:
+// 		panic("AddToResult type is not supported, this is bad, DO NOT DO THIS")
+// 	}
 
-	return nil, errors.New("could not detect result type")
-}
+// 	return nil, errors.New("could not detect result type")
+// }
 func NewFakeResult(msg string) *Result {
 	var o Result
 	o.Ack = "InternalFailure"
