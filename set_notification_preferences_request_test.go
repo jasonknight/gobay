@@ -126,18 +126,18 @@ func TestSetNotificationPreferencesRequest(t *testing.T) {
 		return
 	}
 
-	if o.EventProperty[0].EventType != "NotificationEventTypeCodeType" {
-		t.Errorf("failed because o.EventProperty[0].EventType != NotificationEventTypeCodeType")
+	if o.EventProperties[0].EventType != "NotificationEventTypeCodeType" {
+		t.Errorf("failed because o.EventProperties[0].EventType != NotificationEventTypeCodeType")
 		return
 	}
 
-	if o.EventProperty[0].Name != "NotificationEventPropertyNameCodeType" {
-		t.Errorf("failed because o.EventProperty[0].Name != NotificationEventPropertyNameCodeType")
+	if o.EventProperties[0].Name != "NotificationEventPropertyNameCodeType" {
+		t.Errorf("failed because o.EventProperties[0].Name != NotificationEventPropertyNameCodeType")
 		return
 	}
 
-	if o.EventProperty[0].Value != "string" {
-		t.Errorf("failed because o.EventProperty[0].Value != string")
+	if o.EventProperties[0].Value != "string" {
+		t.Errorf("failed because o.EventProperties[0].Value != string")
 		return
 	}
 
@@ -171,29 +171,30 @@ func TestSetNotificationPreferencesRequest(t *testing.T) {
 		return
 	}
 
-	if o.UserData.SummarySchedule[0].EventType != "NotificationEventTypeCodeType" {
-		t.Errorf("failed because o.UserData.SummarySchedule[0].EventType != NotificationEventTypeCodeType")
+	if o.UserData.SummarySchedules[0].EventType != "NotificationEventTypeCodeType" {
+		t.Errorf("failed because o.UserData.SummarySchedules[0].EventType != NotificationEventTypeCodeType")
 		return
 	}
 
-	if o.UserData.SummarySchedule[0].Frequency != "SummaryFrequencyCodeType" {
-		t.Errorf("failed because o.UserData.SummarySchedule[0].Frequency != SummaryFrequencyCodeType")
+	if o.UserData.SummarySchedules[0].Frequency != "SummaryFrequencyCodeType" {
+		t.Errorf("failed because o.UserData.SummarySchedules[0].Frequency != SummaryFrequencyCodeType")
 		return
 	}
 
-	if o.UserData.SummarySchedule[0].SummaryPeriod != "SummaryWindowPeriodCodeType" {
-		t.Errorf("failed because o.UserData.SummarySchedule[0].SummaryPeriod != SummaryWindowPeriodCodeType")
+	if o.UserData.SummarySchedules[0].SummaryPeriod != "SummaryWindowPeriodCodeType" {
+		t.Errorf("failed because o.UserData.SummarySchedules[0].SummaryPeriod != SummaryWindowPeriodCodeType")
 		return
 	}
 
-	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != "EnableCodeType" {
-		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != EnableCodeType")
+	if o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventEnable != "EnableCodeType" {
+		t.Errorf("failed because o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventEnable != EnableCodeType")
 		return
 	}
 
-	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != "NotificationEventTypeCodeType" {
-		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != NotificationEventTypeCodeType")
+	if o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventType != "NotificationEventTypeCodeType" {
+		t.Errorf("failed because o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventType != NotificationEventTypeCodeType")
 		return
 	}
 
 }
+

@@ -1,0 +1,49 @@
+SKU: "SKU5678"
+Title: "Yet Another Unique Title"
+Description: "A very unique description"
+StartPrice: "32.48"
+Quantity: "1"
+ListingType: "Chinese"
+Location: "-- not given --"
+PrimaryCategory: "98437"
+DispatchTimeMax: "3"
+ListingDuration: "Days_10"
+ShipToLocations:
+  - "GB"
+  - "Worldwide"
+  - "Europe"
+PictureDetails:
+  - GalleryType: "Gallery"
+    GalleryURL: ""
+    PhotoDisplay: ""
+    PictureURL: "https://raw.githubusercontent.com/jasonknight/gobay/master/test_data/PlatoQuote.jpg"
+PaymentMethods:
+  - "PayPal"
+  - "PersonalCheck"
+ShippingServiceOptions:
+  - Service: "UK_RoyalMailFirstClassStandard"
+    Cost: "1"
+    Priority: "1"
+  - Service: "UK_RoyalMailSpecialDeliveryNextDay"
+    Cost: "6.50"
+    Priority: "2"
+InternationalShippingServiceOptions:
+  - Service: "UK_RoyalMailAirmailInternational"
+    Cost: "2.50"
+    Priority: "1"
+    Locations: 
+      - "Europe"
+      - "Worldwide"
+  - Service: "UK_RoyalMailInternationalSignedFor"
+    Cost: "8.50"
+    Priority: "3"
+    Locations: 
+      - "Europe"
+      - "Worldwide"
+
+ReturnPolicy:
+  ReturnsAcceptedOption: "ReturnsAccepted"
+  RefundOption: "MoneyBack"
+  ReturnsWithinOption: "Days_30"
+  Description: "Text"
+  ShippingCostPaidByOption: "Buyer"

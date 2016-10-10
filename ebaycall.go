@@ -14,7 +14,7 @@ type EbayCall struct {
 	DevID                              string
 	AppID                              string
 	CertID                             string
-	CompatLevel                        string
+	CompatLevel                        int64
 	SiteID                             string
 	EndPoint                           string
 	EbayAuthToken                      string
@@ -146,7 +146,7 @@ func (o *EbayCall) SetNotificationPreferences(r interface{}) error {
 	if err != nil {
 		return err
 	}
-	final_xml, err := compileGoString("FinalSetNotificationPreferences", WrapCall("GetNotificationPreferences", "", body, ""), o, nil)
+	final_xml, err := compileGoString("FinalSetNotificationPreferences", WrapCall("SetNotificationPreferences", "", body, ""), o, nil)
 	if err != nil {
 		return err
 	}
@@ -445,11 +445,11 @@ func (o *EbayCall) GetCertID() string {
 	return o.CertID
 }
 
-func (o *EbayCall) SetCompatLevel(v string) {
+func (o *EbayCall) SetCompatLevel(v int64) {
 	o.CompatLevel = v
 }
 
-func (o *EbayCall) GetCompatLevel() string {
+func (o *EbayCall) GetCompatLevel() int64 {
 	return o.CompatLevel
 }
 

@@ -8,7 +8,7 @@ import (
 type SetNotificationPreferencesRequest struct {
 	ApplicationDeliveryPreferences ApplicationDeliveryPreference `xml:"ApplicationDeliveryPreferences" yaml:"ApplicationDeliveryPreferences"`
 	DeliveryURLName                string                        `xml:"DeliveryURLName" yaml:"DeliveryURLName"`
-	EventProperty                  []EventProperty               `xml:"EventProperty" yaml:"EventProperty"`
+	EventProperties                  []EventProperty               `xml:"EventProperty" yaml:"EventProperty"`
 	UserData                       UserData                      `xml:"UserData" yaml:"UserData"`
 	UserDeliveryPreferenceArray    UserDeliveryPreference        `xml:"UserDeliveryPreferenceArray" yaml:"UserDeliveryPreferenceArray"`
 }
@@ -40,7 +40,7 @@ type EventProperty struct {
 type UserData struct {
 	ExternalUserData string            `xml:"ExternalUserData" yaml:"ExternalUserData"`
 	SMSSubscription  SMSSubscription   `xml:"SMSSubscription" yaml:"SMSSubscription"`
-	SummarySchedule  []SummarySchedule `xml:"SummarySchedule" yaml:"SummarySchedule"`
+	SummarySchedules  []SummarySchedule `xml:"SummarySchedule" yaml:"SummarySchedule"`
 }
 
 type SMSSubscription struct {

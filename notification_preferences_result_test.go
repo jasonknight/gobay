@@ -108,13 +108,13 @@ func TestNotificationPreferencesResult(t *testing.T) {
 		return
 	}
 
-	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != "EndOfAuction" {
-		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventType != EndOfAuction")
+	if o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventType != "EndOfAuction" {
+		t.Errorf("failed because o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventType != EndOfAuction")
 		return
 	}
 
-	if o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != "Enable" {
-		t.Errorf("failed because o.UserDeliveryPreferenceArray.NotificationEnable[0].EventEnable != Enable")
+	if o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventEnable != "Enable" {
+		t.Errorf("failed because o.UserDeliveryPreferenceArray.EnabledNotifications[0].EventEnable != Enable")
 		return
 	}
 

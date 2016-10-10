@@ -179,28 +179,24 @@ func TestAddItem(t *testing.T) {
 		t.Errorf("Failed to initialize ebay call from secret.yml %v\n", err)
 	}
 
-	i := ebay.NewItem()
+	for j := 1; j < 3; j++ {
+		i := ebay.NewItem()
 
-	pcnf, err := fileGetContents("test_data/product_1.yml")
-	if err != nil {
-		t.Errorf("Failed to load product_1.yml %v\n", err)
-		return
+		pcnf, err := fileGetContents(fmt.Sprintf("test_data/product_%d.yml",j))
+		if err != nil {
+			t.Errorf("Failed to load product_%d.yml %v\n", j, err)
+			return
+		}
+		err = i.FromYAML(pcnf)
+
+		if err != nil {
+			t.Errorf("Failed FromYAML for product %d %v\n",j, err)
+			return
+		}
+		ebay.AddItem(i)
 	}
-	err = i.FromYAML(pcnf)
-	// i.SKU, _ = pseudoUUID()
-	// i.Title, _ = pseudoUUID()
-
-	// i.SKU = i.SKU[0:5]
-	// i.Title = fmt.Sprintf("This is a simple title %s", i.Title[0:5])
-
-	if err != nil {
-		t.Errorf("Failed FromYAML %v\n", err)
-		return
-	}
+	
 	ebay.SetCallname("AddItems")
-	// Get an EbayCall
-
-	ebay.AddItem(i)
 
 	// check := ebay.CollectAddItems()
 

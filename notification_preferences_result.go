@@ -61,7 +61,7 @@ type ApplicationDeliveryPreference struct {
 }
 
 type UserDeliveryPreference struct {
-	NotificationEnable []NotificationEnable `xml:"NotificationEnable" yaml:"NotificationEnable"`
+	EnabledNotifications []NotificationEnable `xml:"NotificationEnable" yaml:"NotificationEnable"`
 }
 
 type NotificationEnable struct {

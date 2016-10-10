@@ -67,7 +67,7 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	e.DevID = c["DevID"].(string)
 	e.AppID = c["AppID"].(string)
 	e.CertID = c["CertID"].(string)
-	e.CompatLevel = c["CompatLevel"].(string)
+	e.CompatLevel = int64(c["CompatLevel"].(int))
 	e.SiteID = c["SiteID"].(string)
 	e.EndPoint = c["EndPoint"].(string)
 	e.EbayAuthToken = c["EbayAuthToken"].(string)
@@ -81,7 +81,7 @@ func NewEbayCallEx(conf []byte) (*EbayCall, error) {
 	e.AddItemsLimit = 5
 	e.CallDepthLimit = 3
 
-	m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%s", e.CompatLevel)
+	m["X-EBAY-API-COMPATIBILITY-LEVEL"] = fmt.Sprintf("%d", e.CompatLevel)
 	m["X-EBAY-API-DEV-NAME"] = fmt.Sprintf("%s", e.DevID)
 	m["X-EBAY-API-APP-NAME"] = fmt.Sprintf("%s", e.AppID)
 	m["X-EBAY-API-CERT-NAME"] = fmt.Sprintf("%s", e.CertID)

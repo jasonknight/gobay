@@ -1,69 +1,61 @@
 package gobay
 
 func SetNotificationPreferencesTemplate() string {
-	return `
-  <ApplicationDeliveryPreferences> 
-    <AlertEmail> anyURI </AlertEmail>
-    <AlertEnable> EnableCodeType </AlertEnable>
-    <ApplicationEnable> EnableCodeType </ApplicationEnable>
-    <ApplicationURL> anyURI </ApplicationURL>
+	return `{{ with .ApplicationDeliveryPreferences }}<ApplicationDeliveryPreferences> 
+    <AlertEmail>{{ .AlertEmail }}</AlertEmail>
+    <AlertEnable>{{ .AlertEnable }}</AlertEnable>
+    <ApplicationEnable>{{ .ApplicationEnable }}</ApplicationEnable>
+    <ApplicationURL>{{ .ApplicationURL }}</ApplicationURL>
+    {{ range .DeliveryURLDetails }}
     <DeliveryURLDetails>
-      <DeliveryURL> anyURI </DeliveryURL>
-      <DeliveryURLName> string </DeliveryURLName>
-      <Status> EnableCodeType </Status>
+      <DeliveryURL>{{ .DeliveryURL }}</DeliveryURL>
+      <DeliveryURLName>{{ .DeliveryURLName }}</DeliveryURLName>
+      <Status>{{ .Status }}</Status>
     </DeliveryURLDetails>
-    <DeliveryURLDetails>
-      <DeliveryURL> anyURI </DeliveryURL>
-      <DeliveryURLName> string </DeliveryURLName>
-      <Status> EnableCodeType </Status>
-    </DeliveryURLDetails>
-    <!-- ... more DeliveryURLDetails nodes allowed here ... -->
-    <DeviceType> DeviceTypeCodeType </DeviceType>
-    <PayloadVersion> string </PayloadVersion>
-  </ApplicationDeliveryPreferences>
-  <DeliveryURLName> string </DeliveryURLName>
+    {{ end }}
+    <DeviceType>{{ .DeviceType }}</DeviceType>
+    <PayloadVersion>{{ .PayloadVersion }}</PayloadVersion>
+  </ApplicationDeliveryPreferences>{{end}}
+  <DeliveryURLName>{{ .DeliveryURLName }}</DeliveryURLName>
+  {{ range .EventProperties }}
   <EventProperty>
-    <EventType> NotificationEventTypeCodeType </EventType>
-    <Name> NotificationEventPropertyNameCodeType </Name>
-    <Value> string </Value>
+    <EventType>{{ .EventType }}</EventType>
+    <Name>{{ .Name }}</Name>
+    <Value>{{ .Value }}</Value>
   </EventProperty>
-  <EventProperty>
-    <EventType> NotificationEventTypeCodeType </EventType>
-    <Name> NotificationEventPropertyNameCodeType </Name>
-    <Value> string </Value>
-  </EventProperty>
-  <!-- ... more EventProperty nodes allowed here ... -->
+  {{end}}
+  {{ with .UserData }}
   <UserData>
-    <ExternalUserData> string </ExternalUserData>
+    <ExternalUserData>{{ .ExternalUserData }}</ExternalUserData>
+    {{ if ne .SMSSubscription.CarrierID "" }}
+    {{ with .SMSSubscription }}
     <SMSSubscription>
-      <CarrierID> WirelessCarrierIDCodeType </CarrierID>
-      <ErrorCode> SMSSubscriptionErrorCodeCodeType </ErrorCode>
-      <ItemToUnsubscribe> ItemIDType (string) </ItemToUnsubscribe>
-      <SMSPhone> string </SMSPhone>
-      <UserStatus> SMSSubscriptionUserStatusCodeType </UserStatus>
+      <CarrierID>{{ .CarrierID }}</CarrierID>
+      <ErrorCode>{{ .ErrorCode }}</ErrorCode>
+      <ItemToUnsubscribe>{{ .ItemToUnsubscribe }}</ItemToUnsubscribe>
+      <SMSPhone>{{ .SMSPhone }}</SMSPhone>
+      <UserStatus>{{ .UserStatus }}</UserStatus>
     </SMSSubscription>
+    {{ end }}
+    {{ end }}
+    {{ range .SummarySchedules }}
     <SummarySchedule>
-      <EventType> NotificationEventTypeCodeType </EventType>
-      <Frequency> SummaryFrequencyCodeType </Frequency>
-      <SummaryPeriod> SummaryWindowPeriodCodeType </SummaryPeriod>
+      <EventType>{{ .EventType }}</EventType>
+      <Frequency>{{ .Frequency }}</Frequency>
+      <SummaryPeriod>{{ .SummaryPeriod }}</SummaryPeriod>
     </SummarySchedule>
-    <SummarySchedule>
-      <EventType> NotificationEventTypeCodeType </EventType>
-      <Frequency> SummaryFrequencyCodeType </Frequency>
-      <SummaryPeriod> SummaryWindowPeriodCodeType </SummaryPeriod>
-    </SummarySchedule>
-    <!-- ... more SummarySchedule nodes allowed here ... -->
+  {{ end }}
   </UserData>
+  {{ end }}
+  {{ with .UserDeliveryPreferenceArray }}
   <UserDeliveryPreferenceArray>
-    <NotificationEnable>
-      <EventEnable> EnableCodeType </EventEnable>
-      <EventType> NotificationEventTypeCodeType </EventType>
-    </NotificationEnable>
-    <NotificationEnable>
-      <EventEnable> EnableCodeType </EventEnable>
-      <EventType> NotificationEventTypeCodeType </EventType>
-    </NotificationEnable>
-    <!-- ... more NotificationEnable nodes allowed here ... -->
+    {{ range .EnabledNotifications }}
+      <NotificationEnable>
+        <EventEnable>{{ .EventEnable }}</EventEnable>
+        <EventType>{{ .EventType }}</EventType>
+      </NotificationEnable>
+    {{end}}
   </UserDeliveryPreferenceArray>
+  {{ end }}
 `
 }
