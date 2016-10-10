@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Header>
+  <ebl:RequesterCredentials soapenv:mustUnderstand="0" xmlns:ns="urn:ebay:apis:eBLBaseComponents" xmlns:ebl="urn:ebay:apis:eBLBaseComponents">
+   <ebl:NotificationSignature xmlns:ebl="urn:ebay:apis:eBLBaseComponents">dc1LpeYy13Lxh3IFId2c3A==</ebl:NotificationSignature>
+  </ebl:RequesterCredentials>
+ </soapenv:Header>
+ <soapenv:Body>
+  <GetFeedbackResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+   <Timestamp>2016-09-24T05:52:49.425Z</Timestamp>
+   <Ack>Success</Ack>
+   <CorrelationID>762960883040</CorrelationID>
+   <Version>967</Version>
+   <Build>E967_INTL_APIFEEDBACK_17965782_R1</Build>
+   <NotificationEventName>Feedback</NotificationEventName>
+   <RecipientUserID>TestUSER</RecipientUserID>
+   <EIASToken>nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wJnYehCZGFpwqdj6x9nY+seQ==</EIASToken>
+   <FeedbackDetailArray>
+    <FeedbackDetail>
+     <CommentingUser>TestCOMMENTER</CommentingUser>
+     <CommentingUserScore>1226</CommentingUserScore>
+     <CommentText>Quick delivery, well wrapped, many thanks</CommentText>
+     <CommentTime>2016-09-24T05:52:46.000Z</CommentTime>
+     <CommentType>Positive</CommentType>
+     <ItemID>401044429349</ItemID>
+     <Role>Seller</Role>
+     <FeedbackID>1359989232016</FeedbackID>
+     <TransactionID>577330386027</TransactionID>
+     <ItemTitle>B5c 70th Ann of the Formation of LXX Sqn Signed by L.H. Rochford</ItemTitle>
+     <ItemPrice currencyID="GBP">4.0</ItemPrice>
+    </FeedbackDetail>
+   </FeedbackDetailArray>
+   <FeedbackDetailItemTotal>1</FeedbackDetailItemTotal>
+   <FeedbackScore>28688</FeedbackScore>
+   <PaginationResult>
+    <TotalNumberOfPages>1</TotalNumberOfPages>
+    <TotalNumberOfEntries>1</TotalNumberOfEntries>
+   </PaginationResult>
+   <EntriesPerPage>25</EntriesPerPage>
+   <PageNumber>1</PageNumber>
+  </GetFeedbackResponse>
+ </soapenv:Body>
+</soapenv:Envelope>
