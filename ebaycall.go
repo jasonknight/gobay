@@ -9,7 +9,10 @@ import (
 	"os"
 	//"reflect"
 )
-
+type EbayResultSlice interface {
+	AddXML([]byte) error
+	AddString(string)
+}
 type EbayCall struct {
 	DevID                              string
 	AppID                              string
@@ -48,14 +51,14 @@ func (o *EbayCall) GetHeader(k string) string {
 	return o.Headers[k]
 }
 
-func (o *EbayCall) Execute(r interface{}) error {
+func (o *EbayCall) Execute(r EbayResultSlice) error {
 	o.CallDepth = 0
 	cl := o.GetCallname()
 
 	if cl == "GeteBayOfficialTime" {
 		err := o.GeteBayOfficialTime(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s", err), r)
+			r.AddString(fmt.Sprintf("%s", err))
 			return err
 		}
 		return o.Send(r)
@@ -64,7 +67,7 @@ func (o *EbayCall) Execute(r interface{}) error {
 	if cl == "GeteBayDetails" {
 		err := o.GeteBayDetails(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s", err), r)
+			r.AddString(fmt.Sprintf("%s", err))
 			return err
 		}
 		return o.Send(r)
@@ -73,7 +76,7 @@ func (o *EbayCall) Execute(r interface{}) error {
 	if cl == "GetMyeBaySelling" {
 		err := o.GetMyeBaySelling(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s", err), r)
+			r.AddString(fmt.Sprintf("%s", err))
 			return err
 		}
 		return o.Send(r)
@@ -82,7 +85,7 @@ func (o *EbayCall) Execute(r interface{}) error {
 	if cl == "GetNotificationPreferences" {
 		err := o.GetNotificationPreferences(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s", err), r)
+			r.AddString(fmt.Sprintf("%s", err))
 			return err
 		}
 		return o.Send(r)
@@ -91,7 +94,7 @@ func (o *EbayCall) Execute(r interface{}) error {
 	if cl == "SetNotificationPreferences" {
 		err := o.SetNotificationPreferences(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s", err), r)
+			r.AddString(fmt.Sprintf("%s", err))
 			return err
 		}
 		return o.Send(r)
@@ -102,7 +105,7 @@ func (o *EbayCall) Execute(r interface{}) error {
 		o.Callname = "GetAllCategories"
 		err := o.GetAllCategories(r)
 		if err != nil {
-			appendFakeResult(fmt.Sprintf("%s", err), r)
+			r.AddString(fmt.Sprintf("%s", err))
 			return err
 		}
 		return o.Send(r)
@@ -114,7 +117,7 @@ func (o *EbayCall) Execute(r interface{}) error {
 
 	return nil
 }
-func (o *EbayCall) GetMyeBaySelling(r interface{}) error {
+func (o *EbayCall) GetMyeBaySelling(r EbayResultSlice) error {
 	o.MessageID, _ = pseudoUUID()
 	body, err := compileGoString("MyeBaySelling", GetMyeBaySellingTemplate(), o.MyeBaySellingCallInfo, nil)
 	if err != nil {
@@ -127,7 +130,7 @@ func (o *EbayCall) GetMyeBaySelling(r interface{}) error {
 	o.XMLData = final_xml
 	return nil
 }
-func (o *EbayCall) GetNotificationPreferences(r interface{}) error {
+func (o *EbayCall) GetNotificationPreferences(r EbayResultSlice) error {
 	o.MessageID, _ = pseudoUUID()
 	body, err := compileGoString("NotificationPreferences", NotificationPreferencesTemplate(), o.NotificationPreferencesCallInfo, nil)
 	if err != nil {
@@ -140,7 +143,7 @@ func (o *EbayCall) GetNotificationPreferences(r interface{}) error {
 	o.XMLData = final_xml
 	return nil
 }
-func (o *EbayCall) SetNotificationPreferences(r interface{}) error {
+func (o *EbayCall) SetNotificationPreferences(r EbayResultSlice) error {
 	o.MessageID, _ = pseudoUUID()
 	body, err := compileGoString("SetNotificationPreferences", SetNotificationPreferencesTemplate(), o.SetNotificationPreferencesCallInfo, nil)
 	if err != nil {
@@ -198,48 +201,41 @@ func (o *EbayCall) CollectAddItemsXML(s *AddItemsStruct) (string, error) {
 	}
 	return final_xml, nil
 }
-func (o *EbayCall) AddItems(r interface{}) error {
+func (o *EbayCall) AddItems(r EbayResultSlice) error {
 	// helps to prevent flooding the server if you do shit wrong
 	if o.CallDepth >= o.CallDepthLimit {
 		err := errors.New(fmt.Sprintf("CallDepthLimit of %d reached for AddItems!", o.CallDepthLimit))
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 
 	o.CallDepth = o.CallDepth + 1
-	var tr []Result
 
 	s, err := o.CollectAddItems()
 
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 
 	if len(s.Children) > len(o.Items) {
 		err := errors.New(fmt.Sprintf("Too many Children %d!", len(s.Children)))
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 
 	o.XMLData, err = o.CollectAddItemsXML(s)
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	o.MessageID, _ = pseudoUUID()
 	o.MessageIDs = append(o.MessageIDs, o.MessageID)
-	err = o.Send(&tr)
+	err = o.Send(r)
 
-	for _, cr := range tr {
-		AddToResult(r, cr)
+
+	
+	if err != nil { // the err from o.Send
+		return err
 	}
 	for _, child := range s.Children {
 		child.Item.sent = true
-	}
-	if err != nil { // the err from o.Send
-		appendFakeResult(fmt.Sprintf("%s", err), r)
-		return err
 	}
 	if o.HasItemsToSend() {
 		return o.AddItems(r)
@@ -254,24 +250,23 @@ func (o *EbayCall) HasItemsToSend() bool {
 	}
 	return false
 }
-func appendFakeResult(msg string, r interface{}) {
-	e := NewFakeResult(fmt.Sprintf("%s", msg))
-	AddToResult(r, *e)
-}
-func (o *EbayCall) Send(r interface{}) error {
+
+// func appendFakeResult(msg string, r EbayResultSlice) {
+// 	e := NewFakeResult(fmt.Sprintf("%s", msg))
+// 	AddToResult(r, *e)
+// }
+func (o *EbayCall) Send(r EbayResultSlice) error {
 	o.TheClient = new(http.Client)
 
 	globalDebugFunction(DBG_DEBUG, fmt.Sprintf("About to send [[%s]]\n\n", o.XMLData))
 
 	if o.XMLData == "" {
 		err := errors.New("XMLData was empty!")
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	filePutContents(fmt.Sprintf("%s/last-sent.xml", o.Cache), o.XMLData)
 	req, err := http.NewRequest("POST", o.EndPoint, bytes.NewBufferString(o.XMLData))
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	//req.URL.Host = "148.251.124.116:9090"
@@ -282,7 +277,6 @@ func (o *EbayCall) Send(r interface{}) error {
 	resp, err := o.TheClient.Do(req)
 	//Post(o.EndPoint, "text/xml; charset=utf-8", )
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	//fmt.Printf("%+v\n", resp)
@@ -292,7 +286,6 @@ func (o *EbayCall) Send(r interface{}) error {
 
 	globalDebugFunction(DBG_DEBUG, fmt.Sprintf("[[BODY: %s]]", string(b)))
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
 	if !fileExists(o.Cache) {
@@ -310,18 +303,16 @@ func (o *EbayCall) Send(r interface{}) error {
 			filePutContents(fmt.Sprintf("%s/%s-%s.xml", o.Cache, o.GetCallname(), o.MessageID), string(b))
 		}
 	}
-	res, err := NewResultEx(r, b)
+	err = r.AddXML(b)
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
 		return err
 	}
-	AddToResult(r, res)
 	return nil
 }
 
 // Ebay Calls
 
-func (o *EbayCall) GeteBayOfficialTime(r interface{}) error {
+func (o *EbayCall) GeteBayOfficialTime(r EbayResultSlice) error {
 	o.MessageID, _ = pseudoUUID()
 	body, err := compileGoString("Time", GeteBayOfficialTimeTemplate(), o, nil)
 	if err != nil {
@@ -335,7 +326,7 @@ func (o *EbayCall) GeteBayOfficialTime(r interface{}) error {
 	return nil
 }
 
-func (o *EbayCall) GeteBayDetails(r interface{}) error {
+func (o *EbayCall) GeteBayDetails(r EbayResultSlice) error {
 	o.MessageID, _ = pseudoUUID()
 	body, err := compileGoString("GeteBayDetails", GeteBayDetailsTemplate(), o.EbayDetailsCallInfo, nil)
 	if err != nil {
@@ -349,28 +340,28 @@ func (o *EbayCall) GeteBayDetails(r interface{}) error {
 	return nil
 }
 
-func AddToResult(r interface{}, x interface{}) {
-	// This function expects r to be a pointer
-	// x cannot be a pointer...
-	switch r.(type) {
-	case *[]Result:
-		tr := r.(*[]Result)
-		*tr = append(*tr, x.(Result))
-		break
-	case *[]MyeBaySellingResult:
-		tr := r.(*[]MyeBaySellingResult)
-		*tr = append(*tr, x.(MyeBaySellingResult))
-		break
-	case *[]NotificationPreferencesResult:
-		tr := r.(*[]NotificationPreferencesResult)
-		*tr = append(*tr, x.(NotificationPreferencesResult))
-		break
-	default:
-		panic("AddToResult type is not supported, this is bad, DO NOT DO THIS")
-	}
-}
+// func AddToResult(r EbayResultSlice, x interface{}) {
+// 	// This function expects r to be a pointer
+// 	// x cannot be a pointer...
+// 	switch r.(type) {
+// 	case *[]Result:
+// 		tr := r.(*[]Result)
+// 		*tr = append(*tr, x.(Result))
+// 		break
+// 	case *[]MyeBaySellingResult:
+// 		tr := r.(*[]MyeBaySellingResult)
+// 		*tr = append(*tr, x.(MyeBaySellingResult))
+// 		break
+// 	case *[]NotificationPreferencesResult:
+// 		tr := r.(*[]NotificationPreferencesResult)
+// 		*tr = append(*tr, x.(NotificationPreferencesResult))
+// 		break
+// 	default:
+// 		panic("AddToResult type is not supported, this is bad, DO NOT DO THIS")
+// 	}
+// }
 
-func (o *EbayCall) GetAllCategories(r interface{}) error {
+func (o *EbayCall) GetAllCategories(r EbayResultSlice) error {
 	o.MessageID, _ = pseudoUUID()
 	o.CategoryCallInfo.SiteID = o.SiteID
 	if o.CategoryCallInfo.LevelLimit == "" {
@@ -382,12 +373,12 @@ func (o *EbayCall) GetAllCategories(r interface{}) error {
 
 	body, err := compileGoString("Time", GetAllCategoriesTemplate(), o.CategoryCallInfo, nil)
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
+		r.AddString(fmt.Sprintf("%s", err))
 		return err
 	}
 	final_xml, err := compileGoString("FinalGetAllCategories", WrapCall("GetCategories", "", body, ""), o, nil)
 	if err != nil {
-		appendFakeResult(fmt.Sprintf("%s", err), r)
+		r.AddString(fmt.Sprintf("%s", err))
 		return err
 	}
 	o.XMLData = final_xml

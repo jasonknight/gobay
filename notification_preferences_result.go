@@ -3,6 +3,7 @@ package gobay
 import (
 	"encoding/xml"
 	"gopkg.in/yaml.v2"
+	"fmt"
 )
 
 type NotificationPreferencesResult struct {
@@ -67,4 +68,22 @@ type UserDeliveryPreference struct {
 type NotificationEnable struct {
 	EventType   string `xml:"EventType" yaml:"EventType"`
 	EventEnable string `xml:"EventEnable" yaml:"EventEnable"`
+}
+
+type GenericNotificationPreferenceResults struct {
+	Results []Result
+}
+
+func (r *GenericNotificationPreferenceResults) AddXML(b []byte) error {
+	var nr Result
+	err := nr.FromXML(b)
+	if err != nil {
+		return err
+	}
+	r.Results = append(r.Results,nr)
+	return nil
+}
+func (r *GenericNotificationPreferenceResults) AddString(b string) {
+	nr := NewFakeResult(fmt.Sprintf("%s", b))
+	r.Results = append(r.Results,*nr)
 }

@@ -41,7 +41,7 @@ func TestGetTime(t *testing.T) {
 	if shouldRunSandbox() == false {
 		return
 	}
-	var results []Result
+	var results GenericResults
 
 	cnf, err := fileGetContents("../secret.yml")
 
@@ -61,7 +61,7 @@ func TestGetTime(t *testing.T) {
 		t.Errorf("Failed to Execute %v\n", err)
 	}
 
-	for _, r := range results {
+	for _, r := range results.Results {
 		if r.Ack != "Success" {
 			t.Errorf("GeteBayOfficialTime ebay failed %+v\n", r)
 		}
@@ -73,7 +73,7 @@ func TestGeteBayDetails(t *testing.T) {
 	if shouldRunSandbox() == false {
 		return
 	}
-	var results []Result
+	var results GenericResults
 
 	cnf, err := fileGetContents("../secret.yml")
 
@@ -94,7 +94,7 @@ func TestGeteBayDetails(t *testing.T) {
 		t.Errorf("Failed to Execute %v\n", err)
 	}
 
-	for _, r := range results {
+	for _, r := range results.Results {
 		if r.Ack != "Success" {
 			t.Errorf("GeteBayDetails failed %+v\n", r)
 		}
@@ -108,7 +108,7 @@ func TestGetAllCategories(t *testing.T) {
 		return
 	}
 	fmt.Printf("Going ahead with GetAllCategories test!\n")
-	var results []Result
+	var results GenericResults
 
 	cnf, err := fileGetContents("../secret.yml")
 
@@ -131,7 +131,7 @@ func TestGetAllCategories(t *testing.T) {
 		t.Errorf("Failed to Execute %v\n", err)
 	}
 
-	for _, r := range results {
+	for _, r := range results.Results {
 		if r.Ack != "Success" {
 			t.Errorf("GetAllCategories failed %+v\n", r)
 		}
@@ -144,7 +144,7 @@ func TestGetMyeBaySelling(t *testing.T) {
 		return
 	}
 	fmt.Printf("Going ahead with TestGetMyeBaySelling!\n")
-	var results []Result
+	var results GenericResults
 
 	cnf, err := fileGetContents("../secret.yml")
 
@@ -168,7 +168,7 @@ func TestGetMyeBaySelling(t *testing.T) {
 		t.Errorf("Failed to Execute %v\n", err)
 	}
 
-	for _, r := range results {
+	for _, r := range results.Results {
 		if r.Ack != "Success" {
 			t.Errorf("GetMyeBaySelling failed %+v\n", r)
 		}
@@ -180,7 +180,7 @@ func TestGetNotificationPreferences(t *testing.T) {
 		return
 	}
 	fmt.Printf("Going ahead with TestGetNotificationPreferences!\n")
-	var results []NotificationPreferencesResult
+	var results GenericNotificationPreferenceResults
 
 	cnf, err := fileGetContents("../secret.yml")
 
@@ -204,7 +204,7 @@ func TestGetNotificationPreferences(t *testing.T) {
 		return
 	}
 
-	for _, r := range results {
+	for _, r := range results.Results {
 		if r.Ack != "Success" {
 			t.Errorf("GetMyeBaySelling failed %+v\n", r)
 		}
@@ -223,7 +223,7 @@ func TestSetNotificationPreferences(t *testing.T) {
 	}
 
 	fmt.Printf("Going ahead with TestGetNotificationPreferences!\n")
-	var results []Result
+	var results GenericResults
 
 	cnf, err := fileGetContents("../secret.yml")
 
@@ -248,7 +248,7 @@ func TestSetNotificationPreferences(t *testing.T) {
 		return
 	}
 
-	for _, r := range results {
+	for _, r := range results.Results {
 		if r.Ack != "Success" {
 			t.Errorf("SetNotificationPreferences failed %+v\n", r)
 		}

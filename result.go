@@ -1,6 +1,6 @@
 package gobay
 
-//import "encoding/xml"
+import "encoding/xml"
 import "fmt"
 
 //import "bytes"
@@ -144,6 +144,28 @@ func (r *Result) Warning() bool {
 func (r *Result) Failure() bool {
 	s := []string{"Failure", "PartialFailure"}
 	return InStringSlice(s, r.Ack)
+}
+
+func (r *Result) FromXML(b []byte) error {
+	return xml.Unmarshal(b, r)
+}
+
+type GenericResults struct {
+	Results []Result
+}
+
+func (r *GenericResults) AddXML(b []byte) error {
+	var nr Result
+	err := nr.FromXML(b)
+	if err != nil {
+		return err
+	}
+	r.Results = append(r.Results,nr)
+	return nil
+}
+func (r *GenericResults) AddString(b string) {
+	nr := NewFakeResult(fmt.Sprintf("%s", b))
+	r.Results = append(r.Results,*nr)
 }
 
 // Debug Functions

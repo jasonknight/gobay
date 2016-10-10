@@ -165,7 +165,7 @@ func TestAddItem(t *testing.T) {
 	if shouldRunSandbox() == false {
 		return
 	}
-	var results []Result
+	var results GenericResults
 
 	cnf, err := fileGetContents("../secret.yml")
 
@@ -206,7 +206,7 @@ func TestAddItem(t *testing.T) {
 
 	ebay.Execute(&results)
 
-	for _, r := range results {
+	for _, r := range results.Results {
 		if r.Failure() {
 			for _, e := range r.Errors {
 				t.Errorf("%s\n", e.LongMessage)
