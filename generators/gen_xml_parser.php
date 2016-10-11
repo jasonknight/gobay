@@ -162,6 +162,7 @@ echo "Target file is: $target\n";
 $target_txt = "package $pkg\n";
 $target_txt .= "import (\n\t\"encoding/xml\"\n";
 $target_txt .= "\t\"gopkg.in/yaml.v2\"\n";
+$target_txt .= "\t\"fmt\"\n";
 $target_txt .= ")\n";
 $i = 0;
 $new_struct_func = "";
@@ -170,20 +171,44 @@ foreach ( $structs as $name => $desc ) {
     // Now we create the new function:
     if ($i == 0) { // only for the root!
         $new_struct_func = "New{$name}";
-        $nf = "func New{$name}() *{$name} {\n";
-        $nf .= "\treturn &{$name}{}\n";
-        $nf .= "}\n";
-        $target_txt .= $nf . "\n";
-        // Now we create a FromXML function
-        $fxml = "func (o *{$name}) FromXML(data []byte) error {\n";
-        $fxml .= "\t return xml.Unmarshal(data,o)\n";
-        $fxml .= "}\n";
-        $target_txt .= $fxml . "\n";
-        // Now we create a FromYAML function
-        $fxml = "func (o *{$name}) FromYAML(data []byte) error {\n";
-        $fxml .= "\t return yaml.Unmarshal(data,o)\n";
-        $fxml .= "}\n";
-        $target_txt .= $fxml . "\n";
+        $target_txt .= "
+            func New{$name}() *{$name} {
+                return &{$name}{}
+            }
+            func (o *{$name}) FromXML(data []byte) error {
+                return xml.Unmarshal(data,o)
+            }
+            func (o *{$name}) FromYAML(data []byte) error {\n
+                return yaml.Unmarshal(data,o)
+            }
+        ";
+        if ( preg_match("/Result$/",$name) ) {
+            $_n = str_replace("Result","",$name);
+            $target_txt .= "
+                type Generic{$_n}Results struct {
+                    Results []{$name}
+                }
+                func (r *Generic{$_n}Results) AddXML(b []byte) error {
+                    var nr $name
+                    err := nr.FromXML(b)
+                    if err != nil {
+                        return err
+                    }
+                    r.Results = append(r.Results, nr)
+                    return nil
+                }
+                func (r *Generic{$_n}Results) AddString(b string) {
+                    nr := NewFake{$name}(fmt.Sprintf(\"%s\", b))
+                    r.Results = append(r.Results, *nr)
+                }
+                func NewFake{$name}(msg string) *{$name} {
+                    var o {$name}
+                    o.Ack = \"InternalFailure\"
+                    o.Errors = append(o.Errors, ErrorMessage{ShortMessage: msg})
+                    return &o
+                }
+            ";
+        }
     }
     foreach ($desc['attributes'] as $a=>$t) {
         if ($a == 'Ack') {
@@ -227,15 +252,19 @@ function gen_test_funcs($name,$desc,$receiver="") {
         $bf = "";
         
         if ( $t[0] == 'string' ) {
-            $bf .= "\tif o.{$receiver}{$a} != \"{$tval}\" {\n";
-            $bf .= "\t\tt.Errorf(\"failed because o.{$receiver}{$a} != {$tval}\")\n";
-            $bf .= "\t\treturn\n";
-            $bf .= "\t}\n"; 
+            $bf .= "
+                if o.{$receiver}{$a} != \"{$tval}\" {
+                    t.Errorf(\"failed because o.{$receiver}{$a} != {$tval} %+v\",o.{$receiver}{$a})
+                    return
+                }
+            "; 
         } elseif ( $t[0] == 'int64' || $t[0] == 'float32' ) {
-            $bf = "\tif o.{$receiver}{$a} != {$tval} {\n";
-            $bf .= "\t\tt.Errorf(\"failed because o.{$receiver}{$a} != {$tval}\")\n";
-            $bf .= "\t\treturn\n";
-            $bf .= "\t}\n"; 
+            $bf .= "
+                if o.{$receiver}{$a} != {$tval} {
+                    t.Errorf(\"failed because o.{$receiver}{$a} != {$tval} %+v\",o.{$receiver}{$a})
+                    return
+                }
+            ";  
         } else if (isset($structs[base_type($t[0])])) {
             gen_test_funcs($t[0],$structs[base_type($t[0])],"{$receiver}{$a}.");
         } else {
@@ -252,14 +281,16 @@ function gen_test_funcs($name,$desc,$receiver="") {
 $txt = "package $pkg\n";
 $txt .= "import \"testing\"\n";
 foreach ( $structs as $name => $desc ) {
-    $txt .= "func Test{$name} ( t *testing.T ) {\n";
-    $txt .= "\tdata := `$example_contents`\n";
-    $txt .= "\tvar o $name\n";
-    $txt .= "\terr := o.FromXML([]byte(data))\n";
-    $txt .= "\tif err != nil {\n";
-    $txt .= "\t\tt.Errorf(\"failed loading xml %v\",err)\n";
-    $txt .= "\t\treturn\n";
-    $txt .= "\t}\n";
+    $txt .= "
+        func Test{$name} ( t *testing.T ) {
+            data := `$example_contents`
+            var o $name
+            err := o.FromXML([]byte(data))
+            if err != nil {
+                t.Errorf(\"failed loading xml %v\",err)
+                return
+            }
+    ";
     gen_test_funcs($name,$desc);
     $txt .= "}\n";
     break;

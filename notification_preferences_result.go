@@ -71,11 +71,11 @@ type NotificationEnable struct {
 }
 
 type GenericNotificationPreferenceResults struct {
-	Results []Result
+	Results []NotificationPreferencesResult
 }
 
 func (r *GenericNotificationPreferenceResults) AddXML(b []byte) error {
-	var nr Result
+	var nr NotificationPreferencesResult
 	err := nr.FromXML(b)
 	if err != nil {
 		return err
@@ -84,6 +84,12 @@ func (r *GenericNotificationPreferenceResults) AddXML(b []byte) error {
 	return nil
 }
 func (r *GenericNotificationPreferenceResults) AddString(b string) {
-	nr := NewFakeResult(fmt.Sprintf("%s", b))
+	nr := NewFakeNotificationPreferencesResult(fmt.Sprintf("%s", b))
 	r.Results = append(r.Results, *nr)
+}
+func NewFakeNotificationPreferencesResult(msg string) *NotificationPreferencesResult {
+	var o NotificationPreferencesResult
+	o.Ack = "InternalFailure"
+	o.Errors = append(o.Errors, ErrorMessage{ShortMessage: msg})
+	return &o
 }

@@ -1,6 +1,10 @@
 package gobay
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"gopkg.in/yaml.v2"
+)
 
 type PaginationStruct struct {
 	TotalNumberOfEntries string
@@ -95,8 +99,57 @@ type MyeBaySellingResult struct {
 	Errors                          []ErrorMessage
 }
 
-func GetMyeBaySellingResultStructFromXML(data []byte) *MyeBaySellingResult {
+func NewMyeBaySellingResult() *MyeBaySellingResult {
+	return &MyeBaySellingResult{}
+}
+func (o *MyeBaySellingResult) FromXML(data []byte) error {
+	return xml.Unmarshal(data, o)
+}
+func (o *MyeBaySellingResult) FromYAML(data []byte) error {
+
+	return yaml.Unmarshal(data, o)
+}
+
+type GenericMyeBaySellingResults struct {
+	Results []MyeBaySellingResult
+}
+
+func (r *GenericMyeBaySellingResults) AddXML(b []byte) error {
+	var nr MyeBaySellingResult
+	err := nr.FromXML(b)
+	if err != nil {
+		return err
+	}
+	r.Results = append(r.Results, nr)
+	return nil
+}
+func (r *GenericMyeBaySellingResults) AddString(b string) {
+	nr := NewFakeMyeBaySellingResult(fmt.Sprintf("%s", b))
+	r.Results = append(r.Results, *nr)
+}
+func NewFakeMyeBaySellingResult(msg string) *MyeBaySellingResult {
 	var o MyeBaySellingResult
-	xml.Unmarshal(data, &o)
+	o.Ack = "InternalFailure"
+	o.Errors = append(o.Errors, ErrorMessage{ShortMessage: msg})
 	return &o
+}
+func (o *MyeBaySellingResult) Success() bool {
+	if o.Ack == "Success" {
+		return true
+	}
+	return false
+}
+
+func (o *MyeBaySellingResult) Failure() bool {
+	if o.Ack == "Failure" {
+		return true
+	}
+	return false
+}
+
+func (o *MyeBaySellingResult) Warning() bool {
+	if o.Ack == "Warning" {
+		return true
+	}
+	return false
 }

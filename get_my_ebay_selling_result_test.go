@@ -9,7 +9,11 @@ func TestGetMyeBaySellingResult(t *testing.T) {
 		t.Errorf("%s", err)
 		return
 	}
-	o := GetMyeBaySellingResultStructFromXML([]byte(data))
+	o := NewMyeBaySellingResult()
+	err = o.FromXML([]byte(data))
+	if err != nil {
+		t.Errorf("failed to load data %s", err)
+	}
 	if o.SellingSummary.ActiveAuctionCount != " int " {
 		t.Errorf("o.SellingSummary.ActiveAuctionCount has not been filled out!! %+v\n", o.SellingSummary)
 	}
