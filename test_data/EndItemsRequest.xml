@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EndItemsRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+  <!-- Call-specific Input Fields -->
+  <EndItemRequestContainer> EndItemRequestContainerType
+    <EndingReason> EndReasonCodeType </EndingReason>
+    <ItemID> ItemIDType (string) </ItemID>
+    <MessageID> string </MessageID>
+    <SellerInventoryID> string </SellerInventoryID>
+  </EndItemRequestContainer>
+  <EndItemRequestContainer> EndItemRequestContainerType
+    <EndingReason> EndReasonCodeType </EndingReason>
+    <ItemID> ItemIDType (string) </ItemID>
+    <MessageID> string </MessageID>
+    <SellerInventoryID> string </SellerInventoryID>
+  </EndItemRequestContainer>
+  
+</EndItemsRequest>

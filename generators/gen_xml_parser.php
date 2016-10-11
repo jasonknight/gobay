@@ -254,14 +254,14 @@ function gen_test_funcs($name,$desc,$receiver="") {
         if ( $t[0] == 'string' ) {
             $bf .= "
                 if o.{$receiver}{$a} != \"{$tval}\" {
-                    t.Errorf(\"failed because o.{$receiver}{$a} != {$tval} %+v\",o.{$receiver}{$a})
+                    t.Errorf(\"failed because o.{$receiver}{$a} != {$tval} %+v %+v\",o.{$receiver}{$a},o)
                     return
                 }
             "; 
         } elseif ( $t[0] == 'int64' || $t[0] == 'float32' ) {
             $bf .= "
                 if o.{$receiver}{$a} != {$tval} {
-                    t.Errorf(\"failed because o.{$receiver}{$a} != {$tval} %+v\",o.{$receiver}{$a})
+                    t.Errorf(\"failed because o.{$receiver}{$a} != {$tval} %+v %+v\",o.{$receiver}{$a},o)
                     return
                 }
             ";  
