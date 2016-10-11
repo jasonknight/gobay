@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EndItemsResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+  <EndItemResponseContainer>
+    <EndTime>2015-10-01T21:57:01.000Z</EndTime>
+    <CorrelationID>1</CorrelationID>
+  </EndItemResponseContainer>
+  <EndItemResponseContainer>
+    <EndTime>2015-10-01T21:57:01.000Z</EndTime>
+    <CorrelationID>2</CorrelationID>
+  </EndItemResponseContainer>
+</EndItemsResponse>

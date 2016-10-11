@@ -72,6 +72,10 @@ function cleanName($n) {
     $n = str_replace("Response","Result",$n);
     return $n;
 }
+function uncleanName($n) {
+    $n = str_replace("Result","Response",$n);
+    return $n;
+}
 function toSnakeCase($in) {
   preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $in, $matches);
   $ret = $matches[0];
@@ -112,9 +116,10 @@ function to_struct($r,$name="") {
     $txt = "type $struct struct{\n";
     $nodes_with_children = array();
     foreach ($r['children'] as $k=>$v) {
-        $cname = $k;
-        $scname = $k;
+        $cname = cleanName($k);
+        $scname = uncleanName($k);
         $type = discernType($v[0]['text'],$v);
+        $type = cleanName($type);
         if(count($v[0]['children']) > 0 && count($v[0]['attributes']) == 0) {
             if ( $cname[strlen($cname)-1] == 's') {
                $type = substr($cname,0,strlen($cname)-1); 
@@ -138,9 +143,9 @@ function to_struct($r,$name="") {
                 $type .= "\t\tValue $otype `xml:\",chardata\" yaml:\"Value\"`\n";
             }
             $type .= "\t}";
-            $txt .= "\t$cname $type `xml:\"$cname\" yaml:\"$cname\"`\n";
+            $txt .= "\t$cname $type `xml:\"$scname\" yaml:\"$scname\"`\n";
         } else {
-            $txt .= "\t$cname $type `xml:\"$cname\" yaml:\"$cname\"`\n";
+            $txt .= "\t$cname $type `xml:\"$scname\" yaml:\"$scname\"`\n";
         }
         //echo "\t$cname $type `xml:\"$cname\"`\n";
         

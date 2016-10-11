@@ -1,6 +1,7 @@
 package gobay
+
 func EndItemsTemplate() string {
-	return`  <!-- Call-specific Input Fields -->
+	return `  <!-- Call-specific Input Fields -->
   <EndItemRequestContainer> EndItemRequestContainerType
     <EndingReason> EndReasonCodeType </EndingReason>
     <ItemID> ItemIDType (string) </ItemID>
